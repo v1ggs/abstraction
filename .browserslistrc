@@ -1,0 +1,7 @@
+# Remove this file to develop with differential serving (module/nomodule)
+# https://github.com/browserslist/browserslist#queries
+# Defaults:
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead

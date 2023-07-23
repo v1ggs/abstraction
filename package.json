@@ -1,0 +1,107 @@
+{
+	"name": "@v1ggs/abstraction",
+	"version": "0.0.0",
+	"description": "Webpack simplified. An advanced configuration for differential serving and much more...",
+	"main": "index.js",
+	"license": "MIT",
+	"author": {
+		"name": "Igor Vračar",
+		"url": "https://igorvracar.com/"
+	},
+	"keywords": [
+		"differential",
+		"serving",
+		"html",
+		"javascript",
+		"scss",
+		"templates",
+		"images",
+		"svg",
+		"icons",
+		"webpack",
+		"abstraction",
+		"front-end",
+		"wordpress",
+		"lint",
+		"development"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/v1ggs/abstraction.git"
+	},
+	"bugs": {
+		"url": "https://github.com/v1ggs/abstraction/issues"
+	},
+	"homepage": "https://github.com/v1ggs/abstraction#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.6.7",
+		"@commitlint/config-conventional": "^17.6.7",
+		"@release-it/conventional-changelog": "^7.0.0",
+		"dotenv-cli": "^7.2.1",
+		"husky": "^8.0.3",
+		"release-it": "^16.1.3"
+	},
+	"dependencies": {
+		"@babel/core": "^7.22.9",
+		"@babel/preset-env": "^7.22.9",
+		"@fullhuman/postcss-purgecss": "^5.0.0",
+		"assets-webpack-plugin": "^7.1.1",
+		"babel-loader": "^9.1.3",
+		"browser-sync-webpack-plugin": "^2.3.0",
+		"copy-webpack-plugin": "^11.0.0",
+		"core-js": "^3.31.1",
+		"cross-env": "^7.0.3",
+		"css-loader": "^6.8.1",
+		"css-minimizer-webpack-plugin": "^5.0.1",
+		"eslint": "^8.45.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-webpack-plugin": "^4.0.1",
+		"html-webpack-plugin": "^5.5.3",
+		"image-minimizer-webpack-plugin": "^3.8.3",
+		"mini-css-extract-plugin": "^2.7.6",
+		"nodemon": "^3.0.1",
+		"postcss": "^8.4.27",
+		"postcss-flexbugs-fixes": "^5.0.2",
+		"postcss-loader": "^7.3.3",
+		"postcss-preset-env": "^9.0.0",
+		"postcss-pxtorem": "^6.0.0",
+		"postcss-reporter": "^7.0.5",
+		"postcss-sort-media-queries": "^5.2.0",
+		"prettier": "^3.0.0",
+		"progress-webpack-plugin": "^1.0.16",
+		"resolve-url-loader": "^5.0.0",
+		"sass": "^1.64.1",
+		"sass-loader": "^13.3.2",
+		"sharp": "^0.32.4",
+		"simple-nunjucks-loader": "^3.2.0",
+		"string-replace-loader": "^3.1.0",
+		"style-loader": "^3.3.3",
+		"stylelint": "^14.16.1",
+		"stylelint-config-prettier": "^9.0.5",
+		"stylelint-config-recommended-scss": "^8.0.0",
+		"stylelint-webpack-plugin": "^4.1.1",
+		"svg-sprite-loader": "^6.0.11",
+		"svgo-loader": "^4.0.0",
+		"terser-webpack-plugin": "^5.3.9",
+		"webpack": "^5.88.2",
+		"webpack-build-notifier": "^2.3.0",
+		"webpack-bundle-analyzer": "^4.9.0",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^4.15.1",
+		"webpack-license-plugin": "^4.2.2",
+		"webpack-merge": "^5.9.0"
+	},
+	"engines": {
+		"node": ">=v16"
+	},
+	"scripts": {
+		"abstraction:serve": "nodemon --config node_modules/abstraction/config/node/nodemon.json",
+		"abstraction:dev": "cross-env NODE_ENV=development node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/abstraction/index.js",
+		"abstraction:prod": "cross-env NODE_ENV=production node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/abstraction/index.js",
+		"abstraction:polyfills": "cross-env NODE_ENV=production ABSTRACTION_POLYFILLS=true webpack --config node_modules/abstraction/config/webpack/webpack.polyfills.js",
+		"test": "echo \"No test specified\" && exit 1"
+	}
+}

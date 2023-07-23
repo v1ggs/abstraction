@@ -1,0 +1,14 @@
+{
+	"extends": [
+		"stylelint-config-recommended-scss",
+		"stylelint-config-prettier"
+	],
+	"ignoreFiles": [
+		"**/node_modules/**"
+	],
+	"rules": {
+		"no-descending-specificity": null,
+		"scss/comment-no-empty": null,
+		"no-duplicate-selectors": null
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"exec": "cross-env NODE_ENV=development ABSTRACTION_SERVE=true node --no-deprecation node_modules/webpack/bin/webpack.js serve --config node_modules/abstraction",
+	"watch": [
+		".babelrc",
+		".browserslistrc",
+		"**/.abstraction.config.js"
+	],
+	"ext": "js",
+	"ignore": [
+		".git",
+		".vscode",
+		"src",
+		"dist",
+		"public",
+		"vendor",
+		"node_modules"
+	]
+}
