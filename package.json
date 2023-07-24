@@ -9,20 +9,20 @@
 		"url": "https://igorvracar.com/"
 	},
 	"keywords": [
-		"differential",
-		"serving",
 		"html",
+		"templates",
 		"javascript",
 		"scss",
-		"templates",
 		"images",
 		"svg",
+		"svg-sprite",
 		"icons",
+		"differential-serving",
+		"lint",
 		"webpack",
 		"abstraction",
 		"front-end",
 		"wordpress",
-		"lint",
 		"development"
 	],
 	"repository": {
@@ -101,10 +101,10 @@
 		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"prerelease": "npx commitlint -t HEAD",
 		"release": "dotenv release-it --no-npm",
-		"abstraction:serve": "nodemon --config node_modules/abstraction/config/node/nodemon.json",
-		"abstraction:dev": "cross-env NODE_ENV=development node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/abstraction/index.js",
-		"abstraction:prod": "cross-env NODE_ENV=production node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/abstraction/index.js",
-		"abstraction:polyfills": "cross-env NODE_ENV=production ABSTRACTION_POLYFILLS=true webpack --config node_modules/abstraction/config/webpack/webpack.polyfills.js",
+		"abstraction:serve": "nodemon --config node_modules/@v1ggs/abstraction/config/node/nodemon.json",
+		"abstraction:dev": "cross-env NODE_ENV=development node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
+		"abstraction:prod": "cross-env NODE_ENV=production node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
+		"abstraction:polyfills": "cross-env NODE_ENV=production ABSTRACTION_POLYFILLS=true webpack --config node_modules/@v1ggs/abstraction/config/webpack/webpack.polyfills.js",
 		"test": "echo \"No test specified\" && exit 1"
 	}
 }
