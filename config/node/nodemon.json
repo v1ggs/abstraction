@@ -1,5 +1,5 @@
 {
-	"exec": "cross-env NODE_ENV=development ABSTRACTION_SERVE=true node --no-deprecation node_modules/webpack/bin/webpack.js serve --config node_modules/abstraction",
+	"exec": "cross-env NODE_ENV=development ABSTRACTION_SERVE=true node --no-deprecation node_modules/webpack/bin/webpack.js serve --config node_modules/@v1ggs/abstraction",
 	"watch": [
 		".babelrc",
 		".browserslistrc",
