@@ -1,0 +1,16 @@
+.env
+.git
+.cert
+.husky
+.vscode
+.project
+node_modules
+vendor
+logs
+src/*
+# !src/templates
+# !src/components
+# src/templates/*
+# src/components/*
+*.tgz
+*.zip

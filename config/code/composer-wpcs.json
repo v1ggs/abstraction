@@ -1,0 +1,11 @@
+{
+	"require-dev": {
+		"wptrt/wpthemereview": "*",
+		"dealerdirect/phpcodesniffer-composer-installer": "0.7"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}
