@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/v1ggs/abstraction/compare/0.1.0...0.1.1) (2023-07-24)
+
+
+### Docs
+
+* minor change ([77a62b0](https://github.com/v1ggs/abstraction/commit/77a62b069624d2115af5662f52909b1e80363be8))
+
 ## [0.1.0](https://github.com/v1ggs/abstraction/compare/0.0.0...0.1.0) (2023-07-24)
 
 
