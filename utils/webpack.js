@@ -126,8 +126,10 @@ exports.ProgressPlugin = (identifier) =>
  *
  * Finds all `core-js` polyfills imported by babel,
  * removes them from code and exports them in a file.
+ * Used in a separate process, to only produce polyfills,
+ * based on the code and the targeted browsers.
  *
- * @param {bundle} string - processed bundle name (modern/legacy)
+ * @param {filename} string - processed bundle name (modern/legacy)
  * @return {Object} string-replace-loader
  */
 exports.exportPolyfills = (filename) => {
@@ -146,9 +148,10 @@ exports.exportPolyfills = (filename) => {
    // );
 
    if (!fs.existsSync(paths.POLYFILLS)) {
-      fs.mkdirSync(paths.POLYFILLS);
+      fs.mkdirSync(paths.POLYFILLS, { recursive: true });
    }
 
+   // Always overwrite existing files first, then later append data.
    fs.writeFileSync(file, `// polyfills required for ${filename}\n`);
 
    return {
