@@ -1,4 +1,5 @@
 const fs = require('fs');
+const glob = require('glob');
 const path = require('path');
 const webpack = require('webpack');
 const server = require('../config/server');
@@ -15,6 +16,7 @@ const {
    isDifferentialBuild,
    isWordPress,
 } = require('./abstraction');
+const { fixPathForGlob } = require('./js');
 
 // const RemoveEmptyScripts = require( 'webpack-remove-empty-scripts' );
 // const WebpackShellPluginNext = require('webpack-shell-plugin-next');
@@ -258,10 +260,27 @@ exports.BannerPlugin = (banner) =>
    });
 
 // https://www.npmjs.com/package/copy-webpack-plugin
-exports.CopyPlugin = () =>
-   new CopyWebpackPlugin({
-      patterns: [{ from: './src/copy', to: '' }],
-   });
+// Returns array
+exports.CopyPlugin = () => {
+   const copyDir = fixPathForGlob(path.resolve(paths.SRC.absolute, 'copy'));
+   const files = glob.sync(copyDir + '/**/*');
+
+   console.log(copyDir);
+   console.log(files);
+
+   if (fs.existsSync(copyDir) && files.length) {
+      console.log('copy YES');
+      return [
+         new CopyWebpackPlugin({
+            patterns: [{ from: copyDir, to: '' }],
+         }),
+      ];
+   }
+
+   console.log('copy NOT');
+
+   return [];
+};
 
 // https://www.npmjs.com/package/assets-webpack-plugin
 // If you use webpack multi-compiler mode and want your assets written to a

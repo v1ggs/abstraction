@@ -59,12 +59,13 @@ const modern = {
    },
 
    plugins: [
-      CopyPlugin(),
       DefinePlugin(modernGlobals),
       js.plugins.ESLintWebpackPlugin(),
       sass.plugins.StylelintWebpackPlugin(),
       ProgressPlugin(isDifferentialBuild ? 'ES6' : ''),
    ].concat(
+      CopyPlugin(), // it's array
+
       isWordPress ? [browserSync] : templatesPlugin(), // it's already array
 
       isProduction
