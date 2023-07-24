@@ -129,29 +129,20 @@ exports.ProgressPlugin = (identifier) =>
  * Used in a separate process, to only produce polyfills,
  * based on the code and the targeted browsers.
  *
- * @param {filename} string - processed bundle name (modern/legacy)
- * @return {Object} string-replace-loader
+ * @param {filename} string - processed bundle name
+ * @return {Object} string-replace-loader config
  */
 exports.exportPolyfills = (filename) => {
    const file = path.resolve(paths.POLYFILLS, filename + '-polyfills.js');
 
    // regex pattern to find `import "core-js/modules/**/*.js";`
-   const regexPattern = /import\s*["']core-js\/modules\/.*\.m?js["'];?/gi;
-   // const regexPattern2 = /require\s*\(["']core-js\/modules\/.*\.m?js["']\);?/gi;
-
-   // consoleMsg.info(
-   //    '\nPlease find required `core-js` polyfills for "' +
-   //       filename +
-   //       '" in:\n"' +
-   //       file +
-   //       '".\n',
-   // );
+   const regexPattern = /import\s*?["']core-js[/\\]modules[/\\].*?\.js["'];?/gi;
 
    if (!fs.existsSync(paths.POLYFILLS)) {
       fs.mkdirSync(paths.POLYFILLS, { recursive: true });
    }
 
-   // Always overwrite existing files first, then later append data.
+   // Overwrite existing files first, then later append data.
    fs.writeFileSync(file, `// polyfills required for ${filename}\n`);
 
    return {
@@ -185,19 +176,11 @@ exports.exportPolyfills = (filename) => {
 
 // `license-webpack-plugin` did not get all packages.
 // Terser only extracts a license comment, if finds it in a file.
-// This plugin uses a deprecated option, so I'm running in `package.json`:
+// This plugin uses a deprecated option, so I'm running:
 // `node --no-deprecation node_modules/webpack/bin/webpack.js`.
 // Replace this only with `webpack`, once this gets fixed.
 // https://www.npmjs.com/package/webpack-license-plugin
 exports.WebpackLicensePlugin = (filename) => {
-   const licensesSeparator =
-      '==================================================================================\n\n\n\n';
-   const additionalLicenseFile = path.join(paths.SRC.absolute, 'licenses.txt');
-   const additionalLicenseFileExists = fs.existsSync(additionalLicenseFile);
-   const additionalLicenses =
-      additionalLicenseFileExists &&
-      fs.readFileSync(additionalLicenseFile, 'utf-8');
-
    const outputFilename = paths.DIST.javascript + '/' + filename;
 
    const options = {
@@ -225,31 +208,49 @@ exports.WebpackLicensePlugin = (filename) => {
          return config.licenses.unacceptable.includes(licenseIdentifier);
       },
 
+      // configured below
       additionalFiles: {},
    };
 
    options.additionalFiles[`${outputFilename}.txt`] = (packages) => {
-      // Get an array of objects (packages)
-      const content = Object.keys(packages).map((pkg) => {
-         // Get an array of `package.json` properties
-         return Object.keys(packages[pkg])
-            .map((property) => {
-               // Avoids printing `"some-property": null`
-               if (!packages[pkg][property]) {
-                  return property + ':';
-               }
+      const licensesSeparator =
+         '========================================' +
+         '========================================' +
+         '\n\n\n\n';
 
-               return property + ': ' + packages[pkg][property];
-            })
-            .join('\n')
-            .concat('\n');
+      const additionalLicenseDir = fixPathForGlob(
+         path.resolve(paths.SRC.absolute, 'licenses'),
+      );
+
+      const additionalLicenses = glob
+         .sync(additionalLicenseDir + '/**/*')
+         .map((file) => {
+            if (fs.lstatSync(file).isFile()) {
+               return fs.readFileSync(file, 'utf-8') + licensesSeparator;
+            }
+         })
+         .join('');
+
+      // Get an array of objects, for found packages.
+      const content = Object.keys(packages).map((pkg) => {
+         return (
+            // Get an array of `package.json` properties for each file.
+            Object.keys(packages[pkg])
+               .map((property) => {
+                  // Avoids printing `"some-property": null`
+                  if (!packages[pkg][property]) {
+                     return property + ':';
+                  }
+
+                  return property + ': ' + packages[pkg][property];
+               })
+               .join('\n')
+               // add new line below the last property
+               .concat('\n')
+         );
       });
 
-      return additionalLicenseFileExists
-         ? content.join(licensesSeparator) +
-              licensesSeparator +
-              additionalLicenses
-         : content.join(licensesSeparator);
+      return content.concat(additionalLicenses).join(licensesSeparator);
    };
 
    return new WebpackLicensePlugin(options);
@@ -268,19 +269,13 @@ exports.CopyPlugin = () => {
    const copyDir = fixPathForGlob(path.resolve(paths.SRC.absolute, 'copy'));
    const files = glob.sync(copyDir + '/**/*');
 
-   console.log(copyDir);
-   console.log(files);
-
    if (fs.existsSync(copyDir) && files.length) {
-      console.log('copy YES');
       return [
          new CopyWebpackPlugin({
             patterns: [{ from: copyDir, to: '' }],
          }),
       ];
    }
-
-   console.log('copy NOT');
 
    return [];
 };
