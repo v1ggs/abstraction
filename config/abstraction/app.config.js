@@ -3,14 +3,6 @@
 // This file is used to set variables to be used only in
 // the app configuration, not for default/user config.
 
-// Global vars:
-// ENV_PRODUCTION: for usage in js source files, true in production mode.
-// ENV_REM_SIZE: one rem size in px, for usage in source files.
-// ENV_MAIN/LEGACY: variables for usage in js source files.
-// ENV_SASS_GLOBALS: true in the main config, contains all global vars, for
-// sass-loader, to provide variables in sass source files.
-// ABSTRACTION_SERVE: true when devServer is being used, for usage in 'abstraction' files.
-
 const path = require('path');
 
 // This app name
