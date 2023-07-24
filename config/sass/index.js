@@ -39,6 +39,6 @@ exports.loaders = {
 exports.plugins = {
    // MiniCssExtractPlugin can't be used with style-loader
    MiniCssExtractPlugin: miniCssExtract.plugin,
-   CssMinimizerPlugin: require('./plugins/css-minimizer-webpack-plugin'),
-   StylelintWebpackPlugin: require('./plugins/stylelint-webpack-plugin'),
+   CssMinimizerPlugin: require('./css-minimizer-webpack-plugin'),
+   StylelintWebpackPlugin: require('./stylelint-webpack-plugin'),
 };
