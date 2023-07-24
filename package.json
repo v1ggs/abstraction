@@ -99,7 +99,7 @@
 	"scripts": {
 		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"developer:prerelease": "npx commitlint -t HEAD",
-		"developer:release": "dotenv release-it --no-npm",
+		"developer:release": "dotenv release-it -- --no-npm",
 		"abstraction:serve": "nodemon --config node_modules/@v1ggs/abstraction/config/node/nodemon.json",
 		"abstraction:dev": "cross-env NODE_ENV=development node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
 		"abstraction:prod": "cross-env NODE_ENV=production node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
