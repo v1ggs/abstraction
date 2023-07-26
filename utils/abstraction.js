@@ -12,7 +12,7 @@ let {
 
 // Get user config file
 exports.getUserConfigFile = () => {
-   let configUser;
+   let configUser = false;
 
    try {
       // Try to find the user config file in cwd
@@ -117,14 +117,24 @@ exports.assetsJsonFilename = '.assets.json';
 
 // Wether or not we're developing with WordPress.
 exports.isWordPress = (() => {
-   const userConfig = require(this.getUserConfigFile());
-   return userConfig.server.localWpDomain ? true : false;
+   const configExists = this.getUserConfigFile();
+
+   if (configExists) {
+      const userConfig = require(configExists);
+      return userConfig.server?.localWpDomain ? true : false;
+   }
+
+   return false;
 })();
 
 // If we're on SSL, what domain and certificate to use.
 exports.useSsl = (() => {
+   const configExists = this.getUserConfigFile();
    const appConsoleLog = this.consoleMsg;
-   const userConfig = require(this.getUserConfigFile());
+   let userConfig;
+
+   if (configExists) userConfig = require(this.getUserConfigFile());
+
    // We need a domain that is being blocked with hosts file,
    // not the theme dir name.
    const domain = userConfig?.server?.localWpDomain
@@ -133,6 +143,7 @@ exports.useSsl = (() => {
            // remove :<port> and trailing slash
            .replace(/:\d+\/?/, '')
       : 'localhost';
+
    let protocol = 'http://';
    const certPath = path.resolve(paths.ROOT, paths.SSLCERT);
    const mkcertKeyPath = path.join(certPath, domain + '-key.pem');
