@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/v1ggs/abstraction/compare/0.1.1...0.2.0) (2023-07-26)
+
+
+### Features
+
+* added @v1ggs/abstraction-dsl ([23de6df](https://github.com/v1ggs/abstraction/commit/23de6dfa4e3d5a8610fe670879b8022cf873d428))
+* automatic linters setup ([abd58a0](https://github.com/v1ggs/abstraction/commit/abd58a070298f31d253b1fe254cafd0eb15b34da))
+
+
+### Bug Fixes
+
+* fixed issue when the user config file was missing ([f7d18fa](https://github.com/v1ggs/abstraction/commit/f7d18fa8c5677c9bdc2e9319f43006424de9a86b))
+
 ## [0.1.1](https://github.com/v1ggs/abstraction/compare/0.1.0...0.1.1) (2023-07-24)
 
 
