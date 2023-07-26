@@ -1,9 +1,5 @@
 {
-	"extends": [
-		// "plugin:@wordpress/eslint-plugin/recommended",
-		// "eslint:recommended",
-		// "prettier"
-	],
+	"extends": [],
 	// ESLint lets you configure language options specific to the JavaScript
 	// used in your project, like custom global variables. You can also use
 	// plugins to extend ESLint to support your project’s language options.

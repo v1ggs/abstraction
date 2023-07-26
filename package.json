@@ -98,6 +98,7 @@
 		"node": ">=v16"
 	},
 	"scripts": {
+		"setup:linters": "cross-env RULESET=psr12 MINWP=4.5 MINPHP=5.6 node \"./config/node/linters.js\"",
 		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"developer:prerelease": "npx commitlint -t HEAD",
 		"developer:release": "dotenv release-it -- --no-npm",

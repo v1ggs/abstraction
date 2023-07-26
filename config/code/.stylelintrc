@@ -1,7 +1,5 @@
 {
-	"extends": [
-		"stylelint-config-recommended-scss"
-	],
+	"extends": [],
 	"ignoreFiles": [
 		"**/node_modules/**"
 	],
