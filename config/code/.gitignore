@@ -4,13 +4,9 @@
 .husky
 .vscode
 .project
-node_modules
-vendor
+src
 logs
-src/*
-# !src/templates
-# !src/components
-# src/templates/*
-# src/components/*
+vendor
+node_modules
 *.tgz
 *.zip

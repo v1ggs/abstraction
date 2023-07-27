@@ -11,15 +11,16 @@
 
 const { exec } = require('child_process');
 const { parse, resolve } = require('path');
-const { writeFile, readFileSync } = require('fs');
 const { consoleMsg } = require('../../utils/abstraction');
+const { writeFile, readFileSync, copyFile } = require('fs');
 
 const processFile = (filepath) => {
+   const srcFile = resolve(filepath);
    const fileName = parse(filepath).base;
    const fileContent = readFileSync(filepath, 'utf-8');
-   const fileOutputPath = resolve(process.cwd(), fileName);
+   const outputPath = resolve(process.cwd(), fileName);
 
-   return { fileName, fileContent, fileOutputPath };
+   return { srcFile, fileName, fileContent, outputPath };
 };
 
 const backendLintSetup = (ruleset, minWp, minPhp) => {
@@ -55,7 +56,7 @@ const backendLintSetup = (ruleset, minWp, minPhp) => {
    }
 
    // Write composer.json
-   writeFile(composerCfg.fileOutputPath, composerCfg.fileContent, (err) => {
+   writeFile(composerCfg.outputPath, composerCfg.fileContent, (err) => {
       if (err) consoleMsg.severe(err);
    });
 
@@ -113,7 +114,7 @@ const backendLintSetup = (ruleset, minWp, minPhp) => {
    }
 
    // Write phpcs config file.
-   writeFile(phpcsCfg.fileOutputPath, phpcsCfg.fileContent, (err) => {
+   writeFile(phpcsCfg.outputPath, phpcsCfg.fileContent, (err) => {
       if (err) consoleMsg.severe(err);
    });
 };
@@ -144,6 +145,7 @@ const frontendLintSetup = (ruleset) => {
    // =========================================================================
 
    const eslintCfg = processFile(__dirname + '/../code/.eslintrc');
+   const editorCfg = processFile(__dirname + '/../code/.editorconfig');
    const stylelintCfg = processFile(__dirname + '/../code/.stylelintrc');
 
    if (ruleset === 'psr2' || ruleset === 'psr12' || !ruleset) {
@@ -241,6 +243,11 @@ const frontendLintSetup = (ruleset) => {
          },
       );
 
+      editorCfg.fileContent = editorCfg.fileContent.replace(
+         '# indent_style = tab # WPCS',
+         'indent_style = tab',
+      );
+
       eslintCfg.fileContent = eslintCfg.fileContent.replace(
          /"extends":\s*?\[[\s\S]*?\],/,
          '"extends": [\n' +
@@ -270,13 +277,27 @@ const frontendLintSetup = (ruleset) => {
       );
    }
 
-   writeFile(eslintCfg.fileOutputPath, eslintCfg.fileContent, (err) => {
+   writeFile(editorCfg.outputPath, editorCfg.fileContent, (err) => {
       if (err) consoleMsg.severe(err);
    });
-   writeFile(stylelintCfg.fileOutputPath, stylelintCfg.fileContent, (err) => {
+   writeFile(eslintCfg.outputPath, eslintCfg.fileContent, (err) => {
+      if (err) consoleMsg.severe(err);
+   });
+   writeFile(stylelintCfg.outputPath, stylelintCfg.fileContent, (err) => {
       if (err) consoleMsg.severe(err);
    });
 };
+
+const copyFiles = () =>
+   [
+      processFile(__dirname + '/../code/.gitignore'),
+      processFile(__dirname + '/../code/.prettierrc'),
+      processFile(__dirname + '/../code/.browserslistrc'),
+   ].forEach((file) =>
+      copyFile(file.srcFile, file.outputPath, (err) => {
+         if (err) consoleMsg.severe(err);
+      }),
+   );
 
 // Possible options: undefined, psr2, psr12, wpcs
 const ruleset = process.env.RULESET || false;
@@ -299,6 +320,7 @@ const minWp = process.env.MINWP || '5.0';
 // Support for PHP 5 has been discontinued since 10 Jan 2019.
 const minPhp = process.env.MINPHP || '7.1';
 
+copyFiles();
 frontendLintSetup(ruleset);
 
 if (ruleset) backendLintSetup(ruleset, minWp, minPhp);
