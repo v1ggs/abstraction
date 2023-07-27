@@ -19,9 +19,9 @@
 	},
 	// Avoid error notification for evironment vars.
 	"globals": {
-		"PRODUCTION": "readonly",
-		"REM_SIZE": "readonly",
-		"DESIGN": "readonly",
+		"ENV_PRODUCTION": "readonly",
+		"ENV_REM_SIZE": "readonly",
+		"ENV_DESIGN": "readonly",
 		"ENV_MAIN": "readonly",
 		"ENV_LEGACY": "readonly"
 	},
