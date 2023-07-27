@@ -1,6 +1,6 @@
 {
 	"name": "@v1ggs/abstraction",
-	"version": "0.0.0",
+	"version": "0.2.0",
 	"description": "Webpack simplified. An advanced configuration for differential serving and much more...",
 	"main": "config/webpack/webpack.config.js",
 	"license": "MIT",
@@ -41,8 +41,12 @@
 		"@commitlint/config-conventional": "^17.6.7",
 		"@release-it/conventional-changelog": "^7.0.0",
 		"dotenv-cli": "^7.2.1",
+		"eslint-config-prettier": "^8.9.0",
 		"husky": "^8.0.3",
-		"release-it": "^16.1.3"
+		"prettier": "^3.0.0",
+		"release-it": "^16.1.3",
+		"stylelint-config-prettier": "^9.0.5",
+		"stylelint-config-recommended-scss": "^8.0.0"
 	},
 	"dependencies": {
 		"@babel/core": "^7.22.9",
@@ -58,7 +62,6 @@
 		"css-loader": "^6.8.1",
 		"css-minimizer-webpack-plugin": "^5.0.1",
 		"eslint": "^8.45.0",
-		"eslint-config-prettier": "^8.8.0",
 		"eslint-webpack-plugin": "^4.0.1",
 		"html-webpack-plugin": "^5.5.3",
 		"image-minimizer-webpack-plugin": "^3.8.3",
@@ -71,7 +74,6 @@
 		"postcss-pxtorem": "^6.0.0",
 		"postcss-reporter": "^7.0.5",
 		"postcss-sort-media-queries": "^5.2.0",
-		"prettier": "^3.0.0",
 		"progress-webpack-plugin": "^1.0.16",
 		"resolve-url-loader": "^5.0.0",
 		"sass": "^1.64.1",
@@ -80,8 +82,7 @@
 		"simple-nunjucks-loader": "^3.2.0",
 		"string-replace-loader": "^3.1.0",
 		"style-loader": "^3.3.3",
-		"stylelint": "^15.10.2",
-		"stylelint-config-recommended-scss": "^12.0.0",
+		"stylelint": "^14.16.1",
 		"stylelint-webpack-plugin": "^4.1.1",
 		"svg-sprite-loader": "^6.0.11",
 		"svgo-loader": "^4.0.0",
@@ -98,7 +99,10 @@
 		"node": ">=v16"
 	},
 	"scripts": {
-		"setup:linters": "cross-env RULESET=psr12 MINWP=4.5 MINPHP=5.6 node \"./config/node/linters.js\"",
+		"linter:psr2": "cross-env RULESET=psr2 node \"./config/node/linters.js\"",
+		"linter:psr12": "cross-env RULESET=psr12 node \"./config/node/linters.js\"",
+		"linter:wpcs": "cross-env RULESET=wpcs node \"./config/node/linters.js\"",
+		"linter:frontend": "node \"./config/node/linters.js\"",
 		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"developer:prerelease": "npx commitlint -t HEAD",
 		"developer:release": "dotenv release-it -- --no-npm",
