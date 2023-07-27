@@ -2,7 +2,8 @@
 .git
 .cert
 .husky
-.vscode
+.vscode/*
+!.vscode/*.code-snippets
 .project
 node_modules
 vendor
