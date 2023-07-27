@@ -1,6 +1,5 @@
 const { paths } = require('./webpack/paths');
 const wordpress = require('../utils/wordpress');
-const { globals } = require('./webpack/globals');
 const { isProduction } = require('./abstraction/app.config');
 const configDefault = require('./abstraction/config.defaults');
 const {
@@ -43,8 +42,12 @@ if (
 
 config.debug = !isProduction;
 
-globals.ENV_DESIGN = config.css.sortMQ;
-globals.ENV_REM_SIZE = config.css.px2rem;
+// Show this in the default config in docs.
+const globals = {
+   PRODUCTION: isProduction,
+   REM_SIZE: config.css.px2rem,
+   DESIGN: config.css.sortMQ,
+};
 
 config.globals = isDifferentialBuild
    ? Object.assign(
@@ -70,6 +73,6 @@ config.includePaths = arrMergeDedupe(
 singleRuntimeInfo(config.javascript.entry);
 
 // Edit 'WP_DEBUG' an 'WP_ENVIRONMENT_TYPE' in `wp-config.php`.
-isWordPress && wordpress();
+if (isWordPress) wordpress();
 
 exports.config = config;
