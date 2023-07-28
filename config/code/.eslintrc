@@ -26,7 +26,8 @@
 		"ENV_LEGACY": "readonly"
 	},
 	"ignorePatterns": [
-		"**/node_modules"
+		"**/node_modules",
+		"**/vendor"
 	],
 	"rules": {
 		// *** override default rules here ***
