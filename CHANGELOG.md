@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0](https://github.com/v1ggs/abstraction/compare/0.3.0...0.4.0) (2023-07-28)
+
+
+### Features
+
+* added "lint" and "fix" scripts ([1572e17](https://github.com/v1ggs/abstraction/commit/1572e176696c4d8293519e5c258e14acb791c56f))
+* added linting scripts, fixed and improved linters auto-config ([124cba4](https://github.com/v1ggs/abstraction/commit/124cba41a6b5c1c2b70b6c050a03617b8bcfaaa5))
+
+
+### Docs
+
+* added "code quality" section, still to be edited ([5fc724c](https://github.com/v1ggs/abstraction/commit/5fc724cb14865ebeda19927f139da29c0a9a9c25))
+
 ## [0.3.0](https://github.com/v1ggs/abstraction/compare/0.2.0...0.3.0) (2023-07-27)
 
 
