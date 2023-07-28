@@ -98,9 +98,9 @@
 		"node": ">=v16"
 	},
 	"scripts": {
-		"linter:psr2": "cross-env RULESET=psr2 node \"./config/node/linters.js\"",
-		"linter:psr12": "cross-env RULESET=psr12 node \"./config/node/linters.js\"",
-		"linter:wpcs": "cross-env RULESET=wpcs node \"./config/node/linters.js\"",
+		"linter:psr2": "cross-env RULESET=PSR2 node \"./config/node/linters.js\"",
+		"linter:psr12": "cross-env RULESET=PSR12 node \"./config/node/linters.js\"",
+		"linter:wpcs": "cross-env RULESET=WPCS node \"./config/node/linters.js\"",
 		"linter:frontend": "node \"./config/node/linters.js\"",
 		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"developer:prerelease": "npx commitlint -t HEAD",

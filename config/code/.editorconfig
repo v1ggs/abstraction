@@ -16,5 +16,5 @@ end_of_line = lf
 max_line_length = 80
 
 [*.php]
-# indent_style = tab # WPCS
 indent_size = 4
+# indent_style = tab # WPCS
