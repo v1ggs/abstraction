@@ -2,12 +2,15 @@
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "*",
 		"phpcompatibility/php-compatibility": "*",
-		"squizlabs/php_codesniffer": "*",
 		"wptrt/wpthemereview": "*"
 	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
+	},
+	"scripts": {
+		"lint": "phpcs .",
+		"fix": "phpcbf ."
 	}
 }
