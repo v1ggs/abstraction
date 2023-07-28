@@ -6,7 +6,7 @@
 	<!-- See https://github.com/PHPCompatibility/PHPCompatibilityWP -->
 
 	<!-- Set a description for this ruleset. -->
-	<description>A custom set of code standard rules to check for WordPress themes.</description>
+	<description>Custom coding standards configuration for WordPress theme development.</description>
 
 
 	<!--
@@ -17,10 +17,14 @@
 	-->
 
 	<!-- Pass some flags to PHPCS:
-		 p flag: Show progress of the run.
-		 s flag: Show sniff codes in all reports.
+		p flag: Show progress of the run.
+		s flag: Show sniff codes in all reports.
+		n flag:  Do not print warnings.
 	-->
 	<arg value="ps" />
+
+	<!-- Use colors in output. -->
+	<arg value="-colors" />
 
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="./" />
@@ -74,11 +78,6 @@
 		</properties>
 	</rule>
 
-	<!-- Set the minimum supported WP version. This is used by several sniffs.
-		 The minimum version set here should be in line with the minimum WP version
-		 as set in the "Requires at least" tag in the readme.txt file. -->
-	<config name="minimum_supported_wp_version" value="4.5" />
-
 	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
 		<properties>
 			<!-- No need to adjust alignment of large arrays when the item with the largest key is
@@ -107,7 +106,12 @@
 	#############################################################################
 	-->
 
-	<config name="testVersion" value="5.6-" />
 	<rule ref="PHPCompatibilityWP" />
+	<config name="testVersion" value="5.6-" />
+
+	<!-- Set the minimum supported WP version. This is used by several sniffs.
+		 The minimum version set here should be in line with the minimum WP version
+		 as set in the "Requires at least" tag in the readme.txt file. -->
+	<config name="minimum_supported_wp_version" value="5.0" />
 
 </ruleset>
