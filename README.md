@@ -11,7 +11,6 @@
 		- [Formatting](#formatting)
 		- [Editor integration](#editor-integration)
 			- [JavaScript and Sass](#javascript-and-sass)
-			- [PHP](#php)
 	- [CHANGELOG](#changelog)
 	- [LICENSE](#license)
 
@@ -25,21 +24,13 @@
 
 ## CODE QUALITY
 
-It's recommended to use editor extensions for [ESLint](https://eslint.org/docs/latest/user-guide/integrations), [Stylelint](https://stylelint.io/), [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) and [Prettier](https://prettier.io/docs/en/editors.html), to be able to see and fix all errors in code while your writting it.
+It's recommended to use editor extensions for [ESLint](https://eslint.org/docs/latest/user-guide/integrations), [Stylelint](https://stylelint.io/) and [Prettier](https://prettier.io/docs/en/editors.html), to be able to see and fix all errors in code while your writting it.
 
 ### Linting
 
 ESLint and Stylelint are integrated into Webpack, with [eslint-webpack-plugin](https://www.npmjs.com/package/eslint-webpack-plugin) and [stylelint-webpack-plugin](https://www.npmjs.com/package/stylelint-webpack-plugin), so that the code is being linted during the build process.
 
-For PHP, there is a [Composer](https://getcomposer.org/) script, that can be run manually, and it runs automatically, when building files for production. Thats' why an editor extension is recommended.
-
-To run it manually, type in console:
-
-```sh
-composer lint
-```
-
-Configuration files `.eslintrc`, `.stylelintrc` and `.phpcs.xml.dist`, found in the root directory, are being used to configure linters for JavaScript ([ESLint](https://eslint.org/docs/latest/user-guide/integrations)), SCSS ([Stylelint](https://stylelint.io/)) and PHP ([PHPCS](https://github.com/squizlabs/PHP_CodeSniffer)). They are configured automatically, but you can change them to fit your requirements.
+Configuration files `.eslintrc` and `.stylelintrc`, found in the root directory, are being used to configure linters for JavaScript ([ESLint](https://eslint.org/docs/latest/user-guide/integrations)) and SCSS ([Stylelint](https://stylelint.io/)). They are configured automatically, but you can change them to fit your requirements.
 
 #### SCSS
 
@@ -53,7 +44,7 @@ It's the same with ESLint's `eslint-config-prettier`, or just `"extends": [ "pre
 
 ### Formatting
 
-Configuration files `.prettierrc.js` and `.phpcs.xml.dist` are being used to configure code formatters for JavaScript and SCSS ([Prettier](https://prettier.io/docs/en/editors.html)), and PHP ([PHPCS](https://github.com/squizlabs/PHP_CodeSniffer)). They are configured automatically, but you can change them to fit your requirements.
+Configuration file `.prettierrc.js` is being used to configure [Prettier](https://prettier.io/docs/en/editors.html), a code formatter for JavaScript and SCSS. It is configured automatically, but you can change it to fit your requirements.
 
 ### Editor integration
 
@@ -100,33 +91,6 @@ If you're using editor extensions for [ESLint](https://eslint.org/docs/latest/us
 	],
 }
 ```
-
-#### PHP
-
-[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) Should be set as the default linter, and formatter.
-
-For VSCode it should look like this:
-
-```json
-{
-	"[php]": {
-		// "editor.formatOnSave": true,
-		"editor.defaultFormatter": "wongjn.php-sniffer",
-	},
-	// Disables VSCode's default php features.
-	"php.suggest.basic": false,
-	"php.validate.enable": false,
-	// Uncomment and configure the next line if PHP (php.exe) is not in PATH.
-	// "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
-	"phpSniffer.run": "onType",
-	"phpSniffer.onTypeDelay": 500, // optional, configure to fit your needs
-	// auto-detect phpSniffer.executablesFolder as ./vendor/bin/ per workspace
-	// folder (applies only if phpSniffer.executablesFolder is empty).
-	"phpSniffer.autoDetect": true,
-}
-```
-
-and VSCode extension is [PHP Sniffer](https://marketplace.visualstudio.com/items?itemName=wongjn.php-sniffer).
 
 ## CHANGELOG
 
