@@ -30,7 +30,7 @@ const {
 const bsDefault = {
    host: useSsl.domain,
    // port: 3000,
-   proxy: config.server.localWpDomain,
+   proxy: config.server.proxy,
    watchEvents: false,
    injectChanges: false,
    notify: false, // Don't show any notifications in browser.

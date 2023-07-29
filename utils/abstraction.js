@@ -49,13 +49,13 @@ class consoleMsg {
 
       const name = `[${appName.toUpperCase()}]: `;
 
-      this.succes = (message) => console.log(color.success, name + message);
-      this.info = (message) => console.info(color.info, name + message);
-      this.warning = (message) => console.warn(color.warn, name + message);
-      this.error = (message) => {
+      this.succes = message => console.log(color.success, name + message);
+      this.info = message => console.info(color.info, name + message);
+      this.warning = message => console.warn(color.warn, name + message);
+      this.error = message => {
          console.error(color.error, name + message);
       };
-      this.severe = (message) => {
+      this.severe = message => {
          console.error(color.error, name + message);
          process.exit();
       };
@@ -64,7 +64,7 @@ class consoleMsg {
 
 exports.consoleMsg = new consoleMsg();
 
-exports.singleRuntimeInfo = (entryConfig) => {
+exports.singleRuntimeInfo = entryConfig => {
    if (entryConfig && Object.keys(entryConfig).length > 1) {
       this.clearScreen();
       this.consoleMsg.warning(
@@ -121,7 +121,7 @@ exports.isWordPress = (() => {
 
    if (configExists) {
       const userConfig = require(configExists);
-      return userConfig.server?.localWpDomain ? true : false;
+      return userConfig.server?.proxy ? true : false;
    }
 
    return false;
@@ -137,8 +137,8 @@ exports.useSsl = (() => {
 
    // We need a domain that is being blocked with hosts file,
    // not the theme dir name.
-   const domain = userConfig?.server?.localWpDomain
-      ? userConfig.server.localWpDomain
+   const domain = userConfig?.server?.proxy
+      ? userConfig.server.proxy
            .replace(/https?:\/\/(www\.)?/, '')
            // remove :<port> and trailing slash
            .replace(/:\d+\/?/, '')

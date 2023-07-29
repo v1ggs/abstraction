@@ -1,14 +1,5 @@
 #!/usr/bin/node
 
-// =========================================================================
-// Install and configure linters
-// Requires `RULESET` variable to be set when running with NODE:
-// - undefined    - Recommended linting for JS and SCSS only
-// - `PSR2`       - Recommended linting for JS and SCSS, PSR2 for PHP
-// - `PSR12`      - Recommended linting for JS and SCSS, PSR12 for PHP
-// - `WPCS`       - WordPress Coding Standards for JS, SCSS, PHP
-// =========================================================================
-
 // DOCS:
 // Linters usually contain not only code quality rules, but also
 // stylistic rules. Most stylistic rules are unnecessary when
@@ -32,45 +23,14 @@
 // Therefore using StyleLint 14 with WP, and watching for
 // @wordpress/stylelint-config update...
 // =========================================================================
-// https://github.com/PHPCompatibility/PHPCompatibility
-// This is a set of sniffs for PHP CodeSniffer that checks for PHP
-// cross-version compatibility. It will allow you to analyse your code for
-// compatibility with higher and lower versions of PHP.
-// =========================================================================
-// https://github.com/WPTT/WPThemeReview
-// WordPress Themes for which a hosting application has been made for the
-// theme to be hosted in the theme repository on wordpress.org have to comply
-// with a set of requirements before such an application can be approved.
-// Additionally, there are also recommendations for best practices for themes.
-// This project attempts to automate the code analysis part of the Theme Review
-// Process as much as possible using static code analysis.
-// =========================================================================
+
+// Set this true, to use WordPress Coding Standards.
+const IS_WP = process.env.IS_WP;
 
 const { exec } = require('child_process');
 const { parse, resolve } = require('path');
 const { consoleMsg } = require('../../utils/abstraction');
-const { writeFile, readFileSync, copyFile, writeFileSync } = require('fs');
-
-// Possible options: undefined, PSR2, PSR12, WPCS
-const ruleset = process.env.RULESET || false;
-
-// https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/
-// Past changes to supported PHP versions have been as followed:
-// In WordPress version 4.1: Added support for PHP 5.6.
-// In WordPress 4.4: Added support for PHP 7.0 (dev note).
-// In WordPress 4.7: Added support for PHP 7.1.
-// In WordPress 4.9: Added support for PHP 7.2.
-// In WordPress 5.0: Added support for PHP 7.3 (dev note).
-// In WordPress 5.2: Dropped support for PHP 5.2, 5.3, 5.4, 5.5.
-// In WordPress 5.3: Added support for PHP 7.4 (dev note).
-// In WordPress 5.6: Added “beta support” for PHP 8.0 (dev note).
-// In WordPress 5.9: Added “beta support” for PHP 8.1 (dev note).
-// In WordPress 6.1: Added “beta support” for PHP 8.2 (dev note pending).
-const minWp = process.env.MINWP || '5.0';
-
-// https://www.php.net/releases/index.php
-// Support for PHP 5 has been discontinued since 10 Jan 2019.
-const minPhp = process.env.MINPHP || '7.1';
+const { writeFile, readFileSync, copyFile } = require('fs');
 
 const processFile = filepath => {
    const srcFile = resolve(filepath);
@@ -84,22 +44,20 @@ const processFile = filepath => {
 const npmInst = 'npm install --save ';
 const eslintCfg = processFile(__dirname + '/../code/.eslintrc');
 const editorCfg = processFile(__dirname + '/../code/.editorconfig');
-const phpcsCfg = processFile(__dirname + '/../code/.phpcs.xml.dist');
-const composerCfg = processFile(__dirname + '/../code/composer.json');
 const stylelintCfg = processFile(__dirname + '/../code/.stylelintrc');
 const prettierCfg = processFile(__dirname + '/../code/.prettierrc.js');
 
 const execCallback = (error, message) =>
    error ? consoleMsg.severe(error) : consoleMsg.info(message);
 
-const installPrettier = () => {
+const installFromatter = () => {
    consoleMsg.info('Preparing Prettier, please wait.');
 
    exec(npmInst + 'prettier@3 --save-exact', err =>
       execCallback(err, 'Prettier installed succesfully.'),
    );
 
-   if (ruleset === 'WPCS') {
+   if (IS_WP) {
       exec(npmInst + '@wordpress/prettier-config@2 ', err =>
          execCallback(
             err,
@@ -115,7 +73,6 @@ const installPrettier = () => {
             'module.exports = {\n' + '\t...wpConfig,',
          );
 
-      // It configures Prettier as well, that's why it's here.
       editorCfg.fileContent = editorCfg.fileContent.replace(
          '# indent_style = tab # WPCS',
          'indent_style = tab',
@@ -136,10 +93,10 @@ const installPrettier = () => {
    });
 };
 
-const installFrontendLinter = () => {
+const installLinter = () => {
    let command;
 
-   if (ruleset === 'WPCS') {
+   if (IS_WP) {
       // WordPress Coding Standards
 
       command = // Lock major versions, and update ocasionally.
@@ -179,8 +136,8 @@ const installFrontendLinter = () => {
    );
 };
 
-const configureFrontendLinter = () => {
-   if (ruleset === 'WPCS') {
+const configureLinter = () => {
+   if (IS_WP) {
       // WordPress Coding Standards
 
       eslintCfg.fileContent = eslintCfg.fileContent.replace(
@@ -234,87 +191,9 @@ const configureFrontendLinter = () => {
    });
 };
 
-const installBackendLinter = () => {
-   if (ruleset !== 'WPCS') {
-      // Remove wpthemereview from composer.json before install,
-      // if not required.
-      composerCfg.fileContent = composerCfg.fileContent.replace(
-         /,?\s+"wptrt\/wpthemereview": "\*"/,
-         '',
-      );
-   }
-
-   // Write composer.json
-   writeFileSync(composerCfg.outputPath, composerCfg.fileContent, 'utf-8');
-
-   // Composer install
-   consoleMsg.info('Preparing PHP_CodeSniffer, please wait.');
-
-   exec('composer install', err =>
-      execCallback(err, 'PHP_CodeSniffer is ready.'),
-   );
-};
-
-// Edit .phpcs.xml.dist file
-const configureBackendLinter = () => {
-   // Configure linting standards for PHP_CodeSniffer.
-   const patternLint =
-      /(<!-- BEGIN Standards -->)[\s\S]*?(<!-- END Standards -->)/;
-
-   // Remove WP standard config, if not using WPCS.
-   const patternWP =
-      /(<!-- BEGIN WordPress -->)[\s\S]*?(<!-- END WordPress -->)/;
-
-   // Set the minimum supported PHP version.
-   phpcsCfg.fileContent = phpcsCfg.fileContent
-      .replace(
-         // As of PHPCompatibility 7.1.3, you can omit one part of the
-         // range if you want to support everything above or below a
-         // particular version, i.e. `use --runtime-set testVersion 7.0-`
-         // to run all the checks for PHP 7.0 and above.
-         /(<config name="testVersion" value=").*?(-" \/>)/,
-         '$1' + minPhp + '$2',
-      )
-      // Set the minimum supported WordPress version.
-      .replace(
-         /(<config name="minimum_supported_wp_version" value=").*?(" \/>)/,
-         '$1' + minWp + '$2',
-      );
-
-   if (ruleset === 'PSR2' || ruleset === 'PSR12') {
-      phpcsCfg.fileContent = phpcsCfg.fileContent
-         .replace(
-            patternLint,
-            `<rule ref="${ruleset}">\n` +
-               `\t\t<!-- Exclude ${ruleset} Rules Here -->\n` +
-               `\t</rule>`,
-         )
-         // Remove WP standard.
-         .replace(patternWP, '');
-   }
-
-   // Write phpcs config file.
-   writeFile(phpcsCfg.outputPath, phpcsCfg.fileContent, err => {
-      if (err) consoleMsg.severe(err);
-   });
-};
-
-// Frontend
-if (ruleset === 'PSR2' || ruleset === 'PSR12' || !ruleset) {
-   installPrettier();
-   installFrontendLinter();
-   configureFrontendLinter();
-} else if (ruleset === 'WPCS') {
-   installPrettier();
-   installFrontendLinter();
-   configureFrontendLinter();
-}
-
-// Backend
-if (ruleset) {
-   installBackendLinter();
-   configureBackendLinter();
-}
+installLinter();
+configureLinter();
+installFromatter();
 
 // Copy other config files
 [

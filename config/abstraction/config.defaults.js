@@ -84,8 +84,8 @@ module.exports = {
    },
 
    server: {
-      // Local WordPress domain, e.g. 'http://abstraction.local',
-      localWpDomain: '',
+      // Local domain with backend, e.g. 'http://abstraction.local',
+      proxy: '',
 
       // https://webpack.js.org/configuration/dev-server/
       devServer: {},

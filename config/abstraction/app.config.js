@@ -1,5 +1,3 @@
-// TODO: move this file into init | Wed 28 Jun 2023, 13:41
-
 // This file is used to set variables to be used only in
 // the app configuration, not for default/user config.
 
@@ -25,16 +23,6 @@ exports.themeDirName = path.parse(process.cwd()).base;
 
 // User config filename (change this in nodemon.json)
 exports.userConfigFilename = '.' + this.appName.toLowerCase() + '.config.js';
-
-// Local by Flywheel certificates location on Windows
-exports.fwlCertPathWin = path.resolve(
-   process.env.APPDATA,
-   'Local',
-   'run',
-   'router',
-   'nginx',
-   'certs',
-);
 
 // Detect if the environment is 'production'
 exports.isProduction = process.env.NODE_ENV === 'production';
