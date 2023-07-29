@@ -30,7 +30,9 @@ const IS_WP = process.env.IS_WP;
 const { exec } = require('child_process');
 const { parse, resolve } = require('path');
 const { consoleMsg } = require('../../utils/abstraction');
-const { writeFile, readFileSync, copyFile } = require('fs');
+const { writeFile, readFileSync, copyFile, existsSync, mkdir } = require('fs');
+const path = require('path');
+const { paths } = require('../webpack/paths');
 
 const processFile = filepath => {
    const srcFile = resolve(filepath);
@@ -49,6 +51,20 @@ const prettierCfg = processFile(__dirname + '/../code/.prettierrc.js');
 
 const execCallback = (error, message) =>
    error ? consoleMsg.severe(error) : consoleMsg.info(message);
+
+const createSource = () => {
+   const srcDir = paths.SRC.absolute;
+   const jsEntry = path.join(srcDir, 'index.js');
+   const scssEntry = path.join(srcDir, 'index.scss');
+
+   if (!existsSync(srcDir)) mkdir(srcDir, { recursive: true });
+
+   writeFile(
+      jsEntry,
+      "// This is the JavaScript entry point.\n\nimport './index.scss'\n",
+   );
+   writeFile(scssEntry, '// This is the SCSS entry point.\n');
+};
 
 const installFromatter = () => {
    consoleMsg.info('Preparing Prettier, please wait.');
@@ -191,6 +207,7 @@ const configureLinter = () => {
    });
 };
 
+createSource();
 installLinter();
 configureLinter();
 installFromatter();
