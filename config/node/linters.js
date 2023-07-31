@@ -30,9 +30,7 @@ const IS_WP = process.env.IS_WP;
 const { exec } = require('child_process');
 const { parse, resolve } = require('path');
 const { consoleMsg } = require('../../utils/abstraction');
-const { writeFile, readFileSync, copyFile, existsSync, mkdir } = require('fs');
-const path = require('path');
-const { paths } = require('../webpack/paths');
+const { writeFile, readFileSync, copyFile } = require('fs');
 
 const processFile = filepath => {
    const srcFile = resolve(filepath);
@@ -43,7 +41,7 @@ const processFile = filepath => {
    return { srcFile, fileName, fileContent, outputPath };
 };
 
-const npmInst = 'npm install --save ';
+const npmInst = 'npm install --save-dev ';
 const eslintCfg = processFile(__dirname + '/../code/.eslintrc');
 const editorCfg = processFile(__dirname + '/../code/.editorconfig');
 const stylelintCfg = processFile(__dirname + '/../code/.stylelintrc');
@@ -51,20 +49,6 @@ const prettierCfg = processFile(__dirname + '/../code/.prettierrc.js');
 
 const execCallback = (error, message) =>
    error ? consoleMsg.severe(error) : consoleMsg.info(message);
-
-const createSource = () => {
-   const srcDir = paths.SRC.absolute;
-   const jsEntry = path.join(srcDir, 'index.js');
-   const scssEntry = path.join(srcDir, 'index.scss');
-
-   if (!existsSync(srcDir)) mkdir(srcDir, { recursive: true });
-
-   writeFile(
-      jsEntry,
-      "// This is the JavaScript entry point.\n\nimport './index.scss'\n",
-   );
-   writeFile(scssEntry, '// This is the SCSS entry point.\n');
-};
 
 const installFromatter = () => {
    consoleMsg.info('Preparing Prettier, please wait.');
@@ -207,7 +191,6 @@ const configureLinter = () => {
    });
 };
 
-createSource();
 installLinter();
 configureLinter();
 installFromatter();

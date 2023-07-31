@@ -109,7 +109,10 @@
 		"husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"prerelease": "npx commitlint -t HEAD",
 		"release": "dotenv release-it --",
-		"prepare": "npm link",
+		"prepare:source": "cross-env node node_modules/@v1ggs/abstraction/config/node/prepare-src.js",
+		"prepare:linters": "cross-env node node_modules/@v1ggs/abstraction/config/node/linters.js",
+		"prepare:linters-wp": "cross-env IS_WP=true node node_modules/@v1ggs/abstraction/config/node/linters.js",
+		"prepare": "npm run prepare:source && npm run prepare:linters",
 		"test": "echo \"No test specified\" && exit 1"
 	}
 }
