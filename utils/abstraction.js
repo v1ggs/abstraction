@@ -4,7 +4,6 @@ const shell = require('shelljs');
 const exec = require('child_process').exec;
 const { scanDirsForFile } = require('./js');
 const { paths } = require('../config/webpack/paths');
-const pkg = require(path.join(process.cwd(), 'package.json'));
 let {
    appName,
    userConfigFilename,
@@ -87,12 +86,11 @@ exports.corejsVersion = (() => {
    let corejsVersion = 3;
 
    try {
-      corejsVersion = pkg.dependencies['core-js'];
+      corejsVersion = require('core-js/package.json').version;
+      corejsVersion = corejsVersion.replace(/[^\d.]/g, '');
    } catch (err) {
       // console.log();
    }
-
-   corejsVersion = corejsVersion.replace(/[^\d.]/g, '');
 
    // Counts dots to be able to slice() and use the main and the minor version only.
    return corejsVersion.match(/\./g).length > 1

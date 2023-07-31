@@ -6,12 +6,18 @@ const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const {
+   consoleMsg,
    usingBabelrc,
    corejsVersion,
    usingBrowserslistrc,
 } = require('../../utils/abstraction');
 const babelCache = path.join(paths.BABELCACHE, 'es6');
 let useBuiltIns;
+
+if (!corejsVersion)
+   consoleMsg.warning(
+      'Core-js not found. Babel will not be able to add polyfills.',
+   );
 
 if (process.env.ABSTRACTION_POLYFILLS) {
    useBuiltIns = 'usage';
@@ -35,7 +41,7 @@ exports.babelPresetEnv = [
       // ignoreBrowserslistConfig: !usingBrowserslistrc,
 
       // Setting this to false will preserve ES modules. Use this only if you
-      //  intend to ship native ES Modules to browsers. If you are using a
+      // intend to ship native ES Modules to browsers. If you are using a
       // bundler with Babel, the default modules: "auto" is always preferred.
       modules: false,
       loose: true,
@@ -43,7 +49,9 @@ exports.babelPresetEnv = [
       debug: config.debug,
       useBuiltIns,
       corejs:
-         config.javascript.polyfill || process.env.ABSTRACTION_POLYFILLS
+         corejsVersion ||
+         config.javascript.polyfill ||
+         process.env.ABSTRACTION_POLYFILLS
             ? corejsVersion
             : undefined,
    },
