@@ -15,8 +15,13 @@ const {
    isWordPress,
 } = require('../utils/abstraction');
 
-let config;
-let configUser = require(getUserConfigFile());
+let config, configUser;
+
+try {
+   configUser = require(getUserConfigFile());
+} catch (err) {
+   // console.log(err);
+}
 
 config =
    configUser && Object.keys(configUser).length
