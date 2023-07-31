@@ -79,6 +79,7 @@
 		"sass": "^1.64.1",
 		"sass-loader": "^13.3.2",
 		"sharp": "^0.32.4",
+		"shelljs": "^0.8.5",
 		"simple-nunjucks-loader": "^3.2.0",
 		"string-replace-loader": "^3.1.0",
 		"style-loader": "^3.3.3",
@@ -94,21 +95,21 @@
 		"webpack-license-plugin": "^4.2.2",
 		"webpack-merge": "^5.9.0"
 	},
+	"bin": {
+		"abs-run": "./bin/serve-dev.js",
+		"abs-run-prod": "./bin/serve-prod.js",
+		"abs-build": "./bin/build-dev.js",
+		"abs-build-prod": "./bin/build-prod.js",
+		"abs-build-polyfills": "./bin/build-polyfills.js"
+	},
 	"engines": {
 		"node": ">=v16"
 	},
 	"scripts": {
-		"linter:psr2": "cross-env RULESET=PSR2 node \"./config/node/linters.js\"",
-		"linter:psr12": "cross-env RULESET=PSR12 node \"./config/node/linters.js\"",
-		"linter:wpcs": "cross-env RULESET=WPCS node \"./config/node/linters.js\"",
-		"linter:frontend": "node \"./config/node/linters.js\"",
-		"developer:husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
-		"developer:prerelease": "npx commitlint -t HEAD",
-		"developer:release": "dotenv release-it --",
-		"abstraction:serve": "nodemon --config node_modules/@v1ggs/abstraction/config/node/nodemon.json",
-		"abstraction:dev": "cross-env NODE_ENV=development node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
-		"abstraction:prod": "cross-env NODE_ENV=production node --no-deprecation node_modules/webpack/bin/webpack.js --config node_modules/@v1ggs/abstraction/index.js",
-		"abstraction:polyfills": "cross-env NODE_ENV=production ABSTRACTION_POLYFILLS=true webpack --config node_modules/@v1ggs/abstraction/config/webpack/webpack.polyfills.js",
+		"husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
+		"prerelease": "npx commitlint -t HEAD",
+		"release": "dotenv release-it --",
+		"prepare": "npm link",
 		"test": "echo \"No test specified\" && exit 1"
 	}
 }
