@@ -6,7 +6,7 @@ const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const resolveUrlLoader = require('./resolve-url-loader');
 const miniCssExtract = require('./mini-css-extract-plugin');
-const { isProduction } = require('../abstraction/app.config');
+const { isProduction } = require('../../utils/abstraction');
 
 // For development mode (including webpack-dev-server) you can use
 // style-loader, because it injects CSS into the DOM using multiple

@@ -1,7 +1,7 @@
 const { config } = require('../init');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
-const { isProduction } = require('../abstraction/app.config');
+const { isProduction } = require('../../utils/abstraction');
 
 // https://www.npmjs.com/package/image-minimizer-webpack-plugin
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');

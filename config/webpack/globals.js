@@ -1,7 +1,7 @@
 // ############################################################################
 // ########################################################### GLOBAL VARIABLES
 // ############################################################################
-const { isProduction } = require('../abstraction/app.config');
+const { isProduction } = require('../../utils/abstraction');
 
 // Default global variables for usage in the source code.
 // These can't be changed by the user.

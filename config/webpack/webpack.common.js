@@ -7,8 +7,7 @@ const { devServer } = require('../server');
 const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
-const { isWordPress } = require('../../utils/abstraction');
-const { isProduction } = require('../abstraction/app.config');
+const { isWordPress, isProduction } = require('../../utils/abstraction');
 const {
    Notifier,
    AssetsPlugin,
@@ -64,7 +63,7 @@ const common = {
       roots: config.includePaths,
       extensions: filetypes.javascript
          .concat(filetypes.sass)
-         .map((ext) => '.' + ext),
+         .map(ext => '.' + ext),
    },
 
    module: {

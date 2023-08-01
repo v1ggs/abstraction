@@ -5,10 +5,9 @@ const { config } = require('../init');
 const common = require('./webpack.common');
 const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');
-const { ProgressPlugin } = require('../../utils/webpack');
-const { isProduction } = require('../abstraction/app.config');
+const { isProduction } = require('../../utils/abstraction');
 const { filetypesArr2regex, merge } = require('../../utils/js');
-const { DefinePlugin } = require('../../utils/webpack');
+const { DefinePlugin, ProgressPlugin } = require('../../utils/webpack');
 
 // Global variables for doing things in code for this bundle only.
 const legacyGlobals = merge({}, config.globals);
@@ -17,7 +16,7 @@ legacyGlobals.ENV_LEGACY = true;
 
 // File types to remove from legacy bundle, to process js only.
 let excludes = [];
-Object.keys(filetypes).forEach((type) => {
+Object.keys(filetypes).forEach(type => {
    if (!(type === 'javascript')) {
       excludes.push(filetypes[type]);
    }

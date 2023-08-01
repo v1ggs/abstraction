@@ -14,8 +14,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { paths } = require('../webpack/paths');
 const { existsSync, readFileSync } = require('fs');
-const { isProduction } = require('../abstraction/app.config');
-const { isWordPress, isDifferentialBuild } = require('../../utils/abstraction');
+const {
+   isWordPress,
+   isProduction,
+   isDifferentialBuild,
+} = require('../../utils/abstraction');
 
 class AbstractionDSL {
    apply(compiler) {

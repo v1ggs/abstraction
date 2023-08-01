@@ -1,5 +1,4 @@
 const { paths } = require('./webpack/paths');
-const { isProduction } = require('./abstraction/app.config');
 const configDefault = require('./abstraction/config.defaults');
 const {
    merge,
@@ -7,6 +6,7 @@ const {
    getFirstSubdirectories,
 } = require('../utils/js');
 const {
+   isProduction,
    getUserConfigFile,
    singleRuntimeInfo,
    assetsJsonFilename,

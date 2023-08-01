@@ -5,9 +5,12 @@ const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
 const { devServer, browserSync } = require('../server');
-const { isProduction } = require('../abstraction/app.config');
 const { templatesLoader, templatesPlugin } = require('../templates');
-const { isDifferentialBuild, isWordPress } = require('../../utils/abstraction');
+const {
+   isWordPress,
+   isProduction,
+   isDifferentialBuild,
+} = require('../../utils/abstraction');
 const {
    CopyPlugin,
    DefinePlugin,

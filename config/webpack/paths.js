@@ -1,11 +1,23 @@
 // ############################################################################
 // ###################################################################### PATHS
 // ############################################################################
-const path = require('path');
 const ROOT = process.cwd();
+const path = require('path');
 const TEMPLATES = 'templates';
+const themeDirName = path.parse(process.cwd()).base;
 const CACHE = path.join(ROOT, 'node_modules', '.cache');
-const { themeDirName, appDir } = require('../abstraction/app.config');
+
+const appDirRelative = path.relative(
+   process.cwd(),
+   path.resolve(__dirname, '..', '..'),
+);
+
+const appDirAbsolute = path.resolve(process.cwd(), appDirRelative);
+
+const appDir = {
+   rootRelative: appDirRelative,
+   absolute: appDirAbsolute,
+};
 
 exports.SRC = 'src';
 exports.DIST = 'public';

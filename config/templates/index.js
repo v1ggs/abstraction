@@ -6,7 +6,6 @@ const { paths } = require('../webpack/paths');
 const dsl = require('./html-webpack-plugin-dsl');
 const { filetypes } = require('../webpack/filetypes');
 const { isWordPress } = require('../../utils/abstraction');
-const { isProduction } = require('../abstraction/app.config');
 const { HtmlWebpackPlugin } = require('./html-webpack-plugin');
 const { filetypesArr2regex, fixPathForGlob } = require('../../utils/js');
 

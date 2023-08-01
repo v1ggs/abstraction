@@ -10,7 +10,7 @@
 
 const { config } = require('../init');
 const { merge } = require('../../utils/js');
-const { isProduction } = require('../abstraction/app.config');
+const { isProduction } = require('../../utils/abstraction');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const {
    useSsl,

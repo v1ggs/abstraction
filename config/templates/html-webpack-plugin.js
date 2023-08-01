@@ -1,7 +1,10 @@
 const path = require('path');
 const { config } = require('../init');
-const { themeDirName } = require('../abstraction/app.config');
-const { isDifferentialBuild, isWordPress } = require('../../utils/abstraction');
+const {
+   isWordPress,
+   themeDirName,
+   isDifferentialBuild,
+} = require('../../utils/abstraction');
 
 // https://www.npmjs.com/package/html-webpack-plugin
 exports.DefaultHtmlWebpackPlugin = require('html-webpack-plugin');

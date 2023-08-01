@@ -3,11 +3,45 @@ const path = require('path');
 const shell = require('shelljs');
 const exec = require('child_process').exec;
 const { scanDirsForFile } = require('./js');
-const { paths } = require('../config/webpack/paths');
-let {
-   appName,
-   userConfigFilename,
-} = require('../config/abstraction/app.config');
+const paths = require('../config/webpack/paths').paths;
+
+// This app name (definde this way because this.appName does not
+// work in class `consoleMsg`)
+const appName = 'Abstraction';
+exports.appName = appName;
+
+// Wordpress theme folder name
+exports.themeDirName = path.parse(process.cwd()).base;
+
+// User config filename (change this in nodemon.json)
+exports.userConfigFilename = '.' + appName.toLowerCase() + '.config.js';
+
+// Detect if the environment is 'production'
+exports.isProduction = process.env.NODE_ENV === 'production';
+
+// If files are in memory, not written to disk
+exports.isServing = process.env.ABSTRACTION_SERVE;
+
+// We are on Windows
+exports.isWindows = process.platform === 'win32';
+
+// We are on Mac
+exports.isMac = /^darwin/.test(process.platform);
+
+// wether or not we're using .browserslistrc
+exports.usingBrowserslistrc = (() =>
+   fs.existsSync(path.join(process.cwd(), '.browserslistrc')))();
+
+// wether or not we're using .babelrc
+exports.usingBabelrc = (() =>
+   fs.existsSync(path.join(process.cwd(), '.babelrc')))();
+
+// If we are building with differential serving
+exports.isDifferentialBuild = (() =>
+   !this.usingBrowserslistrc && !this.usingBabelrc)();
+
+// File that contains built assets information
+exports.assetsJsonFilename = '.assets.json';
 
 // Get user config file
 exports.getUserConfigFile = () => {
@@ -15,13 +49,13 @@ exports.getUserConfigFile = () => {
 
    try {
       // Try to find the user config file in cwd
-      let configFile = path.resolve(process.cwd(), userConfigFilename);
+      let configFile = path.resolve(process.cwd(), this.userConfigFilename);
 
       if (fs.existsSync(configFile)) {
          configUser = configFile;
       } else {
          // scan top level subdirectories to find the file
-         configUser = scanDirsForFile(userConfigFilename);
+         configUser = scanDirsForFile(this.userConfigFilename);
       }
    } catch (error) {
       console.error(error);
@@ -29,6 +63,18 @@ exports.getUserConfigFile = () => {
 
    return configUser;
 };
+
+// Wether or not we're developing with WordPress.
+exports.isWordPress = (() => {
+   const configExists = this.getUserConfigFile();
+
+   if (configExists) {
+      const userConfig = require(configExists);
+      return userConfig.server?.proxy ? true : false;
+   }
+
+   return false;
+})();
 
 // Clear screen
 // https://stackoverflow.com/a/26373971/14004712
@@ -46,7 +92,7 @@ class consoleMsg {
          error: '\x1b[31m%s\x1b[0m', //red
       };
 
-      const name = `[${appName.toUpperCase()}]: `;
+      const name = `[${appName.toLowerCase()}]: `;
 
       this.succes = message => console.log(color.success, name + message);
       this.info = message => console.info(color.info, name + message);
@@ -67,7 +113,10 @@ exports.singleRuntimeInfo = entryConfig => {
    if (entryConfig && Object.keys(entryConfig).length > 1) {
       this.clearScreen();
       this.consoleMsg.warning(
-         '\nIf you include multiple entry points on a page, please set `config.javascript.singleRuntimeChunk: true`.\nRead more at: https://bundlers.tooling.report/code-splitting/multi-entry/#webpack',
+         '\nIf you include multiple entry points on a page, ' +
+            'please set `config.javascript.singleRuntimeChunk: true`.' +
+            '\nRead more at: ' +
+            'https://bundlers.tooling.report/code-splitting/multi-entry/#webpack',
       );
    }
 };
@@ -96,33 +145,6 @@ exports.corejsVersion = (() => {
    return corejsVersion.match(/\./g).length > 1
       ? corejsVersion.slice(0, corejsVersion.lastIndexOf('.'))
       : corejsVersion;
-})();
-
-// wether or not we're using .browserslistrc
-exports.usingBrowserslistrc = (() =>
-   fs.existsSync(path.join(process.cwd(), '.browserslistrc')))();
-
-// wether or not we're using .babelrc
-exports.usingBabelrc = (() =>
-   fs.existsSync(path.join(process.cwd(), '.babelrc')))();
-
-// If we are building with differential serving
-exports.isDifferentialBuild = (() =>
-   !this.usingBrowserslistrc && !this.usingBabelrc)();
-
-// File that contains built assets information
-exports.assetsJsonFilename = '.assets.json';
-
-// Wether or not we're developing with WordPress.
-exports.isWordPress = (() => {
-   const configExists = this.getUserConfigFile();
-
-   if (configExists) {
-      const userConfig = require(configExists);
-      return userConfig.server?.proxy ? true : false;
-   }
-
-   return false;
 })();
 
 // If we're on SSL, what domain and certificate to use.
