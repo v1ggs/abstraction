@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.0](https://github.com/v1ggs/abstraction/compare/0.4.0...0.5.0) (2023-08-01)
+
+
+### Features
+
+* added binaries for esasier usage ([0a0c99e](https://github.com/v1ggs/abstraction/commit/0a0c99effa7a3e5310326ffe594c22e99bc2fddb))
+* added binaries to prepare linters in console easier ([0b7946f](https://github.com/v1ggs/abstraction/commit/0b7946fe70d852c4e570809ed812e9e7efa446ac))
+* added option to create basic src files ([66ae52a](https://github.com/v1ggs/abstraction/commit/66ae52a2cd58424722a060a7a40e5c2c5efbc8ba))
+* added public path when wp theme is not at the default location ([2fc8dab](https://github.com/v1ggs/abstraction/commit/2fc8dabf77ff1f11503986b4974086e8858bccdd))
+* now automatically creating entry points ([d198a19](https://github.com/v1ggs/abstraction/commit/d198a19064b6bfce1260fdcbb1e05c8537e635ef))
+* removed `diffServeLoader` var in templates, now activated automatically, if required (br.chng) ([dce8a94](https://github.com/v1ggs/abstraction/commit/dce8a9487ec2c9e7e0f1e36678fa84daee89ff78))
+
+
+### Bug Fixes
+
+* fixed core-js detection ([3b940b8](https://github.com/v1ggs/abstraction/commit/3b940b8d66e45d1216b4228085c089ab578f6f92))
+* fixed issue with assets webpack plugin, could not create the file on build ([20efc77](https://github.com/v1ggs/abstraction/commit/20efc77604e96d2649fe72b1d1f64edc2d56cce3))
+* fixed problem when user config file was missing ([bd9e5b5](https://github.com/v1ggs/abstraction/commit/bd9e5b570e0973de91dbb70836fc83758e4180d9))
+
+
+### Docs
+
+* updated docs to reflect recent changes and added banner ([14f250a](https://github.com/v1ggs/abstraction/commit/14f250a6db88eba8955da8d51af5d65103c5c39d))
+* updated docs, because of php-related config removal ([e0e3343](https://github.com/v1ggs/abstraction/commit/e0e3343942a9614f9a3ff6fbbd879bee7ccdbf77))
+
 ## [0.4.0](https://github.com/v1ggs/abstraction/compare/0.3.0...0.4.0) (2023-07-28)
 
 
