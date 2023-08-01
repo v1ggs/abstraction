@@ -7,11 +7,10 @@ const {
    getFirstSubdirectories,
 } = require('../utils/js');
 const {
-   isDifferentialBuild,
-   assetsJsonFilename,
    getUserConfigFile,
    singleRuntimeInfo,
-   isWordPress,
+   assetsJsonFilename,
+   isDifferentialBuild,
 } = require('../utils/abstraction');
 
 let config, configUser;
@@ -74,8 +73,5 @@ config.includePaths = arrMergeDedupe(
 
 // Display info in console about single runtime chunk.
 singleRuntimeInfo(config.javascript.entry);
-
-// Edit 'WP_DEBUG' an 'WP_ENVIRONMENT_TYPE' in `wp-config.php`.
-isWordPress && wordpress();
 
 exports.config = config;
