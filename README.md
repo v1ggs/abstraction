@@ -1,26 +1,46 @@
+![alt](./assets/Abstraction-Banner.png)
+
 # Abstraction
 
-> Webpack simplified. An advanced configuration for differential serving and much more...
+> **Webpack simplified. An advanced configuration for differential serving and much more...**
 
 - [Abstraction](#abstraction)
 	- [INFO](#info)
+	- [SOME FEATURES](#some-features)
 	- [CODE QUALITY](#code-quality)
 		- [Linting](#linting)
-			- [SCSS](#scss)
 			- [JavaScript](#javascript)
+			- [SCSS](#scss)
 		- [Formatting](#formatting)
 		- [Editor integration](#editor-integration)
-			- [JavaScript and Sass](#javascript-and-sass)
+	- [USAGE](#usage)
+		- [Install:](#install)
+		- [Prepare linters](#prepare-linters)
 	- [CHANGELOG](#changelog)
 	- [LICENSE](#license)
 
 ## INFO
 
-- This package is under development and probably very buggy.
-- Must be installed
-- Not on NPM yet
+> **This package is under a heavy development and may be very buggy!**
+>
+> **Docs are in the proces of creation...**
+>
+> This tool is based on Webpack and leverages its features, like code splitting, tree shaking, hot module replacement.
 
-**Docs are in the proces of creation...**
+## SOME FEATURES
+
+- Work with templates, nunjucks by default, another loader can be added easily in the config
+- Option to develop with WordPress with webpack's HMR (a local backend domain required)
+- Transpile javascript, based on .browserslistrc and automatically polyfill with core-js
+- Use differential serving (module/nomodule), it is configured automatically, just remove .browserslistrc file
+- Prefix and purge css, convert pixels to rems, sort media-queries, fix flexbox bugs
+- Create svg sprites and load them automatically into HTML
+- Optimise images
+- Lint code while you're working
+- Automated linters configuration for front-end or WordPress
+- Automatic SSL for local development, if you have mkcert installed
+- Extract and add custom licenses that are not included automatically
+- Automatically restart the application on config change
 
 ## CODE QUALITY
 
@@ -32,15 +52,13 @@ ESLint and Stylelint are integrated into Webpack, with [eslint-webpack-plugin](h
 
 Configuration files `.eslintrc` and `.stylelintrc`, found in the root directory, are being used to configure linters for JavaScript ([ESLint](https://eslint.org/docs/latest/user-guide/integrations)) and SCSS ([Stylelint](https://stylelint.io/)). They are configured automatically, but you can change them to fit your requirements.
 
-#### SCSS
-
-StyleLint rule `"extends": [ "stylelint-config-prettier" ]` turns off stylelint's code style (formatting) rules. This means StyleLint will not display formatting errors in the editor: it will help you write a correct code and warn you about any problems, and [Prettier](https://prettier.io/docs/en/editors.html) will take care of formatting.
-
-In StyleLint v15, formatting rules have been removed, and `stylelint-config-prettier` is not longer required, but StyleLint config for WordPress does not yet work with it, so version 14 is being used for now.
-
 #### JavaScript
 
-It's the same with ESLint's `eslint-config-prettier`, or just `"extends": [ "prettier" ]` in `.eslintrc` file.
+ESLint will lint javascript and [Prettier](https://prettier.io/docs/en/editors.html) will take care of formatting.
+
+#### SCSS
+
+StyleLint will not display formatting errors in the editor: it will lint the code and [Prettier](https://prettier.io/docs/en/editors.html) will take care of formatting.
 
 ### Formatting
 
@@ -48,8 +66,7 @@ Configuration file `.prettierrc.js` is being used to configure [Prettier](https:
 
 ### Editor integration
 
-#### JavaScript and Sass
-
+.editorconfig file configures editor and Prettier automatically.\
 If you're using editor extensions for [ESLint](https://eslint.org/docs/latest/user-guide/integrations), [Stylelint](https://stylelint.io/) and [Prettier](https://prettier.io/docs/en/editors.html), then [Prettier](https://prettier.io/docs/en/editors.html) should be set as the default code formatter. For VSCode it looks like this:
 
 ```json
@@ -90,6 +107,24 @@ If you're using editor extensions for [ESLint](https://eslint.org/docs/latest/us
 		"css"
 	],
 }
+```
+
+## USAGE
+
+### Install:
+```sh
+npm i -D @v1ggs/abstraction
+```
+
+### Prepare linters
+
+```sh
+# Use recommended rules for ESLint (javascript) and StyleLint (scss)
+npx abs-prepare-linters
+
+# OR
+# Use recommended rules for WordPress (ESLint and StyleLint)
+npx abs-prepare-linters-wp
 ```
 
 ## CHANGELOG
