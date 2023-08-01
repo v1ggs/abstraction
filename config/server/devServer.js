@@ -42,7 +42,9 @@ const devServerDefault = {
    watchFiles: [
       isWordPress
          ? path.resolve(paths.ROOT + '/**/*.' + templateExts)
-         : path.resolve(paths.SRC.absolute + '/**/*.' + templateExts),
+         : // Frontend templates are being watched, for devserver to reload.
+           // They are also being watched by webpack to rebuild on change.
+           path.resolve(paths.SRC.absolute + '/**/*.' + templateExts),
    ],
 
    // Specify a host to use. If you want your server to be accessible externally,

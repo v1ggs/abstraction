@@ -2,6 +2,7 @@ const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 const webpack = require('webpack');
+const { fixPathForGlob } = require('./js');
 const server = require('../config/server');
 const { config } = require('../config/init');
 const { paths } = require('../config/webpack/paths');
@@ -10,13 +11,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
-const { appName, isProduction } = require('../config/abstraction/app.config');
 const {
+   isWordPress,
    assetsJsonFilename,
    isDifferentialBuild,
-   isWordPress,
 } = require('./abstraction');
-const { fixPathForGlob } = require('./js');
+const {
+   appName,
+   isServing,
+   isProduction,
+} = require('../config/abstraction/app.config');
 
 // const RemoveEmptyScripts = require( 'webpack-remove-empty-scripts' );
 // const WebpackShellPluginNext = require('webpack-shell-plugin-next');
@@ -42,11 +46,11 @@ exports.HashedModuleIdsPlugin = () => {
 
 // Automatically load modules instead of having to import or require them everywhere.
 // https://webpack.js.org/plugins/provide-plugin/
-exports.ProvidePlugin = (options) => new webpack.ProvidePlugin(options);
+exports.ProvidePlugin = options => new webpack.ProvidePlugin(options);
 
 // Defines globals for usage in the source code.
 // https://webpack.js.org/plugins/define-plugin/
-exports.DefinePlugin = (options) => new webpack.DefinePlugin(options);
+exports.DefinePlugin = options => new webpack.DefinePlugin(options);
 
 // https://www.npmjs.com/package/webpack-build-notifier
 exports.Notifier = () => {
@@ -89,7 +93,7 @@ exports.Notifier = () => {
 // Removes imported/required files from an entry.
 // Takes a regex. An example: /\.(sa|sc|c)ss$/
 // https://webpack.js.org/plugins/ignore-plugin/
-exports.IgnoreFileTypes = (regex) => {
+exports.IgnoreFileTypes = regex => {
    return new webpack.IgnorePlugin({
       resourceRegExp: regex,
       contextRegExp: /src$/,
@@ -109,7 +113,7 @@ exports.IgnoreFileTypes = (regex) => {
 // exports.WebpackBar = (options) => new webpackbar(options);
 
 // https://www.npmjs.com/package/progress-webpack-plugin
-exports.ProgressPlugin = (identifier) =>
+exports.ProgressPlugin = identifier =>
    new WebpackProgressPlugin({
       minimal: true,
       identifier: identifier,
@@ -132,7 +136,7 @@ exports.ProgressPlugin = (identifier) =>
  * @param {filename} string - processed bundle name
  * @return {Object} string-replace-loader config
  */
-exports.exportPolyfills = (filename) => {
+exports.exportPolyfills = filename => {
    const file = path.resolve(paths.POLYFILLS, filename + '-polyfills.js');
 
    // regex pattern to find `import "core-js/modules/**/*.js";`
@@ -180,14 +184,14 @@ exports.exportPolyfills = (filename) => {
 // `node --no-deprecation node_modules/webpack/bin/webpack.js`.
 // Replace this only with `webpack`, once this gets fixed.
 // https://www.npmjs.com/package/webpack-license-plugin
-exports.WebpackLicensePlugin = (filename) => {
+exports.WebpackLicensePlugin = filename => {
    const outputFilename = paths.DIST.javascript + '/' + filename;
 
    const options = {
       outputFilename: outputFilename + '.json',
 
       includePackages: () => {
-         return config.licenses.include.map((pkg) => {
+         return config.licenses.include.map(pkg => {
             return path.resolve(paths.ROOT, 'node_modules', pkg);
          });
       },
@@ -204,7 +208,7 @@ exports.WebpackLicensePlugin = (filename) => {
          return excludes.includes(packageName);
       },
 
-      unacceptableLicenseTest: (licenseIdentifier) => {
+      unacceptableLicenseTest: licenseIdentifier => {
          return config.licenses.unacceptable.includes(licenseIdentifier);
       },
 
@@ -212,7 +216,7 @@ exports.WebpackLicensePlugin = (filename) => {
       additionalFiles: {},
    };
 
-   options.additionalFiles[`${outputFilename}.txt`] = (packages) => {
+   options.additionalFiles[`${outputFilename}.txt`] = packages => {
       const licensesSeparator =
          '========================================' +
          '========================================' +
@@ -224,7 +228,7 @@ exports.WebpackLicensePlugin = (filename) => {
 
       const additionalLicenses = glob
          .sync(additionalLicenseDir + '/**/*')
-         .map((file) => {
+         .map(file => {
             if (fs.lstatSync(file).isFile()) {
                return fs.readFileSync(file, 'utf-8') + licensesSeparator;
             }
@@ -232,11 +236,11 @@ exports.WebpackLicensePlugin = (filename) => {
          .join('');
 
       // Get an array of objects, for found packages.
-      const content = Object.keys(packages).map((pkg) => {
+      const content = Object.keys(packages).map(pkg => {
          return (
             // Get an array of `package.json` properties for each file.
             Object.keys(packages[pkg])
-               .map((property) => {
+               .map(property => {
                   // Avoids printing `"some-property": null`
                   if (!packages[pkg][property]) {
                      return property + ':';
@@ -257,7 +261,7 @@ exports.WebpackLicensePlugin = (filename) => {
 };
 
 // https://webpack.js.org/plugins/banner-plugin/
-exports.BannerPlugin = (banner) =>
+exports.BannerPlugin = banner =>
    new webpack.BannerPlugin({
       // Configure terser to keep this
       banner: banner,
@@ -359,7 +363,7 @@ exports.AssetsPlugin = () => {
       // When set, the assets file will only be generated in memory while
       // running webpack-dev-server and not written to disk.
       // Optional. false by default.
-      keepInMemory: !isWordPress,
+      keepInMemory: !isWordPress && isServing,
 
       // If the 'entrypoints' option is given, the output will be limited
       // to the entrypoints and the chunks associated with them.
