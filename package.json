@@ -100,7 +100,9 @@
 		"abs-run-prod": "./bin/serve-prod.js",
 		"abs-build": "./bin/build-dev.js",
 		"abs-build-prod": "./bin/build-prod.js",
-		"abs-build-polyfills": "./bin/build-polyfills.js"
+		"abs-build-polyfills": "./bin/build-polyfills.js",
+		"abs-prepare-linters": "./bin/prepare-linters.js",
+		"abs-prepare-linters-wp": "./bin/prepare-linters-wp.js"
 	},
 	"engines": {
 		"node": ">=v16"
