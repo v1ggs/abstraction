@@ -3,14 +3,12 @@ const glob = require('glob');
 const { config } = require('../init');
 const nunjucksConfig = require('./nunucks');
 const { paths } = require('../webpack/paths');
+const dsl = require('./html-webpack-plugin-dsl');
 const { filetypes } = require('../webpack/filetypes');
+const { isWordPress } = require('../../utils/abstraction');
 const { isProduction } = require('../abstraction/app.config');
+const { HtmlWebpackPlugin } = require('./html-webpack-plugin');
 const { filetypesArr2regex, fixPathForGlob } = require('../../utils/js');
-const { isDifferentialBuild, isWordPress } = require('../../utils/abstraction');
-const {
-   HtmlWebpackPlugin,
-   DefaultHtmlWebpackPlugin,
-} = require('./html-webpack-plugin');
 
 let templatesLoader;
 
@@ -54,25 +52,27 @@ exports.templatesPlugin = () => {
    // There are templates in the `src` dir:
    if (templates.length) {
       // Creates an array of html-webpack-plugins for each found file.
-      let templateFiles = templates.map((file) => {
+      let templateFiles = templates.map(file => {
          // Gets file's path relative to the input 'dir', to pass it to
          // html-webpack-plugin, to output it to the same folder in the dist.
          let output = path.relative(dir, file);
 
          // Passes a template (and optionally its output path) to html-webpack-plugin.
-         return HtmlWebpackPlugin(file, isProduction ? output : false);
+         return HtmlWebpackPlugin(file, output);
       });
 
       // array of html-webpack-plugin instances for each file
-      return templateFiles;
+      return templateFiles.concat([
+         // Loads differential serving script.
+         // It is automatically turned of in production or with WordPress.
+         new dsl(),
+      ]);
    } else {
       // There are NO templates in the `src` dir:
-      if (!isDifferentialBuild) {
-         // Original template
-         return [new DefaultHtmlWebpackPlugin()];
-      } else {
-         // Modified template
-         return [HtmlWebpackPlugin('./ds-tpl.ejs')];
-      }
+      return [HtmlWebpackPlugin()].concat([
+         // Loads differential serving script.
+         // It is automatically turned of in production or with WordPress.
+         new dsl(),
+      ]);
    }
 };

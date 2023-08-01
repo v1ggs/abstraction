@@ -1,5 +1,4 @@
 const { paths } = require('./webpack/paths');
-const wordpress = require('../utils/wordpress');
 const { isProduction } = require('./abstraction/app.config');
 const configDefault = require('./abstraction/config.defaults');
 const {

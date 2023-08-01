@@ -1,45 +1,19 @@
-const fs = require('fs');
 const path = require('path');
 const { config } = require('../init');
-const { merge } = require('../../utils/js');
-const { isProduction } = require('../abstraction/app.config');
+const { themeDirName } = require('../abstraction/app.config');
 const { isDifferentialBuild, isWordPress } = require('../../utils/abstraction');
-
-// Differential serving javascripts loader
-const abstractionDsl = path.resolve(
-   process.cwd(),
-   'node_modules',
-   '@v1ggs',
-   'abstraction-dsl',
-   'test',
-   'abstraction.dsl.min.js',
-);
 
 // https://www.npmjs.com/package/html-webpack-plugin
 exports.DefaultHtmlWebpackPlugin = require('html-webpack-plugin');
 
 exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
    const options = {
-      templateParameters: merge(config.globals, {
-         // Plugins that work with `html-webpack-plugin` can be applied only to
-         // one transpilation (`main` or `legacy`).
-         // The same stands for the manipulation with `htmlWebpackPlugin.files.js`.
-         // Therefore this is the only solution for now.
-         // JavaScripts have to be added manually to html in production.
-         diffServeLoader:
-            isDifferentialBuild &&
-            !isProduction &&
-            !isWordPress &&
-            fs.existsSync(abstractionDsl)
-               ? fs.readFileSync(abstractionDsl, 'utf-8')
-               : false,
-      }),
+      templateParameters: config.globals,
 
       // The title to use for the generated HTML document
       title: templateFile
          ? path.parse(templateFile).name.toLowerCase()
-         : // .slice(0, templateFile.lastIndexOf('.'))
-           true,
+         : themeDirName,
 
       // true || 'head' || 'body' || false
       // Inject all assets into the given template or templateContent.
@@ -49,12 +23,6 @@ exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
       // Passing false will disable automatic injections.
       // see https://github.com/jantimon/html-webpack-plugin/tree/master/examples/custom-insertion-position
       // ****************************************************************
-      // If developing for module/nomodule, auto-injecting scripts is disabled, and
-      // `differential-scripts-loader.min.js` will be used:
-      //   - If working with custom templates, `differential-scripts-loader.min.js`
-      //     has to be inlined manually, using a predefined variable in a template.
-      //   - If working with the default template, a custom (modified) one will be
-      //     used, which will inline `differential-scripts-loader.min.js`.
       inject: !isWordPress && !isDifferentialBuild,
 
       // Errors details will be written into the HTML page
@@ -63,7 +31,7 @@ exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
       // Can be used instead of template to provide an inline template.
       // templateContent: source,
 
-      minify: !isProduction,
+      minify: false, // !isProduction,
    };
 
    if (templateFile) {
