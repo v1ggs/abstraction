@@ -5,8 +5,8 @@
 		".browserslistrc",
 		"**/.abstraction.config.js"
 	],
-	"quiet": true,
-	"delay": 2500,
+	"quiet": false,
+	"delay": 500,
 	"ext": "js",
 	"ignore": [
 		".git",
