@@ -6,6 +6,10 @@ const path = require('path');
 const TEMPLATES = 'templates';
 const themeDirName = path.parse(process.cwd()).base;
 const CACHE = path.join(ROOT, 'node_modules', '.cache');
+const { getUserConfig } = require('../../utils/get-user-config');
+
+const userConfig = getUserConfig();
+const customThemeDir = userConfig?.publicPath;
 
 const appDirRelative = path.relative(
    process.cwd(),
@@ -26,7 +30,9 @@ exports.paths = {
    ROOT,
    LOGS: path.resolve(ROOT, 'logs'),
    PUBLIC: '/',
-   PUBLICWP: `/wp-content/themes/${themeDirName}/${this.DIST}/`,
+   PUBLICWP: customThemeDir
+      ? customThemeDir
+      : `/wp-content/themes/${themeDirName}/${this.DIST}/`,
    THEMEDIR: themeDirName,
    TEMPLATES: path.resolve(ROOT, this.SRC, TEMPLATES),
    POLYFILLS: path.resolve(ROOT, this.SRC, 'core-js-polyfills'),

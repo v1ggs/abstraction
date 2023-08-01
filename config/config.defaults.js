@@ -1,6 +1,15 @@
 // config.defaults.js
 
 module.exports = {
+   // Defines global variables that will be available in code.
+   // Default variables will be added to this object.
+   globals: {},
+
+   // This is only used when working with WordPress and
+   // the theme dir has been moved to another location:
+   // https://developer.wordpress.org/reference/functions/register_theme_directory/
+   publicPath: undefined,
+
    javascript: {
       // Webpack's entry: https://webpack.js.org/concepts/entry-points/
       // Tip: As a rule of thumb: Use exactly one entry point for each HTML document.
@@ -27,16 +36,16 @@ module.exports = {
    },
 
    css: {
-      // Base size for converting pixels to rems.
-      // Set `false` to prevent converting pixels to rems.
+      // Base size for converting pixels to rems. Set `false` to prevent
+      // converting pixels to rems. It's available in scss.
       px2rem: 16,
 
-      // Group and sort media queries (mobile/destkop first).
+      // Group and sort media queries (mobile/desktop first way).
       // Set `false` to prevent grouping and sorting media queries.
       sortMQ: 'mobile-first',
 
-      // Removes unused selectors from css. Removed selectors can be found in
-      // the `logs` folder in the project's root.
+      // Removes unused selectors from css. Removed selectors can be found
+      // in the `logs` folder in the project's root.
       // Set `purge: false` to prevent purging css.
       purge: {
          keepSelectors: [],
@@ -50,10 +59,11 @@ module.exports = {
 
       // Use a different loader for templates
       customLoader: {
-         // Test files: an array, will be converted to regex
+         // Test files: an array, will be converted to regex.
          fileTypes: [],
 
-         // Array of objects with 'loader' and 'options' properties
+         // Array of objects with 'loader' and 'options' properties,
+         // just like webpack's `module.rules` or `use: []`.
          use: [],
       },
    },
@@ -69,7 +79,7 @@ module.exports = {
    },
 
    // License file is being created automatically for JavaScript packages.
-   // For sass packages, put them into the `include` array.
+   // For sass packages, use the `include` array (the name of the package).
    licenses: {
       // Get licenses for packages which are not discovered automatically.
       // Example: `include: ['some-module'],`
@@ -78,19 +88,22 @@ module.exports = {
       // Remove unwanted licenses. Example: `exclude: ['some-module'],`
       exclude: [],
 
-      // When using a package with one of these licenses,
-      // webpack will throw an error.
+      // When using a package with one of these licenses, webpack will
+      // throw an error. Completely overwritten with user's config.
       unacceptable: ['GPL', 'AGPL', 'LGPL', 'NGPL'],
    },
 
    server: {
-      // Local domain with backend, e.g. 'http://abstraction.local',
+      // Local backend domain, e.g. 'http://abstraction.local',
+      // for WordPress development.
       proxy: '',
 
       // https://webpack.js.org/configuration/dev-server/
+      // Complete devServer config, merged with the default.
       devServer: {},
 
       // https://browsersync.io/docs/options/
+      // Complete BrowserSync config, merged with the default.
       // BrowserSync is used only when developing with WordPress.
       browserSync: {},
    },
