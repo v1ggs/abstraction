@@ -14,7 +14,7 @@
 // configuration, the URL may look like http://localhost:9000/webpack-dev-server/invalidate.
 
 const path = require('path');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');

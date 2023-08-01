@@ -2,19 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 const exec = require('child_process').exec;
-const { scanDirsForFile } = require('./js');
-const paths = require('../config/webpack/paths').paths;
-
-// This app name (definde this way because this.appName does not
-// work in class `consoleMsg`)
-const appName = 'Abstraction';
-exports.appName = appName;
+const { paths } = require('../config/webpack/paths');
+const { getUserConfig } = require('./get-user-config');
+const { appName } = require('../config/config.abstraction');
 
 // Wordpress theme folder name
 exports.themeDirName = path.parse(process.cwd()).base;
-
-// User config filename (change this in nodemon.json)
-exports.userConfigFilename = '.' + appName.toLowerCase() + '.config.js';
 
 // Detect if the environment is 'production'
 exports.isProduction = process.env.NODE_ENV === 'production';
@@ -28,48 +21,24 @@ exports.isWindows = process.platform === 'win32';
 // We are on Mac
 exports.isMac = /^darwin/.test(process.platform);
 
-// wether or not we're using .browserslistrc
+// Are we using .browserslistrc?
 exports.usingBrowserslistrc = (() =>
    fs.existsSync(path.join(process.cwd(), '.browserslistrc')))();
 
-// wether or not we're using .babelrc
+// Are we using .babelrc?
 exports.usingBabelrc = (() =>
    fs.existsSync(path.join(process.cwd(), '.babelrc')))();
 
-// If we are building with differential serving
+// Are we building with differential serving?
 exports.isDifferentialBuild = (() =>
    !this.usingBrowserslistrc && !this.usingBabelrc)();
 
-// File that contains built assets information
-exports.assetsJsonFilename = '.assets.json';
-
-// Get user config file
-exports.getUserConfigFile = () => {
-   let configUser = false;
-
-   try {
-      // Try to find the user config file in cwd
-      let configFile = path.resolve(process.cwd(), this.userConfigFilename);
-
-      if (fs.existsSync(configFile)) {
-         configUser = configFile;
-      } else {
-         // scan top level subdirectories to find the file
-         configUser = scanDirsForFile(this.userConfigFilename);
-      }
-   } catch (error) {
-      console.error(error);
-   }
-
-   return configUser;
-};
-
-// Wether or not we're developing with WordPress.
+// Are we developing with WordPress?
 exports.isWordPress = (() => {
-   const configExists = this.getUserConfigFile();
+   const configExists = getUserConfig();
 
    if (configExists) {
-      const userConfig = require(configExists);
+      const userConfig = configExists;
       return userConfig.server?.proxy ? true : false;
    }
 
@@ -78,7 +47,8 @@ exports.isWordPress = (() => {
 
 // Clear screen
 // https://stackoverflow.com/a/26373971/14004712
-exports.clearScreen = () => process.stdout.write('\033c');
+// https://stackoverflow.com/questions/70250647/how-do-i-find-the-utf-8-version-of-the-octal-033c
+exports.clearScreen = () => process.stdout.write('\x1bc'); // was: '\033c'
 
 // Prints console success, info, warning and error.
 class consoleMsg {
@@ -149,11 +119,11 @@ exports.corejsVersion = (() => {
 
 // If we're on SSL, what domain and certificate to use.
 exports.useSsl = (() => {
-   const configExists = this.getUserConfigFile();
+   const configExists = getUserConfig();
    const appConsoleLog = this.consoleMsg;
    let userConfig;
 
-   if (configExists) userConfig = require(this.getUserConfigFile());
+   if (configExists) userConfig = configExists;
 
    // We need a domain that is being blocked with hosts file,
    // not the theme dir name.

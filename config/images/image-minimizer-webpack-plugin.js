@@ -1,4 +1,4 @@
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const { isProduction } = require('../../utils/abstraction');

@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const js = require('../javascript');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const common = require('./webpack.common');
 const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');

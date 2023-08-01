@@ -1,9 +1,9 @@
 const sass = require('../sass');
 const js = require('../javascript');
-const { config } = require('../init');
 const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
+const { config } = require('../../utils/get-config');
 const { devServer, browserSync } = require('../server');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {

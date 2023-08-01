@@ -1,6 +1,6 @@
 const path = require('path');
 const glob = require('glob');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const nunjucksConfig = require('./nunucks');
 const { paths } = require('../webpack/paths');
 const dsl = require('./html-webpack-plugin-dsl');

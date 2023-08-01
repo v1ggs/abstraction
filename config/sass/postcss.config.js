@@ -1,7 +1,7 @@
 // https://webpack.js.org/loaders/postcss-loader/
 
 const path = require('path');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { paths } = require('../webpack/paths');
 const { filetypes } = require('../webpack/filetypes');
 const { writeFileAsync } = require('../../utils/fs');
@@ -11,7 +11,7 @@ const keepSelectors = () => {
       Array.isArray(config?.css?.purge?.keepSelectors) &&
       config?.css?.purge?.keepSelectors?.length
    ) {
-      return config?.css?.purge?.keepSelectors.map((selector) => {
+      return config?.css?.purge?.keepSelectors.map(selector => {
          if (selector.startsWith('.') || selector.startsWith('#')) {
             selector = selector.slice(1);
          }
@@ -66,10 +66,10 @@ if (typeof purgeCssConfig === 'object') {
    // The files can be HTML, Pug, Blade, etc.
    const analyzeFiles = [];
 
-   config.includePaths.map((_path) => {
+   config.includePaths.map(_path => {
       if (
          _path &&
-         !['css', 'scss', 'sass', 'vendor'].some((filetype) =>
+         !['css', 'scss', 'sass', 'vendor'].some(filetype =>
             _path.includes(filetype),
          )
       ) {
@@ -203,7 +203,7 @@ const postcssPlugins = [
             const file = pathInfo.base;
             const folder = path.basename(pathInfo.dir);
 
-            input.messages.forEach((message) => {
+            input.messages.forEach(message => {
                content +=
                   'FILE: ' +
                   file +
@@ -263,7 +263,7 @@ const postcssPlugins = [
 const plugins = [];
 let i = 0;
 
-postcssPlugins.forEach((plugin) => {
+postcssPlugins.forEach(plugin => {
    if (plugin) {
       plugins[i] = plugin;
       i++;

@@ -1,4 +1,4 @@
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 
 // Since Sass implementations don't provide url rewriting, all linked assets must
 // be relative to the output. Thankfully there are a two solutions to this problem:
@@ -15,12 +15,12 @@ module.exports = {
       sourceMap: true,
 
       // https://github.com/webpack-contrib/sass-loader#additionaldata
-      additionalData: (content) => {
+      additionalData: content => {
          let scssGlobals = '';
          const absGlobalsModern = JSON.parse(process.env.ENV_SASS_GLOBALS);
          const vars = Object.keys(absGlobalsModern);
 
-         vars.forEach((global) => {
+         vars.forEach(global => {
             if (
                global !== 'webpackEntries' &&
                global !== 'assetsJsonFilename'

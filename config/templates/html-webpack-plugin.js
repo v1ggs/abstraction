@@ -1,5 +1,5 @@
 const path = require('path');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const {
    isWordPress,
    themeDirName,

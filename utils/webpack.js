@@ -4,19 +4,19 @@ const path = require('path');
 const webpack = require('webpack');
 const { fixPathForGlob } = require('./js');
 const server = require('../config/server');
-const { config } = require('../config/init');
+const { config } = require('./get-config');
 const { paths } = require('../config/webpack/paths');
 const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    appName,
    isServing,
    isWordPress,
    isProduction,
-   assetsJsonFilename,
    isDifferentialBuild,
 } = require('./abstraction');
 

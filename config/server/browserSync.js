@@ -8,7 +8,7 @@
 // Webpack devServer provides hot module replacement (HMR),
 // that's why we're using two servers.
 
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { merge } = require('../../utils/js');
 const { isProduction } = require('../../utils/abstraction');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');

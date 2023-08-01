@@ -1,4 +1,4 @@
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 
 // Since Sass implementations don't provide url rewriting, all linked assets must
 // be relative to the output. Thankfully there are a two solutions to this problem:

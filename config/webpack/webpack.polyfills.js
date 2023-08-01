@@ -4,7 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { paths } = require('./paths');
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { filetypes } = require('./filetypes');
 const { loaders } = require('../javascript/index');
 const { rdSync, mdSync } = require('../../utils/fs');
@@ -36,7 +36,7 @@ const exitPlugin = function () {
          clearScreen();
 
          throw new Error(
-            stats.compilation.errors.map((err) => err.message || err),
+            stats.compilation.errors.map(err => err.message || err),
          );
       }
 
@@ -54,7 +54,7 @@ const CONFIG = [];
 let excludes = [];
 
 // remove all, we only need 'javascript'
-Object.keys(filetypes).forEach((type) => {
+Object.keys(filetypes).forEach(type => {
    if (!(type === 'javascript')) {
       excludes.push(filetypes[type]);
    }
@@ -163,7 +163,7 @@ module.exports = () => {
    if ((Array.isArray(ENTRY) && ENTRY.length) || typeof ENTRY === 'string') {
       addToConfig(ENTRY, 'index');
    } else if (typeof ENTRY === 'object') {
-      Object.keys(ENTRY).forEach((entry) => {
+      Object.keys(ENTRY).forEach(entry => {
          addToConfig(ENTRY[entry], entry);
       });
 

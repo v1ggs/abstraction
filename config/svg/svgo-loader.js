@@ -1,4 +1,4 @@
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 
 const overrides = {};
 

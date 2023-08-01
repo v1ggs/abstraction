@@ -1,8 +1,8 @@
 // BABEL LOADER - MODERN BUNDLE CONFIG
 
 const path = require('path');
-const { config } = require('../init');
 const { paths } = require('../webpack/paths');
+const { config } = require('../../utils/get-config');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const {

@@ -2,7 +2,7 @@
 // ################################################################# FILE TYPES
 // ############################################################################
 
-const { config } = require('../init');
+const { config } = require('../../utils/get-config');
 const { isWordPress } = require('../../utils/abstraction');
 const userTemplates = config?.templates?.customLoader?.fileTypes;
 let templateFileTypes;

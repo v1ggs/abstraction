@@ -2,9 +2,9 @@
 
 const svg = require('../svg');
 const images = require('../images');
-const { config } = require('../init');
 const { devServer } = require('../server');
 const { paths } = require('../webpack/paths');
+const { config } = require('../../utils/get-config');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const { isWordPress, isProduction } = require('../../utils/abstraction');
