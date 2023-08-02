@@ -36,7 +36,10 @@ const processFile = filepath => {
    const srcFile = resolve(filepath);
    const fileName = parse(filepath).base;
    const fileContent = readFileSync(filepath, 'utf-8');
-   const outputPath = resolve(process.cwd(), fileName);
+   const outputPath = resolve(
+      process.cwd(),
+      fileName === 'gitignore' ? '.' + fileName : fileName,
+   );
 
    return { srcFile, fileName, fileContent, outputPath };
 };
@@ -197,7 +200,7 @@ installFromatter();
 
 // Copy other config files
 [
-   processFile(__dirname + '/../code/.gitignore'),
+   processFile(__dirname + '/../code/gitignore'),
    processFile(__dirname + '/../code/.browserslistrc'),
    processFile(__dirname + '/../code/.prettierignore'),
 ].forEach(file =>
