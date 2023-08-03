@@ -2,11 +2,14 @@
 	"exec": "cross-env NODE_ENV=production ABSTRACTION_SERVE=true node --no-deprecation node_modules/webpack/bin/webpack.js serve --config node_modules/@v1ggs/abstraction",
 	"watch": [
 		".babelrc",
+		".eslintrc",
+		".stylelintrc",
+		".prettierrc.js",
 		".browserslistrc",
 		"**/.abstraction.config.js"
 	],
 	"quiet": false,
-	"delay": 500,
+	"delay": 1000,
 	"ext": "js",
 	"ignore": [
 		".git",
