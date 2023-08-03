@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.1](https://github.com/v1ggs/abstraction/compare/0.5.0...0.5.1) (2023-08-03)
+
+
+### Bug Fixes
+
+* fixed "multiple entries on page" info and differentialBuildConfig ([5cec361](https://github.com/v1ggs/abstraction/commit/5cec36176c9f78fc9dd0a61f57f941a5aebbb032))
+* fixed and reorganised "prepare" scripts, fixed eslint config for wordpress ([e6d95c1](https://github.com/v1ggs/abstraction/commit/e6d95c1dbdfc9f5447cee703051aebf67c084a09))
+* fixed nodemon watcher ([0ca3adf](https://github.com/v1ggs/abstraction/commit/0ca3adf6e9698495a54b8dcfe7ac8170da92d538))
+* removed "self-exec" from functions in utils/abstraction.js ([a82e94c](https://github.com/v1ggs/abstraction/commit/a82e94caaf43d5ea1ea6fbc4b42f76d82f37c8e3))
+* renamed .gitignore, because it wasn't uploaded to npm and removed ds-tpl.ejs template ([2466556](https://github.com/v1ggs/abstraction/commit/24665562f366d234765ea0b3d343f593e1bc5cde))
+
 ## [0.5.0](https://github.com/v1ggs/abstraction/compare/0.4.0...0.5.0) (2023-08-01)
 
 
