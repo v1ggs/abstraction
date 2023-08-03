@@ -1,5 +1,3 @@
-#!/usr/bin/node
-
 // DOCS:
 // Linters usually contain not only code quality rules, but also
 // stylistic rules. Most stylistic rules are unnecessary when
@@ -24,10 +22,7 @@
 // @wordpress/stylelint-config update...
 // =========================================================================
 
-// Set this true, to use WordPress Coding Standards.
-const IS_WP = process.env.IS_WP;
-
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 const { parse, resolve } = require('path');
 const { consoleMsg } = require('../../utils/abstraction');
 const { writeFile, readFileSync, copyFile } = require('fs');
@@ -50,22 +45,40 @@ const editorCfg = processFile(__dirname + '/../code/.editorconfig');
 const stylelintCfg = processFile(__dirname + '/../code/.stylelintrc');
 const prettierCfg = processFile(__dirname + '/../code/.prettierrc.js');
 
-const execCallback = (error, message) =>
-   error ? consoleMsg.severe(error) : consoleMsg.info(message);
+// Must use execSync, otherwise only the last installed
+// package will show up in `package.json`.
+const execSyncFn = (command, packageName) => {
+   try {
+      execSync(command);
 
-const installFromatter = () => {
+      consoleMsg.info(packageName + ' installed succesfully.');
+   } catch (err) {
+      // console.log('output', err);
+      // console.log('sdterr', err.stderr.toString());
+
+      consoleMsg.severe(
+         'An error occured while installing ' +
+            packageName +
+            '\n' +
+            'The process will stop now, please try again.' +
+            '\n' +
+            'If the error happens again, try removing `node_modules`, `package.json` and `package-lock.json ' +
+            'and then reinstall the app.' +
+            '\n' +
+            "Don't forget `npm init`",
+      );
+   }
+};
+
+const installFromatter = IS_WP => {
    consoleMsg.info('Preparing Prettier, please wait.');
 
-   exec(npmInst + 'prettier@3 --save-exact', err =>
-      execCallback(err, 'Prettier installed succesfully.'),
-   );
+   execSyncFn(npmInst + 'prettier@3 --save-exact', 'Prettier');
 
    if (IS_WP) {
-      exec(npmInst + '@wordpress/prettier-config@2 ', err =>
-         execCallback(
-            err,
-            'Prettier config for WordPress installed succesfully.',
-         ),
+      execSyncFn(
+         npmInst + '@wordpress/prettier-config@2 ',
+         'Prettier config for WordPress',
       );
 
       // https://prettier.io/docs/en/configuration.html
@@ -96,60 +109,73 @@ const installFromatter = () => {
    });
 };
 
-const installLinter = () => {
-   let command;
+const installLinter = IS_WP => {
+   consoleMsg.info('Preparing ESLint and StyleLint, please wait.');
 
+   // Lock major versions, and update ocasionally.
+
+   // All installs separated, because they may take
+   // too long to install, and without any feedback,
+   // it may seem that the process stopped.
    if (IS_WP) {
       // WordPress Coding Standards
 
-      command = // Lock major versions, and update ocasionally.
-         npmInst +
-         // @wordpress/stylelint-config does not work with StyleLint 15.
-         'stylelint@14 ' +
-         // https://www.npmjs.com/package/@wordpress/stylelint-config
-         // In addition to the default preset, there is also a SCSS preset.
-         // Does not contain formatting rules.
-         '@wordpress/stylelint-config@21 ' +
-         // Recomended config is included in eslint,
-         // so install just eslint-config-prettier.
-         'eslint@8 ' +
-         // https://www.npmjs.com/package/@wordpress/eslint-plugin
-         // The recommended preset will include rules governing
-         // an ES2015+ environment...
-         // There is also 'recommended-with-formatting' ruleset.
-         // So no formatting, no eslint-config-prettier.
-         '@wordpress/eslint-plugin@14';
+      // Recomended config is included in eslint.
+      execSyncFn(npmInst + 'eslint@8', 'ESLint');
+
+      // https://www.npmjs.com/package/@wordpress/eslint-plugin
+      // The recommended preset includes prettier plugin
+      // and will display formatting errors in code.
+      // Therefore I'll use 'recommended-with-formatting', and turn of
+      // formatting rules with `eslint-config-prettier`. There is no
+      // other sensible solution for now.
+      execSyncFn(
+         npmInst + '@wordpress/eslint-plugin@14 eslint-config-prettier@8',
+         'ESLint config for WordPress',
+      );
+
+      // @wordpress/stylelint-config does not work with StyleLint 15.
+      execSyncFn(npmInst + 'stylelint@14', 'StyleLint');
+
+      // https://www.npmjs.com/package/@wordpress/stylelint-config
+      // In addition to the default preset, there is also a SCSS preset.
+      // Does not contain formatting rules.
+      execSyncFn(
+         npmInst + '@wordpress/stylelint-config@21',
+         'StyleLint config for Wordpress',
+      );
    } else {
-      command = // Lock major versions, and update ocasionally.
-         npmInst +
-         // As of StyleLint 15, stylelint-config-prettier is no longer
-         // required, because StyleLint removed its formatting rules.
-         'stylelint@15 ' +
-         'stylelint-config-recommended-scss@12 ' +
-         // Recomended config is included in eslint,
-         // so install just eslint-config-prettier.
-         'eslint@8 ' +
-         'eslint-config-prettier@8';
+      // Recomended config is included in eslint.
+      execSyncFn(npmInst + 'eslint@8', 'ESLint');
+
+      execSyncFn(npmInst + 'eslint-config-prettier@8', 'ESLint config');
+
+      // As of StyleLint 15, stylelint-config-prettier is no longer
+      // required, because StyleLint removed its formatting rules.
+      execSyncFn(npmInst + 'stylelint@15', 'StyleLint');
+
+      execSyncFn(
+         npmInst + 'stylelint-config-recommended-scss@12',
+         'StyleLint config',
+      );
    }
-
-   consoleMsg.info('Preparing ESLint and StyleLint, please wait.');
-
-   return exec(command, err =>
-      execCallback(err, 'ESLint and StyleLint are ready.'),
-   );
 };
 
-const configureLinter = () => {
+const configureLinter = IS_WP => {
    if (IS_WP) {
       // WordPress Coding Standards
 
       eslintCfg.fileContent = eslintCfg.fileContent.replace(
          /"extends":\s*?\[[\s\S]*?\],/,
          '"extends": [\n' +
-            // The recommended preset will include rules governing
-            // an ES2015+ environment...
-            // There is also 'recommended-with-formatting' ruleset.
-            '\t\t"plugin:@wordpress/eslint-plugin/recommended"\n' +
+            // The recommended preset includes prettier plugin
+            // and will display formatting errors in code.
+            // Therefore I'll use 'recommended-with-formatting', and turn of
+            // formatting rules with `eslint-config-prettier`. There is no
+            // other sensible solution for now.
+            '\t\t"plugin:@wordpress/eslint-plugin/recommended-with-formatting",\n' +
+            // this is actually 'eslint-config-prettier'
+            '\t\t"prettier"\n' +
             '\t],',
       );
 
@@ -194,17 +220,19 @@ const configureLinter = () => {
    });
 };
 
-installLinter();
-configureLinter();
-installFromatter();
+module.exports = IS_WP => {
+   installLinter(IS_WP);
+   configureLinter(IS_WP);
+   installFromatter(IS_WP);
 
-// Copy other config files
-[
-   processFile(__dirname + '/../code/gitignore'),
-   processFile(__dirname + '/../code/.browserslistrc'),
-   processFile(__dirname + '/../code/.prettierignore'),
-].forEach(file =>
-   copyFile(file.srcFile, file.outputPath, err => {
-      if (err) consoleMsg.severe(err);
-   }),
-);
+   // Copy other config files
+   [
+      processFile(__dirname + '/../code/gitignore'),
+      processFile(__dirname + '/../code/.browserslistrc'),
+      processFile(__dirname + '/../code/.prettierignore'),
+   ].forEach(file =>
+      copyFile(file.srcFile, file.outputPath, err => {
+         if (err) consoleMsg.severe(err);
+      }),
+   );
+};

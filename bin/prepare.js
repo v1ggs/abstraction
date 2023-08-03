@@ -4,5 +4,5 @@
 const shell = require('shelljs');
 
 shell.exec(
-   'npx cross-env node node_modules/@v1ggs/abstraction/config/node/linters.js',
+   'npx cross-env node node_modules/@v1ggs/abstraction/config/node/prepare.js',
 );
