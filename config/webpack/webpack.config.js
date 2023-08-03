@@ -16,7 +16,7 @@ if (isDifferentialBuild) {
 }
 
 // Display info in console about single runtime chunk.
-singleRuntimeInfo(config.entry);
+singleRuntimeInfo(config[0].entry);
 
 // Deletes logs and creates a new folder.
 rdSync(paths.LOGS);

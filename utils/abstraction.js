@@ -31,7 +31,7 @@ exports.usingBabelrc = () =>
 
 // Are we building with differential serving?
 exports.differentialBuildConfig = () =>
-   !this.usingBrowserslistrc && !this.usingBabelrc;
+   !this.usingBrowserslistrc() && !this.usingBabelrc();
 
 // Are we developing with WordPress?
 exports.isWP = () => {
@@ -84,7 +84,7 @@ exports.singleRuntimeInfo = entryConfig => {
       this.clearScreen();
       this.consoleMsg.warning(
          '\nIf you include multiple entry points on a page, ' +
-            'please set `config.javascript.singleRuntimeChunk: true`.' +
+            'please set `javascript.singleRuntimeChunk: true`.' +
             '\nRead more at: ' +
             'https://bundlers.tooling.report/code-splitting/multi-entry/#webpack',
       );
