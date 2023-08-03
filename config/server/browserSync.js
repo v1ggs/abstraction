@@ -13,11 +13,14 @@ const { merge } = require('../../utils/js');
 const { isProduction } = require('../../utils/abstraction');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const {
+   isWP,
    useSsl,
    consoleMsg,
-   isWordPress,
    clearScreen,
 } = require('../../utils/abstraction');
+
+const sslConfig = useSsl();
+const isWordPress = isWP();
 
 // // array of capturing groups, full match is 0
 // const parseDomain = proxy2domain.match(
@@ -28,25 +31,25 @@ const {
 
 // BrowserSync options
 const bsDefault = {
-   host: useSsl.domain,
+   host: sslConfig.domain,
    // port: 3000,
    proxy: config.server.proxy,
    watchEvents: false,
    injectChanges: false,
    notify: false, // Don't show any notifications in browser.
    // Open the external URL - must be online.
-   open: useSsl.protocol === 'https://' ? 'external' : 'local',
+   open: sslConfig.protocol === 'https://' ? 'external' : 'local',
 };
 
 if (
    isWordPress &&
    !isProduction &&
    process.env.ABSTRACTION_SERVE &&
-   useSsl.protocol === 'https://'
+   sslConfig.protocol === 'https://'
 ) {
    bsDefault.https = {
-      key: useSsl.sslKeyFile,
-      cert: useSsl.sslCertFile,
+      key: sslConfig.sslKeyFile,
+      cert: sslConfig.sslCertFile,
    };
 
    // Add CSP in development, to allow some mixed content from WordPress.
@@ -69,8 +72,8 @@ if (
    // an internet connection is required.
    consoleMsg.warning(
       'In order to use `' +
-         useSsl.protocol +
-         useSsl.domain +
+         sslConfig.protocol +
+         sslConfig.domain +
          // Port hardcoded, although it might change, because the user needs
          // a hint what domain the information is about.
          ':3000`, you will need an internet connection.',

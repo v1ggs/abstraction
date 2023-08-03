@@ -7,10 +7,11 @@ const { getUserConfig } = require('./get-user-config');
 const { globals } = require('../config/webpack/globals');
 const configDefault = require('../config/config.defaults');
 const { assetsJsonFilename } = require('../config/config.abstraction');
-const { isProduction, isDifferentialBuild } = require('./abstraction');
 const { merge, arrMergeDedupe, getFirstSubdirectories } = require('./js');
+const { isProduction, differentialBuildConfig } = require('./abstraction');
 
 const userConfig = getUserConfig();
+const isDifferentialBuild = differentialBuildConfig();
 
 const config =
    userConfig && Object.keys(userConfig).length

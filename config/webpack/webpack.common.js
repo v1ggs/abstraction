@@ -7,13 +7,15 @@ const { paths } = require('../webpack/paths');
 const { config } = require('../../utils/get-config');
 const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
-const { isWordPress, isProduction } = require('../../utils/abstraction');
+const { isWP, isProduction } = require('../../utils/abstraction');
 const {
    Notifier,
    AssetsPlugin,
    ProvidePlugin,
    HashedModuleIdsPlugin,
 } = require('../../utils/webpack');
+
+const isWordPress = isWP();
 
 const common = {
    // The base directory, an absolute path, for resolving entry points and loaders from the configuration.

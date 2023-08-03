@@ -13,12 +13,15 @@ const WebpackProgressPlugin = require('progress-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
+   isWP,
    appName,
    isServing,
-   isWordPress,
    isProduction,
-   isDifferentialBuild,
+   differentialBuildConfig,
 } = require('./abstraction');
+
+const isWordPress = isWP();
+const isDifferentialBuild = differentialBuildConfig();
 
 // const RemoveEmptyScripts = require( 'webpack-remove-empty-scripts' );
 // const WebpackShellPluginNext = require('webpack-shell-plugin-next');

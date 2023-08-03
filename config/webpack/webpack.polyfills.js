@@ -11,10 +11,12 @@ const { rdSync, mdSync } = require('../../utils/fs');
 const { filetypesArr2regex } = require('../../utils/js');
 const { Notifier, exportPolyfills } = require('../../utils/webpack');
 const {
-   isDifferentialBuild,
    consoleMsg,
    clearScreen,
+   differentialBuildConfig,
 } = require('../../utils/abstraction');
+
+const isDifferentialBuild = differentialBuildConfig();
 
 // From: https://medium.com/finnovate-io/make-webpack-exit-on-compilation-errors-16d2eec03391
 const exitPlugin = function () {

@@ -7,9 +7,9 @@ const { config } = require('../../utils/get-config');
 const { devServer, browserSync } = require('../server');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
-   isWordPress,
+   isWP,
    isProduction,
-   isDifferentialBuild,
+   differentialBuildConfig,
 } = require('../../utils/abstraction');
 const {
    CopyPlugin,
@@ -18,6 +18,9 @@ const {
    ProgressPlugin,
    WebpackLicensePlugin,
 } = require('../../utils/webpack');
+
+const isWordPress = isWP();
+const isDifferentialBuild = differentialBuildConfig();
 
 // Global variables for doing things in code for this bundle only.
 const modernGlobals = merge({}, config.globals);

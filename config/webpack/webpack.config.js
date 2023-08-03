@@ -5,8 +5,10 @@ const config = [require('./webpack.main')];
 const { mdSync, rdSync } = require('../../utils/fs');
 const {
    singleRuntimeInfo,
-   isDifferentialBuild,
+   differentialBuildConfig,
 } = require('../../utils/abstraction');
+
+const isDifferentialBuild = differentialBuildConfig();
 
 if (isDifferentialBuild) {
    const legacyConfig = require('./webpack.legacy');

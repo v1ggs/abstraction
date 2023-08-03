@@ -1,10 +1,13 @@
 const path = require('path');
 const { config } = require('../../utils/get-config');
 const {
-   isWordPress,
+   isWP,
    themeDirName,
-   isDifferentialBuild,
+   differentialBuildConfig,
 } = require('../../utils/abstraction');
+
+const isDifferentialBuild = differentialBuildConfig();
+const isWordPress = isWP();
 
 // https://www.npmjs.com/package/html-webpack-plugin
 exports.DefaultHtmlWebpackPlugin = require('html-webpack-plugin');

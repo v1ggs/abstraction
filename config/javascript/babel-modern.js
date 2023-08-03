@@ -14,7 +14,11 @@ const {
 const babelCache = path.join(paths.BABELCACHE, 'es6');
 let useBuiltIns;
 
-if (!corejsVersion)
+const corejsVer = corejsVersion();
+const useBrowserslistrc = usingBrowserslistrc();
+const useBabelrc = usingBabelrc();
+
+if (!corejsVer)
    consoleMsg.warning(
       'Core-js not found. Babel will not be able to add polyfills.',
    );
@@ -38,7 +42,7 @@ exports.babelPresetEnv = [
    '@babel/preset-env',
 
    {
-      // ignoreBrowserslistConfig: !usingBrowserslistrc,
+      // ignoreBrowserslistConfig: !useBrowserslistrc,
 
       // Setting this to false will preserve ES modules. Use this only if you
       // intend to ship native ES Modules to browsers. If you are using a
@@ -49,10 +53,10 @@ exports.babelPresetEnv = [
       debug: config.debug,
       useBuiltIns,
       corejs:
-         corejsVersion ||
+         corejsVer ||
          config.javascript.polyfill ||
          process.env.ABSTRACTION_POLYFILLS
-            ? corejsVersion
+            ? corejsVer
             : undefined,
    },
 ];
@@ -71,12 +75,12 @@ exports.babelLoaderES6 = {
    },
 };
 
-if (!usingBabelrc) {
+if (!useBabelrc) {
    // https://babeljs.io/docs/en/options
    this.babelLoaderES6.use.options = {
       babelrc: false,
       configFile: false,
-      browserslistConfigFile: usingBrowserslistrc,
+      browserslistConfigFile: useBrowserslistrc,
       cacheDirectory: babelCache,
       cacheCompression: false,
 
@@ -102,7 +106,7 @@ if (!usingBabelrc) {
       ],
    };
 
-   if (!usingBrowserslistrc) {
+   if (!useBrowserslistrc) {
       // When no targets are specified: Babel will assume you are targeting
       // the oldest browsers possible. For example, @babel/preset-env will
       // transform all ES2015-ES2020 code to be ES5 compatible.

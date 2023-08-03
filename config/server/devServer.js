@@ -14,15 +14,18 @@
 // configuration, the URL may look like http://localhost:9000/webpack-dev-server/invalidate.
 
 const path = require('path');
-const { config } = require('../../utils/get-config');
 const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
+const { config } = require('../../utils/get-config');
 const { filetypes } = require('../webpack/filetypes');
-const { useSsl, isWordPress } = require('../../utils/abstraction');
+const { useSsl, isWP } = require('../../utils/abstraction');
 const templateExts =
    filetypes.templates.length > 1
       ? '{' + filetypes.templates.join() + '}'
       : filetypes.templates[0];
+
+const sslConfig = useSsl();
+const isWordPress = isWP();
 
 // https://webpack.js.org/configuration/dev-server/
 const devServerDefault = {
@@ -51,7 +54,7 @@ const devServerDefault = {
    // specify it like this: devServer: { host: '0.0.0.0' },
    // 'local-ip' | 'local-ipv4' | 'local-ipv6' string
    // ** REQUIRED ** for assets.json
-   host: useSsl.domain,
+   host: sslConfig.domain,
 
    // ** REQUIRED ** for assets.json
    port: 8080,
@@ -63,12 +66,12 @@ const devServerDefault = {
 
    // `server.type` ** REQUIRED ** for assets.json
    server:
-      useSsl.sslKeyFile && useSsl.sslCertFile
+      sslConfig.sslKeyFile && sslConfig.sslCertFile
          ? {
               type: 'https',
               options: {
-                 key: useSsl.sslKeyFile,
-                 cert: useSsl.sslCertFile,
+                 key: sslConfig.sslKeyFile,
+                 cert: sslConfig.sslCertFile,
               },
            }
          : {
@@ -117,7 +120,7 @@ const devServerDefault = {
    // When set to 'auto' this option always allows localhost, host, and client.webSocketURL.hostname.
    // 'auto' | 'all' | [string]
    // Prevents getting the `Invalid Host/Origin header` error.
-   allowedHosts: ['.' + useSsl.domain, 'localhost', 'host'],
+   allowedHosts: ['.' + sslConfig.domain, 'localhost', 'host'],
 };
 
 module.exports = merge(devServerDefault, config.server.devServer);

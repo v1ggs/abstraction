@@ -3,9 +3,10 @@
 // ############################################################################
 
 const { config } = require('../../utils/get-config');
-const { isWordPress } = require('../../utils/abstraction');
+const { isWP } = require('../../utils/abstraction');
 const userTemplates = config?.templates?.customLoader?.fileTypes;
 let templateFileTypes;
+const isWordPress = isWP();
 
 if (isWordPress) {
    templateFileTypes = ['php', 'html'];

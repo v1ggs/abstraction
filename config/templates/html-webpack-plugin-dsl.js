@@ -15,10 +15,13 @@ const path = require('path');
 const { paths } = require('../webpack/paths');
 const { existsSync, readFileSync } = require('fs');
 const {
-   isWordPress,
+   isWP,
    isProduction,
-   isDifferentialBuild,
+   differentialBuildConfig,
 } = require('../../utils/abstraction');
+
+const isDifferentialBuild = differentialBuildConfig();
+const isWordPress = isWP();
 
 class AbstractionDSL {
    apply(compiler) {

@@ -22,19 +22,19 @@ exports.isWindows = process.platform === 'win32';
 exports.isMac = /^darwin/.test(process.platform);
 
 // Are we using .browserslistrc?
-exports.usingBrowserslistrc = (() =>
-   fs.existsSync(path.join(process.cwd(), '.browserslistrc')))();
+exports.usingBrowserslistrc = () =>
+   fs.existsSync(path.join(process.cwd(), '.browserslistrc'));
 
 // Are we using .babelrc?
-exports.usingBabelrc = (() =>
-   fs.existsSync(path.join(process.cwd(), '.babelrc')))();
+exports.usingBabelrc = () =>
+   fs.existsSync(path.join(process.cwd(), '.babelrc'));
 
 // Are we building with differential serving?
-exports.isDifferentialBuild = (() =>
-   !this.usingBrowserslistrc && !this.usingBabelrc)();
+exports.differentialBuildConfig = () =>
+   !this.usingBrowserslistrc && !this.usingBabelrc;
 
 // Are we developing with WordPress?
-exports.isWordPress = (() => {
+exports.isWP = () => {
    const configExists = getUserConfig();
 
    if (configExists) {
@@ -43,7 +43,7 @@ exports.isWordPress = (() => {
    }
 
    return false;
-})();
+};
 
 // Clear screen
 // https://stackoverflow.com/a/26373971/14004712
@@ -93,7 +93,7 @@ exports.singleRuntimeInfo = entryConfig => {
 
 // Babel: It is recommended to specify the minor (core-js) version, otherwise "3" will
 // be interpreted as "3.0" which may not include polyfills for the latest features.
-exports.corejsVersion = (() => {
+exports.corejsVersion = () => {
    // Read core-js version to always use the lates version, when updated.
    // Replace all that is not a number or a dot (remove "^" character).
    // *************************************************************************
@@ -115,10 +115,10 @@ exports.corejsVersion = (() => {
    return corejsVersion.match(/\./g).length > 1
       ? corejsVersion.slice(0, corejsVersion.lastIndexOf('.'))
       : corejsVersion;
-})();
+};
 
 // If we're on SSL, what domain and certificate to use.
-exports.useSsl = (() => {
+exports.useSsl = () => {
    const configExists = getUserConfig();
    const appConsoleLog = this.consoleMsg;
    let userConfig;
@@ -211,7 +211,7 @@ exports.useSsl = (() => {
       sslKeyFile,
       sslCertFile,
    };
-})();
+};
 
 exports.phpVer = () => {
    try {

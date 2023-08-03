@@ -5,11 +5,12 @@ const nunjucksConfig = require('./nunucks');
 const { paths } = require('../webpack/paths');
 const dsl = require('./html-webpack-plugin-dsl');
 const { filetypes } = require('../webpack/filetypes');
-const { isWordPress } = require('../../utils/abstraction');
+const { isWP } = require('../../utils/abstraction');
 const { HtmlWebpackPlugin } = require('./html-webpack-plugin');
 const { filetypesArr2regex, fixPathForGlob } = require('../../utils/js');
 
 let templatesLoader;
+const isWordPress = isWP();
 
 // Templates file extensions
 const extensions =
