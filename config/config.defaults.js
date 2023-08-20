@@ -78,14 +78,13 @@ module.exports = {
       minifySvg: 'default',
    },
 
-   // License file is being created automatically for JavaScript packages.
-   // For sass packages, use the `include` array (the name of the package).
    licenses: {
-      // Get licenses for packages which are not discovered automatically.
+      // License file is being created automatically for JavaScript packages.
+      // For sass packages, use the `include` array (the name of the package).
       // Example: `include: ['some-module'],`
       include: [],
 
-      // Remove unwanted licenses. Example: `exclude: ['some-module'],`
+      // Exclude unwanted licenses. Example: `exclude: ['some-module'],`
       exclude: [],
 
       // When using a package with one of these licenses, webpack will
