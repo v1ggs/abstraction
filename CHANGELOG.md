@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2](https://github.com/v1ggs/abstraction/compare/0.5.1...0.5.2) (2023-08-20)
+
+
+### Docs
+
+* improved banner for dark backgrounds and replaced png with svg ([6d23080](https://github.com/v1ggs/abstraction/commit/6d23080d8cc87b5d4b3588bb3dca61358bc849ac))
+* updated to reflect latest changes, added more info ([d134849](https://github.com/v1ggs/abstraction/commit/d13484951d1f9e14a98d5e1d08d9b1cbb740a9e1))
+
 ## [0.5.1](https://github.com/v1ggs/abstraction/compare/0.5.0...0.5.1) (2023-08-03)
 
 
