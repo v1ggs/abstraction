@@ -50,8 +50,8 @@
 		"stylelint-config-recommended-scss": "^12.0.0"
 	},
 	"dependencies": {
-		"@babel/core": "^7.22.9",
-		"@babel/preset-env": "^7.22.9",
+		"@babel/core": "^7.23.3",
+		"@babel/preset-env": "^7.23.3",
 		"@fullhuman/postcss-purgecss": "^5.0.0",
 		"@v1ggs/abstraction-dsl": "^1.0.3",
 		"assets-webpack-plugin": "^7.1.1",
