@@ -70,7 +70,7 @@
 		"postcss": "^8.4.27",
 		"postcss-flexbugs-fixes": "^5.0.2",
 		"postcss-loader": "^7.3.3",
-		"postcss-preset-env": "^9.0.0",
+		"postcss-preset-env": "^9.3.0",
 		"postcss-pxtorem": "^6.0.0",
 		"postcss-reporter": "^7.0.5",
 		"postcss-sort-media-queries": "^5.2.0",
