@@ -1,15 +1,36 @@
 #!/usr/bin/env node
 
-const { exec } = require('child_process');
+const { cp } = require('fs');
+const path = require('path');
 
-exec(
-   'npx cross-env node node_modules/@v1ggs/abstraction/config/node/prepare.js',
-   (error, stdout, stderr) => {
-      if (error) {
-         console.error(`exec error: ${error}`);
-         return;
-      }
-      console.log(stdout);
-      console.error(stderr);
+const configFiles = [
+   '.abstraction.config.js',
+   '.browserslistrc',
+   '.editorconfig',
+   '.eslintrc',
+   '.gitignore',
+   '.prettierignore',
+   '.prettierrc.js',
+   '.stylelintrc',
+];
+
+// Copy config files
+configFiles.forEach(file =>
+   cp(
+      path.join(__dirname, '..', file),
+      path.join(process.cwd(), file),
+      error => {
+         if (error) console.log(error);
+      },
+   ),
+);
+
+// Copy VSCode snippets
+cp(
+   path.join(__dirname, '..', '.vscode') + '/',
+   path.join(process.cwd(), '.vscode') + '/',
+   { recursive: true },
+   error => {
+      if (error) console.log(error);
    },
 );

@@ -100,11 +100,7 @@
 		"abs-build": "./bin/build-dev.js",
 		"abs-build-prod": "./bin/build-prod.js",
 		"abs-build-polyfills": "./bin/build-polyfills.js",
-		"abs-prepare": "./bin/prepare.js",
-		"abs-prepare-wp": "./bin/prepare-wp.js"
-	},
-	"engines": {
-		"node": ">=v16"
+		"abs-prepare": "./bin/prepare.js"
 	},
 	"scripts": {
 		"husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
@@ -116,5 +112,8 @@
 		"abs-build-prod": "node ./bin/build-prod.js",
 		"abs-build-polyfills": "node ./bin/build-polyfills.js",
 		"test": "echo \"No test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=v16"
 	}
 }
