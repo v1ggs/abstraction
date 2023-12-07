@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const shell = require('shelljs');
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 const { paths } = require('../config/webpack/paths');
 const { getUserConfig } = require('./get-user-config');
 const { appName } = require('../config/config.abstraction');
@@ -179,24 +178,23 @@ exports.useSsl = () => {
          fs.mkdirSync(certPath);
       }
 
-      // If mkcert error
-      if (
-         // Callback makes it async.
-         shell.exec(`cd ${certPath} && mkcert ${domain}`, { silent: true }).code
-      ) {
-         // appConsoleLog.warning(
-         //    '\nMkcert is not installed on this machine. ' +
-         //       '\nIf you want to use SSL in development, you will have to ' +
-         //       'create certificate and configure server(s) manually.',
-         // );
-      } else {
+      exec(`cd ${certPath} && mkcert ${domain}`, error => {
+         if (error) {
+            // appConsoleLog.warning(
+            //    '\nMkcert is not installed on this machine. ' +
+            //       '\nIf you want to use SSL in development, you will have to ' +
+            //       'create certificate and configure server(s) manually.',
+            // );
+            return;
+         }
+
          this.clearScreen();
          appConsoleLog.succes(
             `\nPlease find certificate for "${domain}" in "${paths.SSLCERT}" in your project's root.\n` +
                'Make sure to place this folder into your "ignore" files.\n' +
                'It was automatically added to ".gitignore" and ".npmignore", if they were found.',
          );
-      }
+      });
    }
 
    if (fs.existsSync(mkcertCertPath) && fs.existsSync(mkcertKeyPath)) {
