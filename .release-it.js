@@ -43,14 +43,26 @@ module.exports = {
                {
                   type: 'feat',
                   section: 'Features',
+                  hidden: false,
                },
                {
                   type: 'fix',
                   section: 'Bug Fixes',
+                  hidden: false,
                },
                {
                   type: 'docs',
                   section: 'Docs',
+                  hidden: false,
+               },
+               {
+                  type: 'chore',
+                  section: 'Chore',
+                  hidden: false,
+               },
+               {
+                  type: 'refactor',
+                  section: 'Refactor',
                   hidden: false,
                },
             ],
