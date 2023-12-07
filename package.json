@@ -111,6 +111,13 @@
 		"husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
 		"prerelease": "npx commitlint -t HEAD",
 		"release": "dotenv release-it --",
+		"abs-run": "node ./bin/serve-dev.js",
+		"abs-run-prod": "node ./bin/serve-prod.js",
+		"abs-build": "node ./bin/build-dev.js",
+		"abs-build-prod": "node ./bin/build-prod.js",
+		"abs-build-polyfills": "node ./bin/build-polyfills.js",
+		"abs-prepare": "node ./bin/prepare.js",
+		"abs-prepare-wp": "node ./bin/prepare-wp.js",
 		"test": "echo \"No test specified\" && exit 1"
 	}
 }
