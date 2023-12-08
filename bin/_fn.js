@@ -28,14 +28,13 @@ exports.webpackConfigPath = isDev
 
 exports.nodemonConfigPath = isDev
    ? // When developing Abstraction
-     path.join('config', 'node', 'nodemon', 'dev')
+     path.join('bin', 'nodemon', 'dev')
    : // When Abstraction is installed
      path.join(
         'node_modules',
         '@v1ggs',
         'abstraction',
-        'config',
-        'node',
+        'bin',
         'nodemon',
         'prod',
      );

@@ -2,7 +2,7 @@
 
 const path = require('path');
 const { exec } = require('child_process');
-const { nodemonConfigPath } = require('../config/node/config-paths');
+const { nodemonConfigPath } = require('./_fn');
 const config = path.join(nodemonConfigPath, 'nodemon.dev.json');
 
 exec(`npx nodemon --config ${config}`, (error, stdout, stderr) => {

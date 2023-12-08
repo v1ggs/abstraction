@@ -2,7 +2,7 @@
 
 const path = require('path');
 const { exec } = require('child_process');
-const { webpackConfigPath } = require('../config/node/config-paths');
+const { webpackConfigPath } = require('./_fn');
 const config = path.join(webpackConfigPath, 'webpack.config.js');
 
 exec(
