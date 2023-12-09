@@ -1,18 +1,23 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const { exec } = require('child_process');
-const { webpackConfigPath } = require('./_fn');
-const config = path.join(webpackConfigPath, 'webpack.polyfills.js');
+process.env.NODE_ENV = 'production';
+process.env.ABSTRACTION_POLYFILLS = true;
 
-exec(
-   `npx cross-env NODE_ENV=production ABSTRACTION_POLYFILLS=true webpack --config ${config}`,
-   (error, stdout, stderr) => {
-      if (error) {
-         console.error(`exec error: ${error}`);
-         return;
-      }
-      console.log(stdout);
-      console.error(stderr);
-   },
-);
+const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require(path.join(
+   __dirname,
+   '..',
+   'config',
+   'webpack',
+   'webpack.polyfills.js',
+))();
+
+// console.log(webpackConfig);
+
+webpack(webpackConfig, err => {
+   // console.log(stats);
+   if (err) {
+      console.log(err);
+   }
+});

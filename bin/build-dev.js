@@ -1,18 +1,22 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const { exec } = require('child_process');
-const { webpackConfigPath } = require('./_fn');
-const config = path.join(webpackConfigPath, 'webpack.config.js');
+process.env.NODE_ENV = 'development';
 
-exec(
-   `npx cross-env node --no-deprecation node_modules/webpack/bin/webpack.js --config ${config}`,
-   (error, stdout, stderr) => {
-      if (error) {
-         console.error(`exec error: ${error}`);
-         return;
-      }
-      console.log(stdout);
-      console.error(stderr);
-   },
-);
+const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require(path.join(
+   __dirname,
+   '..',
+   'config',
+   'webpack',
+   'webpack.config.js',
+));
+
+// console.log(webpackConfig);
+
+webpack(webpackConfig, err => {
+   // console.log(stats);
+   if (err) {
+      console.log(err);
+   }
+});

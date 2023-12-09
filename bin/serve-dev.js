@@ -1,15 +1,37 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const { exec } = require('child_process');
-const { nodemonConfigPath } = require('./_fn');
-const config = path.join(nodemonConfigPath, 'nodemon.dev.json');
+process.env.NODE_ENV = 'development';
+process.env.ABSTRACTION_SERVE = true;
 
-exec(`npx nodemon --config ${config}`, (error, stdout, stderr) => {
-   if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-   }
-   console.log(stdout);
-   console.error(stderr);
-});
+const timestamp = new Date();
+const time =
+   timestamp.getHours() +
+   ':' +
+   timestamp.getMinutes() +
+   ':' +
+   timestamp.getSeconds();
+const nodemon = require('nodemon');
+const { consoleMsg } = require('../utils/abstraction');
+const nodemonConfig = {
+   script: __dirname + '/server.js',
+   // ext: 'mjs,js',
+   ...require('./nodemon.json'),
+};
+
+// console.log(nodemonConfig);
+
+nodemon(nodemonConfig)
+   .on('start', () => {
+      consoleMsg.info(`Serving in ${process.env.NODE_ENV} mode.`);
+      consoleMsg.info(`Watching files: ` + nodemonConfig.watch);
+      consoleMsg.info(`Time: ${time}`);
+   })
+   .on('quit', () => {
+      consoleMsg.info('Quitting...');
+      consoleMsg.info(`Time: ${time}`);
+      process.exit();
+   })
+   .on('restart', files => {
+      consoleMsg.info(`Restarted due to changes in files: ${files}`);
+      consoleMsg.info(`Time: ${time}`);
+   });

@@ -1,1 +1,0 @@
-These are used when Abstraction is installed in a project.
