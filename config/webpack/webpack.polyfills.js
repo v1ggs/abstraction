@@ -28,7 +28,7 @@ const exitPlugin = function () {
             '\nPlease find JavaScript files with all required `core-js` polyfills, for all entries and chunks in: \n"' +
                paths.POLYFILLS +
                '".\n\n' +
-               'Now you can conditionally import them in your bundle, with `javasctipt.polyfills: manual` in the main config.\n\n' +
+               'Now you can conditionally import them in your bundle, with `javascript.polyfills: manual` in the main config.\n\n' +
                'NOTE:\n' +
                "Some polyfills may be duplified, it's up to Babel, but Webpack will not bundle them more than once.\n\n",
          );
