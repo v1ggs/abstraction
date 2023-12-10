@@ -10,16 +10,15 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
-const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    isWP,
-   appName,
    isServing,
    isProduction,
    differentialBuildConfig,
 } = require('./abstraction');
 
+const timestamp = Date.now();
 const isWordPress = isWP();
 const isDifferentialBuild = differentialBuildConfig();
 
@@ -52,44 +51,6 @@ exports.ProvidePlugin = options => new webpack.ProvidePlugin(options);
 // Defines globals for usage in the source code.
 // https://webpack.js.org/plugins/define-plugin/
 exports.DefinePlugin = options => new webpack.DefinePlugin(options);
-
-// https://www.npmjs.com/package/webpack-build-notifier
-exports.Notifier = () => {
-   // Sound can be one of these: Basso, Blow, Bottle, Frog, Funk, Glass, Hero,
-   // Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink. Defaults to Submarine.
-   return new WebpackBuildNotifierPlugin({
-      title: appName,
-
-      // The absolute path to the project logo to be displayed as a content image
-      // in the notification.
-      // logo: path.resolve( './img/favicon.png' ),
-
-      // The absolute path to the icon to be displayed for notifications.
-      // Defaults to the included ./src/icons/success.png.
-      // successIcon: '',
-      // warningIcon: '',
-      // failureIcon: '',
-      // compileIcon: '',
-
-      // Defines when success notifications are shown. Can be one of the following values:
-      // false - Show success notification for each successful compilation (default).
-      // true - Only show success notification for initial successful compilation and
-      // after failed compilations.
-      // "always" - Never show the success notifications.
-      // "initial" - Same as true, but suppresses the initial success notification.
-      suppressSuccess: 'always',
-
-      suppressWarning: true,
-
-      // A function called when the notification is clicked. By default it activates
-      // the Terminal application.
-      // onClick: '',
-
-      // A function called when the notification times out and is closed.
-      // Undefined by default.
-      // onTimeout: '',
-   });
-};
 
 // Removes imported/required files from an entry.
 // Takes a regex. An example: /\.(sa|sc|c)ss$/
@@ -204,6 +165,7 @@ exports.WebpackLicensePlugin = filename => {
             'simple-nunjucks-loader',
             'svg-baker-runtime',
             'svg-sprite-loader',
+            'html-webpack-plugin',
          ].concat(config.licenses.exclude);
 
          return excludes.includes(packageName);
@@ -292,6 +254,7 @@ exports.CopyPlugin = () => {
 exports.AssetsPlugin = () => {
    return new AssetsPlugin({
       metadata: {
+         timestamp: timestamp,
          mode: isProduction ? 'production' : 'development',
          themeDirName: paths.THEMEDIR,
          dist: paths.DIST.dirname,

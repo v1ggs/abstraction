@@ -9,7 +9,7 @@ const { filetypes } = require('./filetypes');
 const { loaders } = require('../javascript/index');
 const { rdSync, mdSync } = require('../../utils/fs');
 const { filetypesArr2regex } = require('../../utils/js');
-const { Notifier, exportPolyfills } = require('../../utils/webpack');
+const { exportPolyfills } = require('../../utils/webpack');
 const {
    consoleMsg,
    clearScreen,
@@ -98,7 +98,6 @@ const main = (entry, name) => {
             ),
          ),
 
-         Notifier(),
          // let it exit from `legacy` bundle, if `isDifferentialBuild`.
       ].concat(isDifferentialBuild ? [] : [exitPlugin]),
    };
@@ -139,8 +138,6 @@ const legacy = (entry, name) => {
                'empty.js',
             ),
          ),
-
-         Notifier(),
       ],
    };
 };

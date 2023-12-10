@@ -9,7 +9,6 @@ const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const { isWP, isProduction } = require('../../utils/abstraction');
 const {
-   Notifier,
    AssetsPlugin,
    ProvidePlugin,
    HashedModuleIdsPlugin,
@@ -117,7 +116,7 @@ const common = {
       // svg.plugins.SpritePlugin(), // does not work for now
       ProvidePlugin(config.javascript.providePlugin),
       images.plugin,
-   ].concat(isProduction ? [Notifier(), HashedModuleIdsPlugin()] : []),
+   ].concat(isProduction ? [HashedModuleIdsPlugin()] : []),
 
    optimization: {
       minimize: isProduction,
