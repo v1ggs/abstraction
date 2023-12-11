@@ -16,6 +16,16 @@ const {
    differentialBuildConfig,
 } = require('../../utils/abstraction');
 
+// This is where the files are built, because we don't need them all.
+// We need only files with extracted polyfills, and they go to `src`.
+const OUTPUTDIR = path.join(paths.BABELCACHE, 'polyfills-temp');
+const ENTRY = config.javascript.entry;
+// This is exported to be used as a webpack config.
+const CONFIG = [];
+
+// File types to remove from the bundle
+let excludes = [];
+
 const isDifferentialBuild = differentialBuildConfig();
 
 // From: https://medium.com/finnovate-io/make-webpack-exit-on-compilation-errors-16d2eec03391
@@ -25,12 +35,12 @@ const exitPlugin = function () {
          clearScreen();
 
          consoleMsg.succes(
-            '\nPlease find JavaScript files with all required `core-js` polyfills, for all entries and chunks in: \n"' +
+            'Please find JavaScript files with all required `core-js` polyfills, for all entries and chunks in: \n"' +
                paths.POLYFILLS +
                '".\n\n' +
-               'Now you can conditionally import them in your bundle, with `javascript.polyfills: manual` in the main config.\n\n' +
-               'NOTE:\n' +
-               "Some polyfills may be duplified, it's up to Babel, but Webpack will not bundle them more than once.\n\n",
+               "Don't forget to set `javascript.polyfills: manual` in the main config.\n" +
+               'Some polyfills may be duplified, but Webpack will not bundle them more than once.\n' +
+               'NOTE: If you need other polyfills that are not included in core-js, you need to import them manually.\n',
          );
 
          process.exit(0);
@@ -45,15 +55,6 @@ const exitPlugin = function () {
       callback();
    });
 };
-
-// This is where the files are built, because we don't need them,
-// we need only files with extracted polyfills, and they go to `src`.
-const OUTPUTDIR = path.join(paths.BABELCACHE, 'polyfills-temp');
-const ENTRY = config.javascript.entry;
-const CONFIG = [];
-
-// File types to remove from the bundle
-let excludes = [];
 
 // remove all, we only need 'javascript'
 Object.keys(filetypes).forEach(type => {
@@ -74,6 +75,7 @@ const main = (entry, name) => {
       name: name,
 
       output: {
+         // This cleans the temp dir.
          clean: true,
          path: OUTPUTDIR,
       },
@@ -98,7 +100,8 @@ const main = (entry, name) => {
             ),
          ),
 
-         // let it exit from `legacy` bundle, if `isDifferentialBuild`.
+         // The process will exit from `legacy` bundle,
+         // if `isDifferentialBuild`, otherwise it will exit here.
       ].concat(isDifferentialBuild ? [] : [exitPlugin]),
    };
 };
@@ -113,6 +116,7 @@ const legacy = (entry, name) => {
       name: name,
 
       output: {
+         // This cleans the temp dir.
          clean: true,
          path: OUTPUTDIR,
       },
@@ -154,7 +158,7 @@ mdSync(paths.POLYFILLS);
 clearScreen();
 
 consoleMsg.info(
-   '\nCreating JavaScript files with required `core-js` polyfills, based on your code and targeted browsers.',
+   'Creating JavaScript files with required `core-js` polyfills, based on your code and targeted browsers.',
 );
 console.log('');
 
@@ -167,7 +171,7 @@ module.exports = () => {
       });
 
       // Creates polyfills for the whole entry, if it's an object.
-      addToConfig(ENTRY, 'bundle');
+      // addToConfig(ENTRY, 'bundle');
    }
 
    return CONFIG;

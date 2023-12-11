@@ -36,7 +36,7 @@ exports.paths = {
       : `/wp-content/themes/${themeDirName}/${this.DIST}/`,
    THEMEDIR: themeDirName,
    TEMPLATES: path.resolve(ROOT, this.SRC, TEMPLATES),
-   POLYFILLS: path.resolve(ROOT, this.SRC, 'core-js-polyfills'),
+   POLYFILLS: path.resolve(ROOT, this.SRC, '_corejs'),
    BABELCACHE: path.join(CACHE, 'babel-loader'),
    ABSTRACTIONDIR: appDir,
    ABSTRACIONTEMP: path.join(CACHE, 'abstraction-temp'),
