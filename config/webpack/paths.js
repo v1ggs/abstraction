@@ -6,6 +6,7 @@ const path = require('path');
 const TEMPLATES = 'templates';
 const themeDirName = path.parse(process.cwd()).base;
 const CACHE = path.join(ROOT, 'node_modules', '.cache');
+const { fixPathForGlob } = require('../../utils/js');
 const { getUserConfig } = require('../../utils/get-user-config');
 
 const userConfig = getUserConfig();
@@ -43,13 +44,15 @@ exports.paths = {
 
    SRC: {
       dirname: this.SRC,
-      absolute: path.resolve(ROOT, this.SRC),
+      // fixPathForGlob fixes resolve.roots for some loaders
+      absolute: fixPathForGlob(path.resolve(ROOT, this.SRC)),
    },
 
    DIST: {
       dirname: this.DIST,
       absolute: path.resolve(ROOT, this.DIST),
-      // these below are relative to the `DIST`.
+      // these below are relative to the `DIST` and are
+      // required for their loaders.
       css: 'css',
       javascript: 'js',
       images: 'img',

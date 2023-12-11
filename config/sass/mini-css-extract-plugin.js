@@ -8,17 +8,20 @@
 // will not load this CSS into the page. Please use
 // html-webpack-plugin for automatic generation link tags or
 // create index.html file with link tag.
+const { isProduction } = require('../../utils/abstraction');
 const { paths } = require('../webpack/paths');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const filename = isProduction ? '[name].[contenthash].css' : '[name].css';
+const chunkFilename = '[id].[contenthash].css';
 
 module.exports = {
    plugin: () =>
       new miniCssExtractPlugin({
          // output CSS file
-         filename: paths.DIST.css + '/[name].[contenthash].css',
+         filename: paths.DIST.css + '/' + filename,
 
          // non-entry chunk files
-         chunkFilename: paths.DIST.css + '/[id].[contenthash].css',
+         chunkFilename: paths.DIST.css + '/' + chunkFilename,
       }),
 
    loader: miniCssExtractPlugin.loader,

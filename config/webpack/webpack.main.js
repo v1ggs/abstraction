@@ -71,14 +71,14 @@ const modern = {
       ProgressPlugin(isDifferentialBuild ? 'ES6' : ''),
    ].concat(
       CopyPlugin(), // it's array
+      sass.plugins.MiniCssExtractPlugin, // it's array
 
-      isWordPress ? [browserSync] : templatesPlugin(), // it's already array
+      isWordPress ? [browserSync] : templatesPlugin(), // it's array
 
       isProduction
          ? [
               WebpackLicensePlugin('LICENSES'),
-              sass.plugins.MiniCssExtractPlugin(),
-              js.plugins.WebpackBundleAnalyzer('bundle-analyser-es6.html'),
+              js.plugins.WebpackBundleAnalyzer('bundle-analyser.html'),
            ]
          : [],
    ),
