@@ -10,6 +10,7 @@ const { filetypesArr2regex } = require('../../utils/js');
 const { isWP, isProduction } = require('../../utils/abstraction');
 const {
    AssetsPlugin,
+   BannerPlugin,
    ProvidePlugin,
    HashedModuleIdsPlugin,
 } = require('../../utils/webpack');
@@ -27,7 +28,7 @@ const common = {
       __filename: true,
    },
 
-   mode: isProduction ? 'production' : 'development',
+   mode: process.env.NODE_ENV,
 
    entry: config.javascript.entry,
 
@@ -43,18 +44,18 @@ const common = {
          ? // Frontend.
            paths.PUBLIC
          : // WordPress.
-         isProduction
-         ? // Wordpres theme path in `production`.
-           paths.PUBLICWP
-         : // Relative paths in front end assets in `development` will
-           // be looked for on browsersync's domain, where they are not.
-           // They are being served with devServer, on another domain or port.
-           devServer.server.type +
-           '://' +
-           devServer.host +
-           ':' +
-           devServer.port +
-           paths.PUBLICWP,
+           isProduction
+           ? // Wordpres theme path in `production`.
+             paths.PUBLICWP
+           : // Relative paths in front end assets in `development` will
+             // be looked for on browsersync's domain, where they are not.
+             // They are being served with devServer, on another domain or port.
+             devServer.server.type +
+             '://' +
+             devServer.host +
+             ':' +
+             devServer.port +
+             paths.PUBLICWP,
    },
 
    // Source maps only in `development`
@@ -116,7 +117,14 @@ const common = {
       // svg.plugins.SpritePlugin(), // does not work for now
       ProvidePlugin(config.javascript.providePlugin),
       images.plugin,
-   ].concat(isProduction ? [HashedModuleIdsPlugin()] : []),
+   ].concat(
+      isProduction
+         ? [
+              HashedModuleIdsPlugin(),
+              BannerPlugin('Please find licenses at LICENSES.txt'), // Configure terser to keep this
+           ]
+         : [],
+   ),
 
    optimization: {
       minimize: isProduction,

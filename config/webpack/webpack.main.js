@@ -15,7 +15,6 @@ const {
 const {
    CopyPlugin,
    DefinePlugin,
-   BannerPlugin,
    ProgressPlugin,
    WebpackLicensePlugin,
 } = require('../../utils/webpack');
@@ -79,7 +78,6 @@ const modern = {
          ? [
               WebpackLicensePlugin('LICENSES'),
               sass.plugins.MiniCssExtractPlugin(),
-              BannerPlugin('Please find licenses at LICENSES.txt'), // Configure terser to keep this
               js.plugins.WebpackBundleAnalyzer('bundle-analyser-es6.html'),
            ]
          : [],
