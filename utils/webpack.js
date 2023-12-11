@@ -11,12 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const { assetsJsonFilename } = require('../config/config.abstraction');
-const {
-   isWP,
-   isServing,
-   isProduction,
-   differentialBuildConfig,
-} = require('./abstraction');
+const { isWP, isServing, differentialBuildConfig } = require('./abstraction');
 
 const timestamp = Date.now();
 const isWordPress = isWP();
@@ -255,7 +250,7 @@ exports.AssetsPlugin = () => {
    return new AssetsPlugin({
       metadata: {
          timestamp: timestamp,
-         mode: isProduction ? 'production' : 'development',
+         mode: process.env.NODE_ENV,
          themeDirName: paths.THEMEDIR,
          dist: paths.DIST.dirname,
          differentialServe: isDifferentialBuild,
@@ -308,7 +303,7 @@ exports.AssetsPlugin = () => {
       // For some reason output.clean affects this, and we get only legacy
       // bundle files.
       // When developing for WordPress, the file is written into the root.
-      useCompilerPath: !isWordPress,
+      useCompilerPath: true,
 
       // When set false, falls back to the fileTypes option array to decide
       // which file types to include in the assets file.
@@ -329,6 +324,12 @@ exports.AssetsPlugin = () => {
       // Optional. false by default.
       keepInMemory: !isWordPress && isServing,
 
+      // When set the output from webpack-subresource-integrity is included
+      // in the assets file.
+      // Please make sure you have webpack-subresource-integrity installed
+      // and included in your webpack plugins.
+      // integrity: true,
+
       // If the 'entrypoints' option is given, the output will be limited
       // to the entrypoints and the chunks associated with them.
       // Optional. false by default.
@@ -336,6 +337,6 @@ exports.AssetsPlugin = () => {
 
       // Whether to format the JSON output for readability.
       // Optional. false by default.
-      prettyPrint: true, // !isProduction,
+      prettyPrint: true,
    });
 };

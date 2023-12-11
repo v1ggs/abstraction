@@ -5,6 +5,7 @@ const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
 const { config } = require('../../utils/get-config');
 const { devServer, browserSync } = require('../server');
+const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
    isWP,
@@ -46,7 +47,7 @@ const modern = {
       // This deletes the output, even in memory (in development).
       // This makes a problem with assets plugin: `.assets.json`
       // is not complete - this compilation gets deleted.
-      clean: isProduction,
+      clean: isProduction ? { keep: assetsJsonFilename } : false,
 
       filename:
          paths.DIST.javascript +
