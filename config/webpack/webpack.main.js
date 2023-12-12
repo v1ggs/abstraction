@@ -1,9 +1,13 @@
+const { config } = require('../../utils/get-config');
+// Provides variables in sass files.
+// Stingify is requried for sass-loader, even if strings are already srtingified.
+process.env.ENV_SASS_GLOBALS = JSON.stringify(config.globals);
+
 const sass = require('../sass');
 const js = require('../javascript');
 const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
 const { paths } = require('../webpack/paths');
-const { config } = require('../../utils/get-config');
 const { devServer, browserSync } = require('../server');
 const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
@@ -26,8 +30,6 @@ const isDifferentialBuild = differentialBuildConfig();
 const modernGlobals = merge({}, config.globals);
 modernGlobals.ENV_MAIN = true;
 modernGlobals.ENV_LEGACY = false;
-// for sass-loader, to provide variables in sass files.
-process.env.ENV_SASS_GLOBALS = JSON.stringify(modernGlobals);
 const bundleExtension = isDifferentialBuild ? '.mjs' : '.js';
 
 const modern = {

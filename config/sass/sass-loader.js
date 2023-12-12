@@ -21,10 +21,7 @@ module.exports = {
          const vars = Object.keys(absGlobalsModern);
 
          vars.forEach(global => {
-            if (
-               global !== 'webpackEntries' &&
-               global !== 'assetsJsonFilename'
-            ) {
+            if (global !== 'webpackEntries' && global !== 'assetsJsonFile') {
                scssGlobals +=
                   '$' +
                   global.toLowerCase().replace(/_/g, '-') +

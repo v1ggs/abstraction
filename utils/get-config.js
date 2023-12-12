@@ -2,16 +2,14 @@
 // It is later modified, because some properties need to be overwritten
 // with user's choices - because here they are merged.
 
+const { isProduction } = require('./abstraction');
 const { paths } = require('../config/webpack/paths');
 const { getUserConfig } = require('./get-user-config');
 const { globals } = require('../config/webpack/globals');
 const configDefault = require('../config/config.defaults');
-const { assetsJsonFilename } = require('../config/config.abstraction');
 const { merge, arrMergeDedupe, getFirstSubdirectories } = require('./js');
-const { isProduction, differentialBuildConfig } = require('./abstraction');
 
 const userConfig = getUserConfig();
-const isDifferentialBuild = differentialBuildConfig();
 
 const config =
    userConfig && Object.keys(userConfig).length
@@ -47,14 +45,6 @@ config.includePaths = arrMergeDedupe(
    getFirstSubdirectories(paths.SRC.absolute + '/components'),
 );
 
-config.globals = isDifferentialBuild
-   ? Object.assign(
-        {
-           // for differential-scripts-loader
-           assetsJsonFile: JSON.stringify(assetsJsonFilename),
-        },
-        globals,
-     )
-   : globals;
+config.globals = globals;
 
 exports.config = config;
