@@ -106,8 +106,8 @@
 		"release": "dotenv release-it --",
 		"abs-run": "node ./bin/serve-dev.js",
 		"abs-run-prod": "node ./bin/serve-prod.js",
-		"abs-build": "node ./bin/build-dev.js",
-		"abs-build-prod": "node ./bin/build-prod.js",
+		"abs-build": "set NODE_ENV=development&& node node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js",
+		"abs-build-prod": "set NODE_ENV=production&& node node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js",
 		"abs-build-polyfills": "node ./bin/build-polyfills.js",
 		"test": "echo \"No test specified\" && exit 1"
 	},
