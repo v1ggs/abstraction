@@ -107,13 +107,30 @@ exports.corejsVersion = () => {
       corejsVersion = require('core-js/package.json').version;
       corejsVersion = corejsVersion.replace(/[^\d.]/g, '');
    } catch (err) {
-      // console.log();
+      // Will not exit.
+      this.consoleMsg.error('Error reading node_modules/core-js/package.json!');
    }
 
    // Counts dots to be able to slice() and use the main and the minor version only.
    return corejsVersion.match(/\./g).length > 1
       ? corejsVersion.slice(0, corejsVersion.lastIndexOf('.'))
       : corejsVersion;
+};
+
+exports.projectVersion = () => {
+   let pkg = path.join(process.cwd(), 'package.json');
+   let pkgVersion;
+
+   try {
+      pkgVersion = require(pkg).version;
+   } catch (err) {
+      // Will not exit.
+      this.consoleMsg.error('Error reading package.json!');
+   }
+
+   console.log('pkgVersion');
+   console.log(pkgVersion);
+   return pkgVersion;
 };
 
 // If we're on SSL, what domain and certificate to use.

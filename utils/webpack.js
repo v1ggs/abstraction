@@ -11,7 +11,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const { assetsJsonFilename } = require('../config/config.abstraction');
-const { isWP, isServing, differentialBuildConfig } = require('./abstraction');
+const {
+   isWP,
+   isServing,
+   differentialBuildConfig,
+   projectVersion,
+} = require('./abstraction');
 
 const timestamp = Date.now();
 const isWordPress = isWP();
@@ -249,6 +254,7 @@ exports.CopyPlugin = () => {
 exports.AssetsPlugin = () => {
    return new AssetsPlugin({
       metadata: {
+         projectVersion: projectVersion(),
          timestamp: timestamp,
          mode: process.env.NODE_ENV,
          themeDirName: paths.THEMEDIR,
