@@ -2,10 +2,10 @@ const path = require('path');
 const cssLoader = require('./css-loader');
 const sassLoader = require('./sass-loader');
 const postCssLoader = require('./postcss-loader');
-const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
 const { isServing } = require('../../utils/abstraction');
 const resolveUrlLoader = require('./resolve-url-loader');
+const { filetypes } = require('../../utils/get-filetypes');
 const miniCssExtract = require('./mini-css-extract-plugin');
 
 // For development with webpack-dev-server, you can use

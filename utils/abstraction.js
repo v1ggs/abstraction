@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const { paths } = require('../config/webpack/paths');
-const { getUserConfig } = require('./get-user-config');
+const { paths } = require('./get-paths');
+const { getUserConfig } = require('./get-config-user');
 const { appName } = require('../config/config.abstraction');
 
 // Wordpress theme folder name
@@ -52,16 +52,16 @@ exports.clearScreen = () => process.stdout.write('\x1bc'); // was: '\033c'
 // Prints console success, info, warning and error.
 class consoleMsg {
    constructor() {
+      const name = `[${appName.toLowerCase()}] `;
+
       // For colors reference see:
       // https://stackoverflow.com/a/41407246/14004712
       const color = {
-         info: '\x1b[36m%s\x1b[0m', // cyan
-         success: '\x1b[32m%s\x1b[0m', // green
+         info: '\x1b[32m%s\x1b[0m', // green
+         success: '\x1b[36m%s\x1b[0m', // cyan
          warn: '\x1b[33m%s\x1b[0m', //yellow
          error: '\x1b[31m%s\x1b[0m', //red
       };
-
-      const name = `[${appName.toLowerCase()}]: `;
 
       this.succes = message => console.log(color.success, name + message);
       this.info = message => console.info(color.info, name + message);
@@ -151,9 +151,7 @@ exports.useSsl = () => {
 
          gitIgnoreContent = paths.SSLCERT + '\n\n' + gitIgnoreContent;
 
-         fs.writeFileSync(gitIgnore, gitIgnoreContent, {
-            encoding: 'utf8',
-         });
+         fs.writeFileSync(gitIgnore, gitIgnoreContent);
       }
    }
 
@@ -166,9 +164,7 @@ exports.useSsl = () => {
 
          npmIgnoreContent = paths.SSLCERT + '\n\n' + npmIgnoreContent;
 
-         fs.writeFileSync(npmIgnore, npmIgnoreContent, {
-            encoding: 'utf8',
-         });
+         fs.writeFileSync(npmIgnore, npmIgnoreContent);
       }
    }
 

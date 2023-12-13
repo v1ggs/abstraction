@@ -1,11 +1,11 @@
 const path = require('path');
 const glob = require('glob');
-const { config } = require('../../utils/get-config');
 const nunjucksConfig = require('./nunucks');
-const { paths } = require('../webpack/paths');
 const dsl = require('./html-webpack-plugin-dsl');
-const { filetypes } = require('../webpack/filetypes');
+const { paths } = require('../../utils/get-paths');
 const { isWP } = require('../../utils/abstraction');
+const { config } = require('../../utils/get-config');
+const { filetypes } = require('../../utils/get-filetypes');
 const { HtmlWebpackPlugin } = require('./html-webpack-plugin');
 const { filetypesArr2regex, fixPathForGlob } = require('../../utils/js');
 
@@ -76,3 +76,5 @@ exports.templatesPlugin = () => {
       ]);
    }
 };
+
+// console.log(this.templatesPlugin());

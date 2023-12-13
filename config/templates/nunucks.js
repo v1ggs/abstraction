@@ -1,6 +1,7 @@
+const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
+const { filetypes } = require('../../utils/get-filetypes');
 
 // simple-nunjucks-loader config
 // https://www.npmjs.com/package/simple-nunjucks-loader
@@ -35,10 +36,10 @@ exports.loader = {
                },
 
                // One or more paths to resolve templates paths
-               searchPaths: config.includePaths,
+               searchPaths: paths.RESOLVE_ROOTS,
 
                // Paths to resolve static assets. Works like STATICFILES_DIRS
-               assetsPaths: config.includePaths,
+               assetsPaths: paths.RESOLVE_ROOTS,
 
                // Map global function to corresponding module
                globals: {},

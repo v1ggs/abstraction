@@ -1,7 +1,7 @@
 // WEBPACK CONFIG FILE
 
-const { paths } = require('./paths');
 const config = [require('./webpack.main')];
+const { paths } = require('../../utils/get-paths');
 const { mdSync, rdSync } = require('../../utils/fs');
 const {
    singleRuntimeInfo,

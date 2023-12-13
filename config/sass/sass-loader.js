@@ -1,4 +1,4 @@
-const { config } = require('../../utils/get-config');
+const { paths } = require('../../utils/get-paths');
 
 // Since Sass implementations don't provide url rewriting, all linked assets must
 // be relative to the output. Thankfully there are a two solutions to this problem:
@@ -38,7 +38,7 @@ module.exports = {
       sassOptions: {
          // This array of strings option provides load paths for Sass to look for stylesheets.
          // Earlier load paths will take precedence over later ones.
-         includePaths: config.includePaths,
+         includePaths: paths.RESOLVE_ROOTS,
 
          // nested | expanded | compact | compressed
          outputStyle: 'expanded',

@@ -1,9 +1,9 @@
 // ############################################################################
 // ########################################################### GLOBAL VARIABLES
 // ############################################################################
-const { isProduction } = require('../../utils/abstraction');
-const { getUserConfig } = require('../../utils/get-user-config');
-const { assetsJsonFilename } = require('../config.abstraction');
+const { isProduction } = require('./abstraction');
+const { getUserConfig } = require('./get-config-user');
+const { assetsJsonFilename } = require('../config/config.abstraction');
 
 const userConfig = getUserConfig();
 

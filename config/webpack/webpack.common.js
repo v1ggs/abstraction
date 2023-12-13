@@ -3,10 +3,10 @@
 const svg = require('../svg');
 const images = require('../images');
 const { devServer } = require('../server');
-const { paths } = require('../webpack/paths');
+const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
+const { filetypes } = require('../../utils/get-filetypes');
 const { isWP, isProduction } = require('../../utils/abstraction');
 const {
    AssetsPlugin,
@@ -62,7 +62,7 @@ const common = {
    devtool: isProduction ? false : 'inline-source-map',
 
    resolve: {
-      roots: config.includePaths,
+      roots: paths.RESOLVE_ROOTS,
       extensions: filetypes.javascript
          .concat(filetypes.sass)
          .map(ext => '.' + ext),

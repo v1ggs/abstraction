@@ -2,24 +2,22 @@
 // ################################################################# FILE TYPES
 // ############################################################################
 
-const { config } = require('../../utils/get-config');
-const { isWP } = require('../../utils/abstraction');
-const userTemplates = config?.templates?.customLoader?.fileTypes;
-let templateFileTypes;
+const { config } = require('./get-config');
+const { isWP } = require('./abstraction');
+const userTemplateFileTypes = config?.templates?.customLoader?.fileTypes;
 const isWordPress = isWP();
 
-if (isWordPress) {
-   templateFileTypes = ['php', 'html'];
-} else {
-   // userTemplates.length > 0 is there because it is an empty
-   // array in the default config
-   templateFileTypes =
-      userTemplates && Array.isArray(userTemplates) && userTemplates.length > 0
-         ? // if using another templates loader
-           userTemplates
-         : // if using simple-nunjucks-loader
-           ['njk', 'nunjucks', 'html'];
-}
+let templateFileTypes = isWordPress
+   ? // We're working with WordPress.
+     ['php', 'html']
+   : // We're using front-end templates.
+     userTemplateFileTypes &&
+       Array.isArray(userTemplateFileTypes) &&
+       userTemplateFileTypes.length > 0
+     ? // User configured a templates loader.
+       userTemplateFileTypes
+     : // Using the default simple-nunjucks-loader.
+       ['njk', 'nunjucks', 'html'];
 
 exports.filetypes = {
    templates: templateFileTypes,

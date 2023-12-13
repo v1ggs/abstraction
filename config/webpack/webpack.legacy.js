@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const js = require('../javascript');
-const { config } = require('../../utils/get-config');
 const common = require('./webpack.common');
-const { paths } = require('../webpack/paths');
-const { filetypes } = require('../webpack/filetypes');
+const { paths } = require('../../utils/get-paths');
+const { config } = require('../../utils/get-config');
+const { filetypes } = require('../../utils/get-filetypes');
 const { isProduction } = require('../../utils/abstraction');
 const { filetypesArr2regex, merge } = require('../../utils/js');
 const { DefinePlugin, ProgressPlugin } = require('../../utils/webpack');
@@ -63,12 +63,7 @@ const legacy = {
       // https://webpack.js.org/plugins/normal-module-replacement-plugin/
       new webpack.NormalModuleReplacementPlugin(
          excludes,
-         path.resolve(
-            paths.ABSTRACTIONDIR.absolute,
-            'config',
-            'webpack',
-            'empty.js',
-         ),
+         path.resolve(__dirname, '..', '..', 'utils', 'empty.js'),
       ),
    ].concat(
       isProduction

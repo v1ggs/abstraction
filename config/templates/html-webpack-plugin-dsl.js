@@ -12,7 +12,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
-const { paths } = require('../webpack/paths');
+const { paths } = require('../../utils/get-paths');
 const { existsSync, readFileSync } = require('fs');
 const {
    isWP,
@@ -49,7 +49,7 @@ class AbstractionDSL {
                   );
 
                   const content = existsSync(abstractionDsl)
-                     ? readFileSync(abstractionDsl, 'utf-8')
+                     ? readFileSync(abstractionDsl, 'utf8')
                      : '';
 
                   // Manipulate the content

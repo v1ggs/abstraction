@@ -1,6 +1,6 @@
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
+const { filetypes } = require('../../utils/get-filetypes');
 const { isProduction } = require('../../utils/abstraction');
 
 // https://www.npmjs.com/package/image-minimizer-webpack-plugin

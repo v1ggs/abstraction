@@ -3,12 +3,12 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const { paths } = require('./paths');
-const { config } = require('../../utils/get-config');
-const { filetypes } = require('./filetypes');
 const { loaders } = require('../javascript/index');
+const { paths } = require('../../utils/get-paths');
+const { config } = require('../../utils/get-config');
 const { rdSync, mdSync } = require('../../utils/fs');
 const { filetypesArr2regex } = require('../../utils/js');
+const { filetypes } = require('../../utils/get-filetypes');
 const { exportPolyfills } = require('../../utils/webpack');
 const {
    consoleMsg,
@@ -92,12 +92,7 @@ const main = (entry, name) => {
          // https://webpack.js.org/plugins/normal-module-replacement-plugin/
          new webpack.NormalModuleReplacementPlugin(
             excludes,
-            path.resolve(
-               paths.ABSTRACTIONDIR.absolute,
-               'config',
-               'webpack',
-               'empty.js',
-            ),
+            path.resolve(__dirname, '..', '..', 'utils', 'empty.js'),
          ),
 
          // The process will exit from `legacy` bundle,
@@ -135,12 +130,7 @@ const legacy = (entry, name) => {
          // https://webpack.js.org/plugins/normal-module-replacement-plugin/
          new webpack.NormalModuleReplacementPlugin(
             excludes,
-            path.resolve(
-               paths.ABSTRACTIONDIR.absolute,
-               'config',
-               'webpack',
-               'empty.js',
-            ),
+            path.resolve(__dirname, '..', '..', 'utils', 'empty.js'),
          ),
       ],
    };

@@ -2,13 +2,11 @@
 // It is later modified, because some properties need to be overwritten
 // with user's choices - because here they are merged.
 
+const { merge } = require('./js');
+const { globals } = require('./get-globals');
 const { isProduction } = require('./abstraction');
-const { paths } = require('../config/webpack/paths');
-const { getUserConfig } = require('./get-user-config');
-const { globals } = require('../config/webpack/globals');
+const { getUserConfig } = require('./get-config-user');
 const configDefault = require('../config/config.defaults');
-const { merge, arrMergeDedupe, getFirstSubdirectories } = require('./js');
-
 const userConfig = getUserConfig();
 
 const config =
@@ -16,6 +14,7 @@ const config =
       ? merge(configDefault, userConfig)
       : configDefault;
 
+config.globals = globals;
 config.debug = !isProduction;
 
 // Reset merged entry with the user's one, if it exists.
@@ -34,17 +33,5 @@ if (
 ) {
    config.licenses.unacceptable = userConfig.licenses.unacceptable;
 }
-
-config.includePaths = arrMergeDedupe(
-   paths.SRC.absolute,
-   getFirstSubdirectories(paths.SRC.absolute),
-   // Resolving folders in `components` dir may cause problems
-   // with some loaders when trying to import a component with
-   // `components/some-component`. It's still required because
-   // of purgecss, to analyse templates and js files.
-   getFirstSubdirectories(paths.SRC.absolute + '/components'),
-);
-
-config.globals = globals;
 
 exports.config = config;

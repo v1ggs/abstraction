@@ -5,47 +5,47 @@ const ROOT = process.cwd();
 const path = require('path');
 const TEMPLATES = 'templates';
 const themeDirName = path.parse(process.cwd()).base;
+const { getUserConfig } = require('./get-config-user');
 const CACHE = path.join(ROOT, 'node_modules', '.cache');
-const { fixPathForGlob } = require('../../utils/js');
-const { getUserConfig } = require('../../utils/get-user-config');
+const {
+   fixPathForGlob,
+   arrMergeDedupe,
+   getFirstSubdirectories,
+} = require('./js');
 
 const userConfig = getUserConfig();
 const customThemeDir = userConfig?.publicPath;
 
-const appDirRelative = path.relative(
-   process.cwd(),
-   path.resolve(__dirname, '..', '..'),
-);
-
-const appDirAbsolute = path.resolve(process.cwd(), appDirRelative);
-
-const appDir = {
-   rootRelative: appDirRelative,
-   absolute: appDirAbsolute,
-};
-
 exports.SRC = 'src';
 exports.DIST = 'public';
+// fixPathForGlob fixes resolve.roots for some loaders
+exports.SRC_ABSOLUTE = fixPathForGlob(path.resolve(ROOT, this.SRC));
 
 exports.paths = {
    ROOT,
-   LOGS: path.resolve(ROOT, 'logs'),
    PUBLIC: '/',
    PUBLICWP: customThemeDir
       ? customThemeDir
       : `/wp-content/themes/${themeDirName}/${this.DIST}/`,
+   RESOLVE_ROOTS: arrMergeDedupe(
+      this.SRC_ABSOLUTE,
+      getFirstSubdirectories(this.SRC_ABSOLUTE),
+      // Resolving folders in `components` dir may cause problems
+      // with some loaders when trying to import a component with
+      // `components/some-component`. It's still required because
+      // of purgecss, to analyse templates and js files.
+      getFirstSubdirectories(this.SRC_ABSOLUTE + '/components'),
+   ),
    THEMEDIR: themeDirName,
    TEMPLATES: path.resolve(ROOT, this.SRC, TEMPLATES),
    POLYFILLS: path.resolve(ROOT, this.SRC, '_corejs'),
    BABELCACHE: path.join(CACHE, 'babel-loader'),
-   ABSTRACTIONDIR: appDir,
-   ABSTRACIONTEMP: path.join(CACHE, 'abstraction-temp'),
+   LOGS: path.resolve(ROOT, 'logs'),
    SSLCERT: '.cert',
 
    SRC: {
       dirname: this.SRC,
-      // fixPathForGlob fixes resolve.roots for some loaders
-      absolute: fixPathForGlob(path.resolve(ROOT, this.SRC)),
+      absolute: this.SRC_ABSOLUTE,
    },
 
    DIST: {

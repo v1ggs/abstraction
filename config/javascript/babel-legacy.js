@@ -1,8 +1,8 @@
 // BABEL LOADER - LEGACY BUNDLE CONFIG
 
 const path = require('path');
-const { paths } = require('../webpack/paths');
 const { cloneDeep } = require('../../utils/js');
+const { paths } = require('../../utils/get-paths');
 const babelCache = path.join(paths.BABELCACHE, 'es5');
 const { babelLoaderES6, babelPresetEnv } = require('./babel-modern');
 

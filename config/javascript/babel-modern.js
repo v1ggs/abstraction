@@ -1,10 +1,10 @@
 // BABEL LOADER - MODERN BUNDLE CONFIG
 
 const path = require('path');
-const { paths } = require('../webpack/paths');
+const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../webpack/filetypes');
 const { filetypesArr2regex } = require('../../utils/js');
+const { filetypes } = require('../../utils/get-filetypes');
 const {
    consoleMsg,
    usingBabelrc,
@@ -50,6 +50,7 @@ exports.babelPresetEnv = [
       modules: false,
       loose: true,
       bugfixes: true,
+      // `config.debug` is not in the config, it's defined dynamically.
       debug: config.debug,
       useBuiltIns,
       corejs:
@@ -67,8 +68,6 @@ exports.babelLoaderES6 = {
    // Exclude everything, except the source, style-loader and babel common helpers.
    // (https://github.com/babel/babel/discussions/12605)
    include: [/\bsrc\b/, /node_modules[\\/]@babel[\\/]runtime/, /style-loader/],
-
-   // exclude: /node_modules/, // config.javascript.babel.doNotTranspile, // [/\bvendor\b/, /\blib\b/].concat(),
 
    use: {
       loader: 'babel-loader',

@@ -2,10 +2,10 @@ const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 const webpack = require('webpack');
+const { paths } = require('./get-paths');
 const { fixPathForGlob } = require('./js');
 const server = require('../config/server');
 const { config } = require('./get-config');
-const { paths } = require('../config/webpack/paths');
 const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
@@ -103,7 +103,7 @@ exports.exportPolyfills = filename => {
       fs.mkdirSync(paths.POLYFILLS, { recursive: true });
    }
 
-   // Overwrite existing files first, then later append data.
+   // Overwrite existing files first, then append data.
    fs.writeFileSync(file, `// polyfills required for ${filename}\n`);
 
    return {
@@ -119,7 +119,7 @@ exports.exportPolyfills = filename => {
          replace(match, p1, offset, string) {
             // console.log(`Replacing "${match}" in file "${this.resource}" with "${p1}".`);
 
-            fs.appendFileSync(file, match + '\n', 'utf-8');
+            fs.appendFileSync(file, match + '\n', 'utf8');
 
             // remove all
             return '';
@@ -188,7 +188,7 @@ exports.WebpackLicensePlugin = filename => {
          .sync(additionalLicenseDir + '/**/*')
          .map(file => {
             if (fs.lstatSync(file).isFile()) {
-               return fs.readFileSync(file, 'utf-8') + licensesSeparator;
+               return fs.readFileSync(file, 'utf8') + licensesSeparator;
             }
          })
          .join('');

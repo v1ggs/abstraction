@@ -15,9 +15,9 @@
 
 const path = require('path');
 const { merge } = require('../../utils/js');
-const { paths } = require('../webpack/paths');
+const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../webpack/filetypes');
+const { filetypes } = require('../../utils/get-filetypes');
 const { useSsl, isWP } = require('../../utils/abstraction');
 const templateExts =
    filetypes.templates.length > 1

@@ -9,7 +9,7 @@
 // html-webpack-plugin for automatic generation link tags or
 // create index.html file with link tag.
 const { isProduction } = require('../../utils/abstraction');
-const { paths } = require('../webpack/paths');
+const { paths } = require('../../utils/get-paths');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const filename = isProduction ? '[name].[contenthash].css' : '[name].css';
 const chunkFilename = '[id].[contenthash].css';
