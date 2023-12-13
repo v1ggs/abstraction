@@ -135,11 +135,7 @@ exports.projectVersion = () => {
 
 // If we're on SSL, what domain and certificate to use.
 exports.useSsl = () => {
-   const configExists = getUserConfig();
-   const appConsoleLog = this.consoleMsg;
-   let userConfig;
-
-   if (configExists) userConfig = configExists;
+   const userConfig = getUserConfig();
 
    // We need a domain that is being blocked with hosts file,
    // not the theme dir name.
@@ -150,65 +146,11 @@ exports.useSsl = () => {
            .replace(/:\d+\/?/, '')
       : 'localhost';
 
-   let protocol = 'http://';
-   const certPath = path.resolve(paths.ROOT, paths.SSLCERT);
-   const mkcertKeyPath = path.join(certPath, domain + '-key.pem');
+   const certPath = paths.SSLCERT;
    const mkcertCertPath = path.join(certPath, domain + '.pem');
-   const gitIgnore = path.resolve(paths.ROOT, '.gitignore');
-   const npmIgnore = path.resolve(paths.ROOT, '.npmignore');
-   let gitIgnoreContent, npmIgnoreContent, sslKeyFile, sslCertFile;
-
-   // git ignore certificate
-   if (fs.existsSync(gitIgnore)) {
-      gitIgnoreContent = fs.readFileSync(gitIgnore);
-
-      if (!gitIgnoreContent.includes(paths.SSLCERT)) {
-         this.clearScreen();
-         this.consoleMsg.info(`Adding "${paths.SSLCERT}" to ".gitignore".`);
-
-         gitIgnoreContent = paths.SSLCERT + '\n\n' + gitIgnoreContent;
-
-         fs.writeFileSync(gitIgnore, gitIgnoreContent);
-      }
-   }
-
-   // npm ignore certificate
-   if (fs.existsSync(npmIgnore)) {
-      npmIgnoreContent = fs.readFileSync(npmIgnore);
-
-      if (!npmIgnoreContent.includes(paths.SSLCERT)) {
-         this.consoleMsg.info(`Adding "${paths.SSLCERT}" to ".npmignore".`);
-
-         npmIgnoreContent = paths.SSLCERT + '\n\n' + npmIgnoreContent;
-
-         fs.writeFileSync(npmIgnore, npmIgnoreContent);
-      }
-   }
-
-   if (!(fs.existsSync(mkcertCertPath) && fs.existsSync(mkcertKeyPath))) {
-      // mkcert will fail if the dir does not exist.
-      if (!fs.existsSync(certPath)) {
-         fs.mkdirSync(certPath);
-      }
-
-      exec(`cd ${certPath} && mkcert ${domain}`, error => {
-         if (error) {
-            // appConsoleLog.warning(
-            //    '\nMkcert is not installed on this machine. ' +
-            //       '\nIf you want to use SSL in development, you will have to ' +
-            //       'create certificate and configure server(s) manually.',
-            // );
-            return;
-         }
-
-         this.clearScreen();
-         appConsoleLog.succes(
-            `\nPlease find certificate for "${domain}" in "${paths.SSLCERT}" in your project's root.\n` +
-               'Make sure to place this folder into your "ignore" files.\n' +
-               'It was automatically added to ".gitignore" and ".npmignore", if they were found.',
-         );
-      });
-   }
+   const mkcertKeyPath = path.join(certPath, domain + '-key.pem');
+   let sslKeyFile, sslCertFile;
+   let protocol = 'http://';
 
    if (fs.existsSync(mkcertCertPath) && fs.existsSync(mkcertKeyPath)) {
       sslKeyFile = mkcertKeyPath;

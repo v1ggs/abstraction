@@ -41,7 +41,7 @@ exports.paths = {
    POLYFILLS: path.resolve(ROOT, this.SRC, '_corejs'),
    BABELCACHE: path.join(CACHE, 'babel-loader'),
    LOGS: path.resolve(ROOT, 'logs'),
-   SSLCERT: '.cert',
+   SSLCERT: path.resolve(ROOT, '.cert'),
 
    SRC: {
       dirname: this.SRC,

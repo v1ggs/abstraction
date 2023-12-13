@@ -98,7 +98,8 @@
 		"abs-build": "./bin/build-dev.js",
 		"abs-build-prod": "./bin/build-prod.js",
 		"abs-build-polyfills": "./bin/build-polyfills.js",
-		"abs-prepare": "./bin/prepare.js"
+		"abs-prepare": "./bin/prepare.js",
+		"abs-prepare-ssl": "./bin/make-cert.js"
 	},
 	"scripts": {
 		"husky": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit ${1}\"",
@@ -109,6 +110,7 @@
 		"abs-build": "set NODE_ENV=development&& node node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js",
 		"abs-build-prod": "set NODE_ENV=production&& node node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js",
 		"abs-build-polyfills": "node ./bin/build-polyfills.js",
+		"abs-prepare-ssl": "node ./bin/make-cert.js",
 		"test": "echo \"No test specified\" && exit 1"
 	},
 	"engines": {
