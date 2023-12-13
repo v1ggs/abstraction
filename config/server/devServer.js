@@ -18,14 +18,25 @@ const { merge } = require('../../utils/js');
 const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypes } = require('../../utils/get-filetypes');
-const { useSsl, isWP } = require('../../utils/abstraction');
+const { sslConfig, isCMS, parseUrl } = require('../../utils/abstraction');
+
+const cms = isCMS();
+
+const server = config?.server?.backend
+   ? // If we're working with a backend, use the same domain,
+     // with a different port.
+     parseUrl(config.server.backend)
+   : // devServer defaults to 'localhost:8080'.
+     parseUrl('localhost:8080');
+
+const ssl = config?.server?.backend
+   ? sslConfig(config.server.backend)
+   : sslConfig('localhost:8080');
+
 const templateExts =
    filetypes.templates.length > 1
       ? '{' + filetypes.templates.join() + '}'
       : filetypes.templates[0];
-
-const sslConfig = useSsl();
-const isWordPress = isWP();
 
 // https://webpack.js.org/configuration/dev-server/
 const devServerDefault = {
@@ -43,7 +54,7 @@ const devServerDefault = {
    // See the chokidar documentation for the possible options.
    // Webpack-dev-server doesn't watch HTML files by default.
    watchFiles: [
-      isWordPress
+      cms
          ? path.resolve(paths.ROOT + '/**/*.' + templateExts)
          : // Frontend templates are being watched, for devserver to reload.
            // They are also being watched by webpack to rebuild on change.
@@ -54,24 +65,23 @@ const devServerDefault = {
    // specify it like this: devServer: { host: '0.0.0.0' },
    // 'local-ip' | 'local-ipv4' | 'local-ipv6' string
    // ** REQUIRED ** for assets.json
-   host: sslConfig.domain,
+   host: server.domain,
 
    // ** REQUIRED ** for assets.json
-   port: 8080,
+   port: server.port || 8080,
 
-   // Tells dev-server to open the browser after server had been started.
-   // Set it `true` to open your default browser.
+   // Tells dev-server to open the browser after the server has started.
    // https://webpack.js.org/configuration/dev-server/#devserveropen
-   open: !isWordPress,
+   open: !cms, // Use BrowserSync with WP.
 
-   // `server.type` ** REQUIRED ** for assets.json
    server:
-      sslConfig.sslKeyFile && sslConfig.sslCertFile
-         ? {
+      ssl.sslKeyFile && ssl.sslCertFile
+         ? // `server.type` ** REQUIRED ** for assets.json
+           {
               type: 'https',
               options: {
-                 key: sslConfig.sslKeyFile,
-                 cert: sslConfig.sslCertFile,
+                 key: ssl.sslKeyFile,
+                 cert: ssl.sslCertFile,
               },
            }
          : {
@@ -79,27 +89,28 @@ const devServerDefault = {
            },
 
    /*
-   proxy: proxy2domain
-      ? {
-           // https://stackoverflow.com/questions/43387450/wordpress-redirecting-to-siteurl-when-accessed-via-webpack-dev-server-proxy
-           '/': {
-              target: 'http://' + localWpDomain + localWpDomExt,
+         This does not work properly, use BrowserSync instead.
+         proxy: proxy2domain
+            ? {
+               // https://stackoverflow.com/questions/43387450/wordpress-redirecting-to-siteurl-when-accessed-via-webpack-dev-server-proxy
+               '/': {
+                  target: 'http://' + localWpDomain + localWpDomExt,
 
-              // A backend server running on HTTPS with an invalid certificate will
-              // not be accepted by default. If you want to, set `secure: false`.
-              secure: false,
+                  // A backend server running on HTTPS with an invalid certificate will
+                  // not be accepted by default. If you want to, set `secure: false`.
+                  secure: false,
 
-              // The origin of the host header is kept when proxying by default,
-              // you can set changeOrigin to true to override this behaviour. It
-              // is useful in some cases like using name-based virtual hosted sites.
-              changeOrigin: true,
+                  // The origin of the host header is kept when proxying by default,
+                  // you can set changeOrigin to true to override this behaviour. It
+                  // is useful in some cases like using name-based virtual hosted sites.
+                  changeOrigin: true,
 
-              autoRewrite: true,
+                  autoRewrite: true,
 
-              headers: { 'X-ProxiedBy-Webpack': true },
-           },
-        }
-      : {},
+                  headers: { 'X-ProxiedBy-Webpack': true },
+               },
+            }
+            : {},
       */
 
    // https://stackoverflow.com/questions/43387450/wordpress-redirecting-to-siteurl-when-accessed-via-webpack-dev-server-proxy
@@ -120,7 +131,7 @@ const devServerDefault = {
    // When set to 'auto' this option always allows localhost, host, and client.webSocketURL.hostname.
    // 'auto' | 'all' | [string]
    // Prevents getting the `Invalid Host/Origin header` error.
-   allowedHosts: ['.' + sslConfig.domain, 'localhost', 'host'],
+   allowedHosts: ['.' + server.domain, 'localhost', 'host'],
 };
 
 module.exports = merge(devServerDefault, config.server.devServer);

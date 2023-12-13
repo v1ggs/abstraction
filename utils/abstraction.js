@@ -1,4 +1,5 @@
 const fs = require('fs');
+const url = require('url');
 const path = require('path');
 const { exec } = require('child_process');
 const { paths } = require('./get-paths');
@@ -32,16 +33,13 @@ exports.usingBabelrc = () =>
 exports.differentialBuildConfig = () =>
    !this.usingBrowserslistrc() && !this.usingBabelrc();
 
-// Are we developing with WordPress?
-exports.isWP = () => {
-   const configExists = getUserConfig();
+// Are we developing with a CMS?
+exports.isCMS = () => {
+   const userConfig = getUserConfig();
 
-   if (configExists) {
-      const userConfig = configExists;
-      return userConfig.server?.proxy ? true : false;
-   }
+   if (!userConfig) return false;
 
-   return false;
+   return userConfig.server?.backend ? true : false;
 };
 
 // Clear screen
@@ -128,39 +126,41 @@ exports.projectVersion = () => {
       this.consoleMsg.error('Error reading package.json!');
    }
 
-   console.log('pkgVersion');
-   console.log(pkgVersion);
    return pkgVersion;
 };
 
+exports.parseUrl = href => {
+   // Nodejs:url won't work without a protocol specified,
+   // e.g. if only 'localhost:<port>' is provided in config.
+   if (!href.includes('http')) {
+      // If there's no protocol, we'll assume it's http.
+      href = 'http://' + href;
+   }
+
+   const parsed = url.parse(href);
+
+   return {
+      href: parsed.href,
+      protocol: parsed.protocol,
+      domain: parsed.hostname.replace(/(www\.)/, ''),
+      port: parsed.port,
+   };
+};
+
 // If we're on SSL, what domain and certificate to use.
-exports.useSsl = () => {
-   const userConfig = getUserConfig();
-
-   // We need a domain that is being blocked with hosts file,
-   // not the theme dir name.
-   const domain = userConfig?.server?.proxy
-      ? userConfig.server.proxy
-           .replace(/https?:\/\/(www\.)?/, '')
-           // remove :<port> and trailing slash
-           .replace(/:\d+\/?/, '')
-      : 'localhost';
-
+exports.sslConfig = href => {
+   const server = this.parseUrl(href);
    const certPath = paths.SSLCERT;
-   const mkcertCertPath = path.join(certPath, domain + '.pem');
-   const mkcertKeyPath = path.join(certPath, domain + '-key.pem');
+   const mkcertCertPath = path.join(certPath, server.domain + '.pem');
+   const mkcertKeyPath = path.join(certPath, server.domain + '-key.pem');
    let sslKeyFile, sslCertFile;
-   let protocol = 'http://';
 
    if (fs.existsSync(mkcertCertPath) && fs.existsSync(mkcertKeyPath)) {
       sslKeyFile = mkcertKeyPath;
       sslCertFile = mkcertCertPath;
-      protocol = 'https://';
    }
 
    return {
-      protocol,
-      domain,
       sslKeyFile,
       sslCertFile,
    };

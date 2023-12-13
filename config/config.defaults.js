@@ -94,8 +94,8 @@ module.exports = {
 
    server: {
       // Local backend domain, e.g. 'http://abstraction.local',
-      // for WordPress development.
-      proxy: undefined,
+      // for development with a CMS.
+      backend: undefined,
 
       // https://webpack.js.org/configuration/dev-server/
       // Complete devServer config, merged with the default.
