@@ -25,10 +25,13 @@
 		"PRODUCTION": "readonly",
 		"REM_SIZE": "readonly",
 		"DESIGN": "readonly",
+		"PUBLIC_PATH": "readonly",
+		"SITE_DESCRIPTION": "readonly",
 		"ENV_MAIN": "readonly",
 		"ENV_LEGACY": "readonly"
 	},
 	"ignorePatterns": [
+		"**/.*/**/*",
 		"**/node_modules",
 		"**/vendor"
 	],

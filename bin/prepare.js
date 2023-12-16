@@ -6,6 +6,7 @@ const path = require('path');
 const configFiles = [
    '.abstraction.config.js',
    '.browserslistrc',
+   '.dcignore',
    '.editorconfig',
    '.eslintrc',
    '.gitignore',

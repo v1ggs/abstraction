@@ -41,28 +41,53 @@ module.exports = {
             // https://ec.europa.eu/component-library/v1.15.0/eu/docs/conventions/git/#type
             types: [
                {
+                  // A new feature
                   type: 'feat',
                   section: 'Features',
                   hidden: false,
                },
                {
+                  // A bug fix
                   type: 'fix',
                   section: 'Bug Fixes',
                   hidden: false,
                },
                {
+                  // Documentation only changes
                   type: 'docs',
                   section: 'Docs',
                   hidden: false,
                },
                {
-                  type: 'chore',
-                  section: 'Chore',
+                  // Changes that do not affect the meaning of the
+                  // code (white-space, formatting, missing semi-colons, etc)
+                  type: 'style',
+                  section: 'Code Style',
                   hidden: false,
                },
                {
+                  // A code change that neither fixes a bug nor adds a feature
                   type: 'refactor',
                   section: 'Refactor',
+                  hidden: false,
+               },
+               {
+                  // A code change that improves performance
+                  type: 'perf',
+                  section: 'Performance',
+                  hidden: false,
+               },
+               {
+                  // Adding missing tests
+                  type: 'test',
+                  section: 'Tests',
+                  hidden: false,
+               },
+               {
+                  // Changes to the build process or auxiliary tools and
+                  // libraries such as documentation generation
+                  type: 'chore',
+                  section: 'Chore',
                   hidden: false,
                },
             ],

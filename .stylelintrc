@@ -3,6 +3,7 @@
 		"stylelint-config-recommended-scss"
 	],
 	"ignoreFiles": [
+		"**/.*/**/*",
 		"**/node_modules/**/*",
 		"**/vendor/**/*"
 	],

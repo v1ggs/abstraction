@@ -1,17 +1,26 @@
-.env
-.git
 .cert
-.husky
-.vscode/*
+
+# Hidden directories
+.*/
+
+# VSCode
 !.vscode/*.code-snippets
-.project
+
+# Nodejs
 node_modules
+
+# Composer
 vendor
+
+# Project
+src
 logs
-src/*
-# !src/templates
-# !src/components
-# src/templates/*
-# src/components/*
-*.tgz
-*.zip
+public
+.env
+Todo*
+README.html
+.abstraction.config.js
+
+# Files
+**/*.tgz
+**/*.zip
