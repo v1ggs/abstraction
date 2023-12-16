@@ -13,16 +13,17 @@
 // of the bundle and recompile it for you via webpack-dev-middleware. Depending on your
 // configuration, the URL may look like http://localhost:9000/webpack-dev-server/invalidate.
 
+const glob = require('glob');
 const { merge } = require('../../utils/js');
 const { config } = require('../../utils/get-config');
 const server = require('../../utils/get-config-server');
-// const { filetypes } = require('../../utils/get-filetypes');
+const { filetypes } = require('../../utils/get-filetypes');
 const { isCMS, isProduction } = require('../../utils/abstraction');
 
-// const templateExts =
-//    filetypes.templates.length > 1
-//       ? '{' + filetypes.templates.join() + '}'
-//       : filetypes.templates[0];
+const templateExts =
+   filetypes.templates.length > 1
+      ? '{' + filetypes.templates.join() + '}'
+      : filetypes.templates[0];
 
 // https://webpack.js.org/configuration/dev-server/
 const dsConfig = {
@@ -71,27 +72,36 @@ const dsConfig = {
       server.url.domain !== 'localhost' ? ['.' + server.url.domain] : [],
    ),
 
-   // This option allows you to configure a list of globs/directories/files to
-   // watch for file changes.
-   // It is possible to configure advanced options for watching files.
-   // See the chokidar documentation for the possible options.
-   // watchFiles: {
-   //    // Webpack-dev-server doesn't watch HTML files by default.
-   //    paths: ['/**/*.' + templateExts],
-   //    options: {
-   //       cwd: '.',
+   // This option allows you to configure a list of
+   // globs/directories/files to watch for file changes.
+   watchFiles: {
+      // Webpack-dev-server doesn't watch HTML files by default.
+      // Can't watch dist (to wait for templates to build),
+      // because it's in memory when serving.
+      paths: glob.sync(config.paths.ROOT + '/**/*.' + templateExts, {
+         // Case-insensitive: does not work properly.
+         // nocase: true,
 
-   //       // Ignore dot-dirs.
-   //       ignored: ['.*/**'],
-
-   //       // It is typically necessary to set this to true to successfully watch
-   //       // files over a network, and it may be necessary to successfully watch
-   //       // files in other non-standard situations.
-   //       // If polling leads to high CPU utilization, consider setting
-   //       // this to false.
-   //       usePolling: false,
-   //    },
-   // },
+         ignore: [
+            config.paths.ROOT + '/**/.*/**',
+            config.paths.ROOT + '/**/node_modules/**',
+            config.paths.ROOT + '/**/vendor/**',
+            // Glob case-insensitive does not work.
+            config.paths.ROOT + '/**/Todo*',
+            config.paths.ROOT + '/**/todo*',
+            config.paths.ROOT + '/**/TODO*',
+            config.paths.ROOT + '/**/Readme*',
+            config.paths.ROOT + '/**/readme*',
+            config.paths.ROOT + '/**/README*',
+            config.paths.ROOT + '/**/License*',
+            config.paths.ROOT + '/**/license*',
+            config.paths.ROOT + '/**/LICENSE*',
+            config.paths.ROOT + '/**/Changelog*',
+            config.paths.ROOT + '/**/changelog*',
+            config.paths.ROOT + '/**/CHANGELOG*',
+         ],
+      }),
+   },
 
    // By default, the dev-server will reload/refresh the page when file
    // changes are detected.
