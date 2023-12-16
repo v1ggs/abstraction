@@ -1,6 +1,14 @@
 // config.defaults.js
 
 module.exports = {
+   path: {
+      // Source files
+      src: './src',
+
+      // Output path
+      dist: './dist',
+   },
+
    // Defines global variables that will be available in code.
    // Default variables will be added to this object.
    globals: {},
