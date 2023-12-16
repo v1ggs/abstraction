@@ -41,7 +41,7 @@ module.exports = {
    css: {
       // Base size for converting pixels to rems. Set `false` to prevent
       // converting pixels to rems. It's available in scss.
-      px2rem: 16,
+      baseFontSize: 16,
 
       // Group and sort media queries (mobile/desktop first way).
       // Set `false` to prevent grouping and sorting media queries.

@@ -106,13 +106,13 @@ const postcssPlugins = [
    ],
 
    // https://www.npmjs.com/package/postcss-pxtorem
-   config.css.px2rem && [
+   config.css.baseFontSize && [
       'postcss-pxtorem',
 
       {
          // rootValue (Number | Function) Represents the root element font size
          // or returns the root element font size based on the input parameter
-         rootValue: config.css.px2rem,
+         rootValue: config.css.baseFontSize,
 
          // unitPrecision (Number) The decimal numbers to allow the REM
          // units to grow to

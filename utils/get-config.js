@@ -120,7 +120,7 @@ config.paths = {
 config.globals = Object.assign(config.globals, {
    PRODUCTION: isProduction,
    DESIGN: config.css.sortMQ,
-   REM_SIZE: config.css.px2rem,
+   REM_SIZE: config.css.baseFontSize,
    PUBLIC_PATH: config.paths.PUBLIC,
    // for differential-scripts-loader
    assetsJsonFile: assetsJsonFilename,
