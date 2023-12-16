@@ -1,7 +1,8 @@
 const fs = require('fs');
 const url = require('url');
 const path = require('path');
-const { config } = require('./get-config');
+const { getUserConfig } = require('./get-config-user');
+const config = getUserConfig();
 
 const parseUrl = href => {
    // Nodejs:url won't work without a protocol specified,

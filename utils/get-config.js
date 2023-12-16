@@ -2,9 +2,10 @@
 // User config completely overwrites some properties.
 
 const path = require('path');
-const { isProduction } = require('./abstraction');
+const server = require('./get-config-server');
 const { getUserConfig } = require('./get-config-user');
 const configDefault = require('../config/config.defaults');
+const { isProduction, isServing, isCMS } = require('./abstraction');
 const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    merge,
@@ -56,7 +57,6 @@ const DIST_DIRNAME = path.parse(config.path.dist).base;
 
 config.paths = {
    ROOT: ROOT,
-   PUBLIC: '/',
    LOGS: path.resolve(ROOT, 'logs'),
    PROJECT_DIRNAME: path.parse(ROOT).base,
    BABELCACHE: path.join(CACHE, 'babel-loader'),
@@ -81,6 +81,23 @@ config.paths = {
       video: 'video',
       documents: 'general',
    },
+
+   PUBLIC: !isCMS()
+      ? // Frontend
+        '/'
+      : // CMS
+        !isServing
+        ? '/'
+        : // When serving (devserver), assets in CSS (images, fonts...),
+          // will be looked for on the backend domain, where they are not.
+          // They are being served with devServer, on another domain or port.
+          // Script.src in HTML must be the publicPath.
+          (server.isSsl ? 'https' : 'http') +
+          '://' +
+          server.url.domain +
+          ':' +
+          server.dsPort +
+          '/',
 
    RESOLVE_ROOTS: arrMergeDedupe(
       SRC_ABSOLUTE,
@@ -122,7 +139,5 @@ const values = Object.values(config.globals).map(value => {
 for (let i = 0; i < values.length; i++) {
    config.globals[keys[i]] = values[i];
 }
-
-console.log(config);
 
 exports.config = config;
