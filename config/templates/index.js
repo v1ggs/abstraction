@@ -31,9 +31,8 @@ const templates = glob.sync(dir + '/*.' + extensions, {
    ignore: [dir + '/_*/**', dir + '/**/_*'],
 });
 
-// Using a loader, only if not working with a CMS
-// and when there are templates in the `src` dir.
-if (!isCMS() && templates.length) {
+// Using a loader, only if not working with a CMS.
+if (!isCMS()) {
    templatesLoader =
       // Use custom (user's) templates loader(s)
       config.templates?.customLoader?.fileTypes?.length &&
