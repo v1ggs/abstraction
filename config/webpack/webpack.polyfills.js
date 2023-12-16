@@ -148,9 +148,8 @@ mdSync(paths.POLYFILLS);
 clearScreen();
 
 consoleMsg.info(
-   'Creating JavaScript files with required `core-js` polyfills, based on your code and targeted browsers.',
+   'Creating JavaScript files with required `core-js` polyfills, based on your code and targeted browsers.\n',
 );
-console.log('');
 
 module.exports = () => {
    if ((Array.isArray(ENTRY) && ENTRY.length) || typeof ENTRY === 'string') {

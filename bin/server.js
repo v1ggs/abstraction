@@ -9,8 +9,6 @@ const webpackConfig = require(
 
 const compiler = Webpack(webpackConfig);
 
-console.log(webpackConfig);
-
 const devServerOptions = {
    // Make sure the main config is always first in the config array.
    ...webpackConfig[0].devServer,
