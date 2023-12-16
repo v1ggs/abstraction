@@ -60,7 +60,7 @@ exports.loader = {
          // loader that replaces relative asset paths
          // with the '{% static %}' tag, for the nunjucks
          // loader to copy assets and rewrite urls
-         loader: require.resolve('./nunjucks-preloader.js'),
+         loader: require.resolve(__dirname, 'nunjucks-preloader.js'),
 
          options: {
             filetypes: filetypes.images.concat(

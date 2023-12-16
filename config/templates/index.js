@@ -3,14 +3,18 @@ const glob = require('glob');
 const nunjucksConfig = require('./nunucks');
 const dsl = require('./html-webpack-plugin-dsl');
 const { paths } = require('../../utils/get-paths');
-const { isWP } = require('../../utils/abstraction');
 const { config } = require('../../utils/get-config');
+const { filetypesArr2regex } = require('../../utils/js');
 const { filetypes } = require('../../utils/get-filetypes');
 const { HtmlWebpackPlugin } = require('./html-webpack-plugin');
-const { filetypesArr2regex, fixPathForGlob } = require('../../utils/js');
+const {
+   isCMS,
+   differentialBuildConfig,
+   isProduction,
+} = require('../../utils/abstraction');
 
 let templatesLoader;
-const isWordPress = isWP();
+const isDifferentialBuild = differentialBuildConfig();
 
 // Templates file extensions
 const extensions =
@@ -20,7 +24,7 @@ const extensions =
       : filetypes.templates[0];
 
 // Prepare path for `glob`.
-const dir = fixPathForGlob(paths.SRC.absolute);
+const dir = paths.SRC.absolute;
 
 // Get template files.
 const templates = glob.sync(dir + '/*.' + extensions, {
@@ -28,9 +32,9 @@ const templates = glob.sync(dir + '/*.' + extensions, {
    ignore: [dir + '/_*/**', dir + '/**/_*'],
 });
 
-// Using templates only if not working with WordPress
+// Using a loader, only if not working with a CMS
 // and when there are templates in the `src` dir.
-if (!isWordPress && templates.length) {
+if (!isCMS() && templates.length) {
    templatesLoader =
       // Use custom (user's) templates loader(s)
       config.templates?.customLoader?.fileTypes?.length &&

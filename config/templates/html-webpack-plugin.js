@@ -1,13 +1,12 @@
 const path = require('path');
 const { config } = require('../../utils/get-config');
 const {
-   isWP,
+   isCMS,
    themeDirName,
    differentialBuildConfig,
 } = require('../../utils/abstraction');
 
 const isDifferentialBuild = differentialBuildConfig();
-const isWordPress = isWP();
 
 // https://www.npmjs.com/package/html-webpack-plugin
 exports.DefaultHtmlWebpackPlugin = require('html-webpack-plugin');
@@ -31,7 +30,7 @@ exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
       // Passing false will disable automatic injections.
       // see https://github.com/jantimon/html-webpack-plugin/tree/master/examples/custom-insertion-position
       // ****************************************************************
-      inject: !isWordPress && !isDifferentialBuild,
+      inject: !isCMS() && !isDifferentialBuild,
 
       // Errors details will be written into the HTML page
       showErrors: true,

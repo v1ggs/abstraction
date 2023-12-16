@@ -15,13 +15,12 @@ const path = require('path');
 const { paths } = require('../../utils/get-paths');
 const { existsSync, readFileSync } = require('fs');
 const {
-   isWP,
+   isCMS,
    isProduction,
    differentialBuildConfig,
 } = require('../../utils/abstraction');
 
 const isDifferentialBuild = differentialBuildConfig();
-const isWordPress = isWP();
 
 class AbstractionDSL {
    apply(compiler) {
@@ -33,7 +32,7 @@ class AbstractionDSL {
             'AbstractionDSL', // <-- Set a meaningful name here for stacktraces
 
             (data, cb) => {
-               if (isDifferentialBuild && !isWordPress && !isProduction) {
+               if (isDifferentialBuild && !isCMS() && !isProduction) {
                   // Differential serving javascripts loader
                   const abstractionDsl = path.resolve(
                      paths.ROOT,
