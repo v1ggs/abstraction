@@ -4,22 +4,20 @@ const path = require('path');
 const webpack = require('webpack');
 const { paths } = require('./get-paths');
 const { fixPathForGlob } = require('./js');
-const server = require('../config/server');
 const { config } = require('./get-config');
+const server = require('../utils/get-config-server');
 const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
-   isWP,
    isServing,
    differentialBuildConfig,
    projectVersion,
 } = require('./abstraction');
 
 const timestamp = Date.now();
-const isWordPress = isWP();
 const isDifferentialBuild = differentialBuildConfig();
 
 // const RemoveEmptyScripts = require( 'webpack-remove-empty-scripts' );
@@ -257,15 +255,16 @@ exports.AssetsPlugin = () => {
          projectVersion: projectVersion(),
          timestamp: timestamp,
          mode: process.env.NODE_ENV,
-         themeDirName: paths.THEMEDIR,
          dist: paths.DIST.dirname,
+         publicPath: paths.PUBLIC,
+         projectDirname: paths.PROJECT_DIRNAME,
          differentialServe: isDifferentialBuild,
-         devServer: {
-            protocol: server.devServer.server.type,
-            host: server.devServer.host,
-            port: server.devServer.port,
-         },
          webpackEntries: config.javascript.entry,
+         devServer: {
+            protocol: server.url.protocol,
+            host: server.url.domain,
+            port: server.dsPort,
+         },
       },
 
       // Name for the created json file.
@@ -328,7 +327,7 @@ exports.AssetsPlugin = () => {
       // When set, the assets file will only be generated in memory while
       // running webpack-dev-server and not written to disk.
       // Optional. false by default.
-      keepInMemory: !isWordPress && isServing,
+      keepInMemory: isServing,
 
       // When set the output from webpack-subresource-integrity is included
       // in the assets file.
