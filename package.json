@@ -1,6 +1,6 @@
 {
 	"name": "@v1ggs/abstraction",
-	"version": "0.5.2",
+	"version": "0.6.0",
 	"description": "Webpack simplified. An advanced configuration for differential serving and much more...",
 	"main": "config/webpack/webpack.config.js",
 	"license": "MIT",
