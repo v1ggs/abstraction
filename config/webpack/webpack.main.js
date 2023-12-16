@@ -8,11 +8,11 @@ const js = require('../javascript');
 const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
 const { paths } = require('../../utils/get-paths');
-const { devServer, browserSync } = require('../server');
+const { devServer } = require('../server');
 const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
-   isWP,
+   isCMS,
    isProduction,
    differentialBuildConfig,
 } = require('../../utils/abstraction');
@@ -23,17 +23,16 @@ const {
    WebpackLicensePlugin,
 } = require('../../utils/webpack');
 
-const isWordPress = isWP();
 const isDifferentialBuild = differentialBuildConfig();
 
-// Global variables for doing things in code for this bundle only.
+// Global variables for usage in code for this bundle only.
 const modernGlobals = merge({}, config.globals);
 modernGlobals.ENV_MAIN = true;
 modernGlobals.ENV_LEGACY = false;
 const bundleExtension = isDifferentialBuild ? '.mjs' : '.js';
 
 const modern = {
-   name: 'MAIN', // legacy depends on this (note if changing it)
+   name: 'MAIN', // legacy depends on this (note if changing it).
 
    // Defaults to 'browserslist' or to 'web' when no browserslist configuration was found.
    // It helps determinate ES-features that may be used to generate a runtime-code
@@ -75,7 +74,7 @@ const modern = {
       CopyPlugin(), // it's array
       sass.plugins.MiniCssExtractPlugin, // it's array
 
-      isWordPress ? [browserSync] : templatesPlugin(), // it's array
+      isCMS() ? [] : templatesPlugin(), // it's array
 
       isProduction
          ? [

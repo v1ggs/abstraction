@@ -13,105 +13,95 @@
 // of the bundle and recompile it for you via webpack-dev-middleware. Depending on your
 // configuration, the URL may look like http://localhost:9000/webpack-dev-server/invalidate.
 
-const path = require('path');
 const { merge } = require('../../utils/js');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
-const { filetypes } = require('../../utils/get-filetypes');
-const { sslConfig, isCMS, parseUrl } = require('../../utils/abstraction');
+const server = require('../../utils/get-config-server');
+// const { filetypes } = require('../../utils/get-filetypes');
+const { isCMS, isProduction } = require('../../utils/abstraction');
 
-const cms = isCMS();
-
-const server = config?.server?.backend
-   ? // If we're working with a backend, use the same domain,
-     // with a different port.
-     parseUrl(config.server.backend)
-   : // devServer defaults to 'localhost:8080'.
-     parseUrl('localhost:8080');
-
-const ssl = config?.server?.backend
-   ? sslConfig(config.server.backend)
-   : sslConfig('localhost:8080');
-
-const templateExts =
-   filetypes.templates.length > 1
-      ? '{' + filetypes.templates.join() + '}'
-      : filetypes.templates[0];
+// const templateExts =
+//    filetypes.templates.length > 1
+//       ? '{' + filetypes.templates.join() + '}'
+//       : filetypes.templates[0];
 
 // https://webpack.js.org/configuration/dev-server/
-const devServerDefault = {
+const dsConfig = {
+   // If you want your server to be accessible externally,
+   // specify it like this: devServer: { host: '0.0.0.0' }.
+   host: server.url.domain,
+
+   port: server.dsPort,
+
+   // To enable Hot Module Replacement without page refresh as
+   // a fallback in case of build failures, use hot: 'only'.
+   hot: true,
+
+   server: server.isSsl
+      ? {
+           type: 'https',
+           options: server.devServer.ssl,
+        }
+      : {
+           type: 'http',
+        },
+
+   // Tells dev-server to open the browser after the server has started.
+   // https://webpack.js.org/configuration/dev-server/#devserveropen
+   open: !isCMS(), // Use the backend domain with a CMS, just enqueue built JS.
+
    client: {
       // 'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'
-      logging: config.debug ? 'warn' : 'none',
+      logging: isProduction ? 'error' : 'warn',
 
       // Prints compilation progress in percentage in the browser.
       // progress: config.debug,
    },
 
+   // https://webpack.js.org/configuration/dev-server/#devserverallowedhosts
+   // This option allows you to allowlist services that are allowed to access the dev server.
+   // Mimicking Django's ALLOWED_HOSTS, a value beginning with . can be used as a subdomain
+   // wildcard. .host.com will match host.com, www.host.com, and any other subdomain of host.com.
+   // When set to 'auto' this option always allows localhost, host, and client.webSocketURL.hostname.
+   // When set to 'all' this option bypasses host checking. THIS IS NOT RECOMMENDED as apps
+   // that do not check the host are vulnerable to DNS rebinding attacks.
+   // 'auto' | 'all' | [string]
+   //
+   // Prevents getting the `Invalid Host/Origin header` error.
+   allowedHosts: ['localhost', 'host'].concat(
+      server.url.domain !== 'localhost' ? ['.' + server.url.domain] : [],
+   ),
+
    // This option allows you to configure a list of globs/directories/files to
    // watch for file changes.
    // It is possible to configure advanced options for watching files.
    // See the chokidar documentation for the possible options.
-   // Webpack-dev-server doesn't watch HTML files by default.
-   watchFiles: [
-      cms
-         ? path.resolve(paths.ROOT + '/**/*.' + templateExts)
-         : // Frontend templates are being watched, for devserver to reload.
-           // They are also being watched by webpack to rebuild on change.
-           path.resolve(paths.SRC.absolute + '/**/*.' + templateExts),
-   ],
+   // watchFiles: {
+   //    // Webpack-dev-server doesn't watch HTML files by default.
+   //    paths: ['/**/*.' + templateExts],
+   //    options: {
+   //       cwd: '.',
 
-   // Specify a host to use. If you want your server to be accessible externally,
-   // specify it like this: devServer: { host: '0.0.0.0' },
-   // 'local-ip' | 'local-ipv4' | 'local-ipv6' string
-   // ** REQUIRED ** for assets.json
-   host: server.domain,
+   //       // Ignore dot-dirs.
+   //       ignored: ['.*/**'],
 
-   // ** REQUIRED ** for assets.json
-   port: server.port || 8080,
+   //       // It is typically necessary to set this to true to successfully watch
+   //       // files over a network, and it may be necessary to successfully watch
+   //       // files in other non-standard situations.
+   //       // If polling leads to high CPU utilization, consider setting
+   //       // this to false.
+   //       usePolling: false,
+   //    },
+   // },
 
-   // Tells dev-server to open the browser after the server has started.
-   // https://webpack.js.org/configuration/dev-server/#devserveropen
-   open: !cms, // Use BrowserSync with WP.
-
-   server:
-      ssl.sslKeyFile && ssl.sslCertFile
-         ? // `server.type` ** REQUIRED ** for assets.json
-           {
-              type: 'https',
-              options: {
-                 key: ssl.sslKeyFile,
-                 cert: ssl.sslCertFile,
-              },
-           }
-         : {
-              type: 'http',
-           },
-
-   /*
-         This does not work properly, use BrowserSync instead.
-         proxy: proxy2domain
-            ? {
-               // https://stackoverflow.com/questions/43387450/wordpress-redirecting-to-siteurl-when-accessed-via-webpack-dev-server-proxy
-               '/': {
-                  target: 'http://' + localWpDomain + localWpDomExt,
-
-                  // A backend server running on HTTPS with an invalid certificate will
-                  // not be accepted by default. If you want to, set `secure: false`.
-                  secure: false,
-
-                  // The origin of the host header is kept when proxying by default,
-                  // you can set changeOrigin to true to override this behaviour. It
-                  // is useful in some cases like using name-based virtual hosted sites.
-                  changeOrigin: true,
-
-                  autoRewrite: true,
-
-                  headers: { 'X-ProxiedBy-Webpack': true },
-               },
-            }
-            : {},
-      */
+   // By default, the dev-server will reload/refresh the page when file
+   // changes are detected.
+   // devServer.hot option must be disabled or devServer.watchFiles option
+   // must be enabled in order for liveReload to take effect.
+   // Disable devServer.liveReload by setting it to false.
+   // Warning:
+   // Live reloading works only with web related targets like web,
+   // webworker, electron-renderer and node-webkit.
+   // liveReload: false,
 
    // https://stackoverflow.com/questions/43387450/wordpress-redirecting-to-siteurl-when-accessed-via-webpack-dev-server-proxy
    headers: {
@@ -120,18 +110,7 @@ const devServerDefault = {
       'Access-Control-Allow-Headers':
          'X-Requested-With, content-type, Authorization',
    },
-
-   // gzip
-   // compress: true,
-
-   // https://webpack.js.org/configuration/dev-server/#devserverallowedhosts
-   // This option allows you to allowlist services that are allowed to access the dev server.
-   // Mimicking Django's ALLOWED_HOSTS, a value beginning with . can be used as a subdomain
-   // wildcard. .host.com will match host.com, www.host.com, and any other subdomain of host.com.
-   // When set to 'auto' this option always allows localhost, host, and client.webSocketURL.hostname.
-   // 'auto' | 'all' | [string]
-   // Prevents getting the `Invalid Host/Origin header` error.
-   allowedHosts: ['.' + server.domain, 'localhost', 'host'],
 };
 
-module.exports = merge(devServerDefault, config.server.devServer);
+// Override with the user's config.
+module.exports = merge(dsConfig, config.server.devServer);

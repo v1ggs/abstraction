@@ -1,8 +1,6 @@
 const fs = require('fs');
-const url = require('url');
 const path = require('path');
 const { exec } = require('child_process');
-const { paths } = require('./get-paths');
 const { getUserConfig } = require('./get-config-user');
 const { appName } = require('../config/config.abstraction');
 
@@ -36,10 +34,7 @@ exports.differentialBuildConfig = () =>
 // Are we developing with a CMS?
 exports.isCMS = () => {
    const userConfig = getUserConfig();
-
-   if (!userConfig) return false;
-
-   return userConfig.server?.backend ? true : false;
+   return userConfig?.server?.backend ? true : false;
 };
 
 // Clear screen
@@ -78,7 +73,6 @@ exports.consoleMsg = new consoleMsg();
 
 exports.singleRuntimeInfo = entryConfig => {
    if (entryConfig && Object.keys(entryConfig).length > 1) {
-      this.clearScreen();
       this.consoleMsg.warning(
          '\nIf you include multiple entry points on a page, ' +
             'please set `javascript.singleRuntimeChunk: true`.' +
@@ -106,7 +100,9 @@ exports.corejsVersion = () => {
       corejsVersion = corejsVersion.replace(/[^\d.]/g, '');
    } catch (err) {
       // Will not exit.
-      this.consoleMsg.error('Error reading node_modules/core-js/package.json!');
+      this.consoleMsg.error(
+         'Error reading "node_modules/core-js/package.json"!',
+      );
    }
 
    // Counts dots to be able to slice() and use the main and the minor version only.
@@ -127,43 +123,6 @@ exports.projectVersion = () => {
    }
 
    return pkgVersion;
-};
-
-exports.parseUrl = href => {
-   // Nodejs:url won't work without a protocol specified,
-   // e.g. if only 'localhost:<port>' is provided in config.
-   if (!href.includes('http')) {
-      // If there's no protocol, we'll assume it's http.
-      href = 'http://' + href;
-   }
-
-   const parsed = url.parse(href);
-
-   return {
-      href: parsed.href,
-      protocol: parsed.protocol,
-      domain: parsed.hostname.replace(/(www\.)/, ''),
-      port: parsed.port,
-   };
-};
-
-// If we're on SSL, what domain and certificate to use.
-exports.sslConfig = href => {
-   const server = this.parseUrl(href);
-   const certPath = paths.SSLCERT;
-   const mkcertCertPath = path.join(certPath, server.domain + '.pem');
-   const mkcertKeyPath = path.join(certPath, server.domain + '-key.pem');
-   let sslKeyFile, sslCertFile;
-
-   if (fs.existsSync(mkcertCertPath) && fs.existsSync(mkcertKeyPath)) {
-      sslKeyFile = mkcertKeyPath;
-      sslCertFile = mkcertCertPath;
-   }
-
-   return {
-      sslKeyFile,
-      sslCertFile,
-   };
 };
 
 exports.phpVer = () => {

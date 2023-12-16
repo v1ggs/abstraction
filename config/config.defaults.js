@@ -100,10 +100,5 @@ module.exports = {
       // https://webpack.js.org/configuration/dev-server/
       // Complete devServer config, merged with the default.
       devServer: {},
-
-      // https://browsersync.io/docs/options/
-      // Complete BrowserSync config, merged with the default.
-      // BrowserSync is used only when developing with WordPress.
-      browserSync: {},
    },
 };
