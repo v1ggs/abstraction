@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const { paths } = require('../utils/get-paths');
+const server = require('../utils/get-config-server');
 const { consoleMsg } = require('../utils/abstraction');
 const { getUserConfig } = require('../utils/get-config-user');
 
@@ -13,12 +14,7 @@ const userConfig = getUserConfig();
 
 // We need a domain that is being blocked with hosts file,
 // not the project's dir name.
-const domain = userConfig?.server?.proxy
-   ? userConfig.server.proxy
-        .replace(/https?:\/\/(www\.)?/, '')
-        // remove :<port> and trailing slash
-        .replace(/:\d+\/?/, '')
-   : 'localhost';
+const domain = server.url.domain;
 
 const certPath = paths.SSLCERT;
 const certDir = path.parse(certPath).name;
