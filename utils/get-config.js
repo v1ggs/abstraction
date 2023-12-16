@@ -1,6 +1,5 @@
-// This gets full config: config.default merged with user's config.
-// It is later modified, because some properties need to be overwritten
-// with user's choices - because here they are merged.
+// Merge config.defaults with user config.
+// User config completely overwrites some properties.
 
 const { merge } = require('./js');
 const { globals } = require('./get-globals');

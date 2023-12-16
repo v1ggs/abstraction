@@ -1,23 +1,18 @@
-// ############################################################################
-// ################################################################# FILE TYPES
-// ############################################################################
-
 const { config } = require('./get-config');
-const { isWP } = require('./abstraction');
+const { isCMS } = require('./abstraction');
 const userTemplateFileTypes = config?.templates?.customLoader?.fileTypes;
-const isWordPress = isWP();
 
-let templateFileTypes = isWordPress
-   ? // We're working with WordPress.
-     ['php', 'html']
-   : // We're using front-end templates.
+let templateFileTypes = isCMS()
+   ? // Work with a CMS.
+     ['php', 'inc', 'module', 'html', 'htm']
+   : // Use front-end templates.
      userTemplateFileTypes &&
        Array.isArray(userTemplateFileTypes) &&
        userTemplateFileTypes.length > 0
      ? // User configured a templates loader.
        userTemplateFileTypes
-     : // Using the default simple-nunjucks-loader.
-       ['njk', 'nunjucks', 'html'];
+     : // Use the default simple-nunjucks-loader.
+       ['nj', 'njk', 'nunjucks', 'html', 'htm'];
 
 exports.filetypes = {
    templates: templateFileTypes,
