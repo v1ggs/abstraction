@@ -27,14 +27,14 @@ exports.merge = require('webpack-merge').merge;
 // Glob doesn't work with backward slashes:
 // `path.join()`, `path.resolve()`... won't work on Windows.
 // This function replaces backward with forward slashes.
-exports.fixPathForGlob = (_path) => {
+exports.fixPathForGlob = _path => {
    return _path.replace(/[\\]/g, '/');
 };
 
 // Gets (sync) all directories in a specified path (one level deep).
 // Excludes partials.
 // Returns an array of paths.
-exports.getFirstSubdirectories = (dir) => {
+exports.getFirstSubdirectories = dir => {
    dir = this.fixPathForGlob(dir);
    return glob.sync(dir + '/*', {
       ignore: [dir + '/**/*.*', dir + '/_*/**'],
@@ -44,7 +44,7 @@ exports.getFirstSubdirectories = (dir) => {
 // Gets (sync) all dirs/subdirs in a specified path.
 // Excludes partials.
 // Returns an array of paths.
-exports.getAllSubdirectories = (dir) => {
+exports.getAllSubdirectories = dir => {
    dir = this.fixPathForGlob(dir);
    return glob.sync(dir + '/**', {
       ignore: [dir + '/**/*.*', dir + '/_*/**'],
@@ -58,10 +58,10 @@ exports.getAllSubdirectories = (dir) => {
  * @param {string} filename - file to get
  * @returns file path
  */
-exports.scanDirsForFile = (filename) => {
+exports.scanDirsForFile = filename => {
    let theFile;
 
-   this.getFirstSubdirectories(process.cwd()).every((dir) => {
+   this.getFirstSubdirectories(process.cwd()).every(dir => {
       if (fs.existsSync(path.resolve(dir, filename))) {
          theFile = path.resolve(dir, filename);
 
@@ -80,14 +80,14 @@ exports.scanDirsForFile = (filename) => {
 exports.arrMergeDedupe = (...args) => [...new Set(args.flat())];
 
 // Creates a regex from an array of filetypes.
-exports.filetypesArr2regex = (filetypes) =>
+exports.filetypesArr2regex = filetypes =>
    // only 'i' flag for webpack
    new RegExp(`\\.(${filetypes.join('|')})$`, 'i');
 
 // Creates a 'negative' regex from an array of filetypes.
 // Use to do something if the string does not match the regex.
 // https://stackoverflow.com/a/406408
-exports.filetypes2negativeRegex = (filetypes) =>
+exports.filetypes2negativeRegex = filetypes =>
    // only 'i' flag for webpack
    new RegExp(`((?!${filetypes.join('|')}).)`, 'i');
 
@@ -108,6 +108,16 @@ exports.array2regex = (arr, flags) => {
          // Sort for maximal munch
          .sort((a, b) => b.length - a.length)
          .join('|'),
+      flags,
+   );
+};
+
+// Creates a regex from a string and escapes special characters.
+exports.string2regexEsc = (str, flags) => {
+   return new RegExp(
+      // Escape special characters:
+      // https://stackoverflow.com/a/400316
+      str.replace(/[.^$*+?()[{\|]/g, '\\$&'), // eslint-disable-line
       flags,
    );
 };
