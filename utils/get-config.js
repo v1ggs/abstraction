@@ -2,16 +2,17 @@
 // User config completely overwrites some properties.
 
 const path = require('path');
-const { globals } = require('./get-globals');
 const { isProduction } = require('./abstraction');
 const { getUserConfig } = require('./get-config-user');
 const configDefault = require('../config/config.defaults');
+const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    merge,
    fixPathForGlob,
    arrMergeDedupe,
    getFirstSubdirectories,
 } = require('./js');
+
 const userConfig = getUserConfig();
 
 const config =
@@ -19,7 +20,6 @@ const config =
       ? merge(configDefault, userConfig)
       : configDefault;
 
-config.globals = globals;
 config.debug = !isProduction;
 
 // Overwrite merged entry with the user's, if found.
@@ -56,7 +56,7 @@ const DIST_DIRNAME = path.parse(config.path.dist).base;
 
 config.paths = {
    ROOT: ROOT,
-   PUBLIC: config.paths.publicPath,
+   PUBLIC: '/',
    LOGS: path.resolve(ROOT, 'logs'),
    PROJECT_DIRNAME: path.parse(ROOT).base,
    BABELCACHE: path.join(CACHE, 'babel-loader'),
@@ -93,5 +93,36 @@ config.paths = {
       getFirstSubdirectories(SRC_ABSOLUTE + '/assets'),
    ),
 };
+
+// ====================================================
+// ============================================ GLOBALS
+// ====================================================
+// Configure globals here, not in `get-globals.js`,
+// to avoid later circular dependencies.
+
+config.globals = Object.assign(config.globals, {
+   PRODUCTION: isProduction,
+   DESIGN: config.css.sortMQ,
+   REM_SIZE: config.css.px2rem,
+   PUBLIC_PATH: config.paths.PUBLIC,
+   // for differential-scripts-loader
+   assetsJsonFile: assetsJsonFilename,
+});
+
+const keys = Object.keys(config.globals);
+const values = Object.values(config.globals).map(value => {
+   if (typeof value === 'string') {
+      // Required!!
+      return (value = JSON.stringify(value));
+   }
+
+   return value;
+});
+
+for (let i = 0; i < values.length; i++) {
+   config.globals[keys[i]] = values[i];
+}
+
+console.log(config);
 
 exports.config = config;
