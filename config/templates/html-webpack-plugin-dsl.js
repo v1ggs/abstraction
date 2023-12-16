@@ -34,10 +34,6 @@ class AbstractionDSL {
 
             (data, cb) => {
                if (isDifferentialBuild && !isWordPress && !isProduction) {
-                  console.log(isDifferentialBuild);
-                  console.log(isWordPress);
-                  console.log(isProduction);
-
                   // Differential serving javascripts loader
                   const abstractionDsl = path.resolve(
                      paths.ROOT,

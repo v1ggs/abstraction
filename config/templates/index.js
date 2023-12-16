@@ -42,39 +42,44 @@ if (!isWordPress && templates.length) {
          : // Use the default (nunjucks) loader
            nunjucksConfig.loader;
 } else {
-   // No loader with WordPress, or if there are no templates in `src`.
+   // No loader with a CMS and when there are no templates in `src`.
    templatesLoader = {};
 }
 
 exports.templatesLoader = templatesLoader;
 
 exports.templatesPlugin = () => {
+   // Array of html-webpack-plugin instances for each file.
+   let pluginInstances;
+
    // There are templates in the `src` dir:
    if (templates.length) {
       // Creates an array of html-webpack-plugins for each found file.
-      let templateFiles = templates.map(file => {
+      pluginInstances = templates.map(file => {
          // Gets file's path relative to the input 'dir', to pass it to
          // html-webpack-plugin, to output it to the same folder in the dist.
          let output = path.relative(dir, file);
 
+         // Change extension.
+         output = path.parse(output).name + '.html';
+
          // Passes a template (and optionally its output path) to html-webpack-plugin.
          return HtmlWebpackPlugin(file, output);
       });
-
-      // array of html-webpack-plugin instances for each file
-      return templateFiles.concat([
-         // Loads differential serving script.
-         // It is automatically turned of in production or with WordPress.
-         new dsl(),
-      ]);
    } else {
       // There are NO templates in the `src` dir:
-      return [HtmlWebpackPlugin()].concat([
-         // Loads differential serving script.
-         // It is automatically turned of in production or with WordPress.
-         new dsl(),
-      ]);
+      pluginInstances = [HtmlWebpackPlugin()];
    }
+
+   return pluginInstances.concat(
+      isDifferentialBuild && !isCMS() && !isProduction
+         ? [
+              // Loads differential serving script.
+              // It is automatically turned of in production or with WordPress.
+              new dsl(),
+           ]
+         : [],
+   );
 };
 
 // console.log(this.templatesPlugin());

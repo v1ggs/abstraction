@@ -23,9 +23,11 @@ exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
 
       // true || 'head' || 'body' || false
       // Inject all assets into the given template or templateContent.
-      // When passing 'body' all javascript resources will be placed at the bottom of the body element.
+      // When passing 'body' all javascript resources will be placed
+      // at the bottom of the body element.
       // 'head' will place the scripts in the head element.
-      // Passing true will add it to the head/body depending on the scriptLoading option.
+      // Passing true will add it to the head/body depending on the
+      // scriptLoading option.
       // Passing false will disable automatic injections.
       // see https://github.com/jantimon/html-webpack-plugin/tree/master/examples/custom-insertion-position
       // ****************************************************************
