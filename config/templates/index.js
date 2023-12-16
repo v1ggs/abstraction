@@ -2,7 +2,6 @@ const path = require('path');
 const glob = require('glob');
 const nunjucksConfig = require('./nunucks');
 const dsl = require('./html-webpack-plugin-dsl');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypesArr2regex } = require('../../utils/js');
 const { filetypes } = require('../../utils/get-filetypes');
@@ -24,7 +23,7 @@ const extensions =
       : filetypes.templates[0];
 
 // Prepare path for `glob`.
-const dir = paths.SRC.absolute;
+const dir = config.paths.SRC.path;
 
 // Get template files.
 const templates = glob.sync(dir + '/*.' + extensions, {

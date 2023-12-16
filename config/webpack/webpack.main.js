@@ -5,10 +5,9 @@ process.env.ENV_SASS_GLOBALS = JSON.stringify(config.globals);
 
 const sass = require('../sass');
 const js = require('../javascript');
+const { devServer } = require('../server');
 const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
-const { paths } = require('../../utils/get-paths');
-const { devServer } = require('../server');
 const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
@@ -50,12 +49,12 @@ const modern = {
       clean: isProduction ? { keep: assetsJsonFilename } : false,
 
       filename:
-         paths.DIST.javascript +
+         config.paths.DIST.javascript +
          '/[name]' +
          (isProduction ? '.[contenthash]' : '') +
          bundleExtension,
       chunkFilename:
-         paths.DIST.javascript +
+         config.paths.DIST.javascript +
          '/[name]' +
          (isProduction ? '.[contenthash]' : '') +
          bundleExtension,

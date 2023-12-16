@@ -15,7 +15,7 @@ module.exports = {
             // otherwise an error is thrown.
             // For some reason the plugin does not work for now.
             extract: false,
-            // spriteFilename: paths.DIST.images + '/sprite-[hash:10].svg',
+            // spriteFilename: config.paths.DIST.images + '/sprite-[hash:10].svg',
          },
       },
 

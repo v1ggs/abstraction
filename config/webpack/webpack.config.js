@@ -1,7 +1,7 @@
 // WEBPACK CONFIG FILE
 
-const config = [require('./webpack.main')];
-const { paths } = require('../../utils/get-paths');
+const webapckConfig = [require('./webpack.main')];
+const { config } = require('../../utils/get-config');
 const { mdSync, rdSync } = require('../../utils/fs');
 const {
    singleRuntimeInfo,
@@ -12,14 +12,14 @@ const isDifferentialBuild = differentialBuildConfig();
 
 if (isDifferentialBuild) {
    const legacyConfig = require('./webpack.legacy');
-   config.push(legacyConfig);
+   webapckConfig.push(legacyConfig);
 }
 
 // Display info in console about single runtime chunk.
-singleRuntimeInfo(config[0].entry);
+singleRuntimeInfo(webapckConfig[0].entry);
 
 // Deletes logs and creates a new folder.
-rdSync(paths.LOGS);
-mdSync(paths.LOGS);
+rdSync(config.paths.LOGS);
+mdSync(config.paths.LOGS);
 
-module.exports = config;
+module.exports = webapckConfig;

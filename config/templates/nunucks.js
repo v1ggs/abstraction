@@ -1,4 +1,3 @@
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypesArr2regex } = require('../../utils/js');
 const { filetypes } = require('../../utils/get-filetypes');
@@ -36,10 +35,10 @@ exports.loader = {
                },
 
                // One or more paths to resolve templates paths
-               searchPaths: paths.RESOLVE_ROOTS,
+               searchPaths: config.paths.RESOLVE_ROOTS,
 
                // Paths to resolve static assets. Works like STATICFILES_DIRS
-               assetsPaths: paths.RESOLVE_ROOTS,
+               assetsPaths: config.paths.RESOLVE_ROOTS,
 
                // Map global function to corresponding module
                globals: {},

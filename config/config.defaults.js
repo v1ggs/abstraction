@@ -5,11 +5,6 @@ module.exports = {
    // Default variables will be added to this object.
    globals: {},
 
-   // This is only used when working with WordPress and
-   // the theme dir has been moved to another location:
-   // https://developer.wordpress.org/reference/functions/register_theme_directory/
-   publicPath: undefined,
-
    javascript: {
       // Webpack's entry: https://webpack.js.org/concepts/entry-points/
       // Tip: As a rule of thumb: Use exactly one entry point for each HTML document.

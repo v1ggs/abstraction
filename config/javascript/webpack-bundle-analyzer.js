@@ -1,6 +1,6 @@
+const { config } = require('../../utils/get-config');
 const webpackBundleAnalyzer =
    require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { paths } = require('../../utils/get-paths');
 
 // Visualize size of webpack output files with an interactive zoomable treemap.
 module.exports = filename => {
@@ -9,7 +9,7 @@ module.exports = filename => {
       : new webpackBundleAnalyzer({
            // Filename has to be an .html file.
            analyzerMode: 'static',
-           reportFilename: paths.LOGS + '/' + filename,
+           reportFilename: config.paths.LOGS + '/' + filename,
            openAnalyzer: false,
         });
 };

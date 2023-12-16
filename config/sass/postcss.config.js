@@ -1,7 +1,6 @@
 // https://webpack.js.org/loaders/postcss-loader/
 
 const path = require('path');
-const { paths } = require('../../utils/get-paths');
 const { writeFileAsync } = require('../../utils/fs');
 const { config } = require('../../utils/get-config');
 const { filetypes } = require('../../utils/get-filetypes');
@@ -66,7 +65,7 @@ if (typeof purgeCssConfig === 'object') {
    // The files can be HTML, Pug, Blade, etc.
    const analyzeFiles = [];
 
-   paths.RESOLVE_ROOTS.forEach(_path => {
+   config.paths.RESOLVE_ROOTS.forEach(_path => {
       if (
          _path &&
          !['css', 'scss', 'sass', 'vendor'].some(filetype =>
@@ -215,7 +214,7 @@ const postcssPlugins = [
                   message.text.replace(/^\s+/gm, '') +
                   '\n\n\n';
                writeFileAsync(
-                  paths.LOGS +
+                  config.paths.LOGS +
                      '/' +
                      message.plugin.toUpperCase() +
                      '__' +

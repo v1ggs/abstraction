@@ -2,7 +2,6 @@ const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 const webpack = require('webpack');
-const { paths } = require('./get-paths');
 const { fixPathForGlob } = require('./js');
 const { config } = require('./get-config');
 const server = require('../utils/get-config-server');
@@ -97,13 +96,16 @@ exports.ProgressPlugin = identifier =>
  * @return {Object} string-replace-loader config
  */
 exports.exportPolyfills = filename => {
-   const file = path.resolve(paths.POLYFILLS, filename + '-polyfills.js');
+   const file = path.resolve(
+      config.paths.POLYFILLS,
+      filename + '-polyfills.js',
+   );
 
    // regex pattern to find `import "core-js/modules/**/*.js";`
    const regexPattern = /import\s*?["']core-js[/\\]modules[/\\].*?\.js["'];?/gi;
 
-   if (!fs.existsSync(paths.POLYFILLS)) {
-      fs.mkdirSync(paths.POLYFILLS, { recursive: true });
+   if (!fs.existsSync(config.paths.POLYFILLS)) {
+      fs.mkdirSync(config.paths.POLYFILLS, { recursive: true });
    }
 
    // Overwrite existing files first, then append data.
@@ -145,14 +147,14 @@ exports.exportPolyfills = filename => {
 // Replace this only with `webpack`, once this gets fixed.
 // https://www.npmjs.com/package/webpack-license-plugin
 exports.WebpackLicensePlugin = filename => {
-   const outputFilename = paths.DIST.javascript + '/' + filename;
+   const outputFilename = config.paths.DIST.javascript + '/' + filename;
 
    const options = {
       outputFilename: outputFilename + '.json',
 
       includePackages: () => {
          return config.licenses.include.map(pkg => {
-            return path.resolve(paths.ROOT, 'node_modules', pkg);
+            return path.resolve(config.paths.ROOT, 'node_modules', pkg);
          });
       },
 
@@ -184,7 +186,7 @@ exports.WebpackLicensePlugin = filename => {
          '\n\n\n\n';
 
       const additionalLicenseDir = fixPathForGlob(
-         path.resolve(paths.SRC.absolute, 'licenses'),
+         path.resolve(config.paths.SRC.path, 'licenses'),
       );
 
       const additionalLicenses = glob
@@ -231,7 +233,7 @@ exports.BannerPlugin = banner =>
 // https://www.npmjs.com/package/copy-webpack-plugin
 // Returns array
 exports.CopyPlugin = () => {
-   const copyDir = fixPathForGlob(path.resolve(paths.SRC.absolute, 'copy'));
+   const copyDir = fixPathForGlob(path.resolve(config.paths.SRC.path, 'copy'));
    const files = glob.sync(copyDir + '/**/*');
 
    if (fs.existsSync(copyDir) && files.length) {
@@ -255,9 +257,9 @@ exports.AssetsPlugin = () => {
          projectVersion: projectVersion(),
          timestamp: timestamp,
          mode: process.env.NODE_ENV,
-         dist: paths.DIST.dirname,
-         publicPath: paths.PUBLIC,
-         projectDirname: paths.PROJECT_DIRNAME,
+         dist: config.paths.DIST.dirname,
+         publicPath: config.paths.PUBLIC,
+         projectDirname: config.paths.PROJECT_DIRNAME,
          differentialServe: isDifferentialBuild,
          webpackEntries: config.javascript.entry,
          devServer: {
@@ -302,7 +304,7 @@ exports.AssetsPlugin = () => {
       //    ? // it gets deleted by webpack's clean,
       //      // therefore it's in the root in production.
       //      process.cwd()
-      //    : path.join(process.cwd(), paths.DIST.dirname),
+      //    : path.join(process.cwd(), config.paths.DIST.dirname),
 
       // `true` will use the compiler output path from the webpack config.
       // For some reason output.clean affects this, and we get only legacy

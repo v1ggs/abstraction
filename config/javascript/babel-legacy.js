@@ -2,8 +2,8 @@
 
 const path = require('path');
 const { cloneDeep } = require('../../utils/js');
-const { paths } = require('../../utils/get-paths');
-const babelCache = path.join(paths.BABELCACHE, 'es5');
+const { config } = require('../../utils/get-config');
+const babelCache = path.join(config.paths.BABELCACHE, 'es5');
 const { babelLoaderES6, babelPresetEnv } = require('./babel-modern');
 
 const babelLoaderES5 = cloneDeep(babelLoaderES6);

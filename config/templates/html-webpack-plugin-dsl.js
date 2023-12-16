@@ -12,8 +12,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
-const { paths } = require('../../utils/get-paths');
 const { existsSync, readFileSync } = require('fs');
+const { config } = require('../../utils/get-config');
 const {
    isCMS,
    isProduction,
@@ -35,7 +35,7 @@ class AbstractionDSL {
                if (isDifferentialBuild && !isCMS() && !isProduction) {
                   // Differential serving javascripts loader
                   const abstractionDsl = path.resolve(
-                     paths.ROOT,
+                     config.paths.ROOT,
                      'node_modules',
                      '@v1ggs',
                      'abstraction-dsl',

@@ -4,7 +4,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const { loaders } = require('../javascript/index');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { rdSync, mdSync } = require('../../utils/fs');
 const { filetypesArr2regex } = require('../../utils/js');
@@ -18,7 +17,7 @@ const {
 
 // This is where the files are built, because we don't need them all.
 // We need only files with extracted polyfills, and they go to `src`.
-const OUTPUTDIR = path.join(paths.BABELCACHE, 'polyfills-temp');
+const OUTPUTDIR = path.join(config.paths.BABELCACHE, 'polyfills-temp');
 const ENTRY = config.javascript.entry;
 // This is exported to be used as a webpack config.
 const CONFIG = [];
@@ -36,7 +35,7 @@ const exitPlugin = function () {
 
          consoleMsg.succes(
             'Please find JavaScript files with all required `core-js` polyfills, for all entries and chunks in: \n"' +
-               paths.POLYFILLS +
+               config.paths.POLYFILLS +
                '".\n\n' +
                "Don't forget to set `javascript.polyfills: manual` in the main config.\n" +
                'Some polyfills may be duplified, but Webpack will not bundle them more than once.\n' +
@@ -69,7 +68,7 @@ const main = (entry, name) => {
    name = isDifferentialBuild ? name + '-[es6]' : name;
 
    return {
-      context: paths.ROOT,
+      context: config.paths.ROOT,
       mode: 'production',
       entry: entry,
       name: name,
@@ -105,7 +104,7 @@ const legacy = (entry, name) => {
    name = name + '-[es5]';
 
    return {
-      context: paths.ROOT,
+      context: config.paths.ROOT,
       mode: 'production',
       entry: entry,
       name: name,
@@ -141,8 +140,8 @@ const addToConfig = (entry, filename) => {
    isDifferentialBuild && CONFIG.push(legacy(entry, filename));
 };
 
-rdSync(paths.POLYFILLS);
-mdSync(paths.POLYFILLS);
+rdSync(config.paths.POLYFILLS);
+mdSync(config.paths.POLYFILLS);
 // using output.clean for built files
 
 clearScreen();

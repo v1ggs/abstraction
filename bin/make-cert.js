@@ -5,21 +5,18 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const { paths } = require('../utils/get-paths');
+const { config } = require('../utils/get-config');
 const server = require('../utils/get-config-server');
 const { consoleMsg } = require('../utils/abstraction');
-const { getUserConfig } = require('../utils/get-config-user');
-
-const userConfig = getUserConfig();
 
 // We need a domain that is being blocked with hosts file,
 // not the project's dir name.
 const domain = server.url.domain;
 
-const certPath = paths.SSLCERT;
+const certPath = server.certDir;
 const certDir = path.parse(certPath).name;
-const gitIgnore = path.resolve(paths.ROOT, '.gitignore');
-const npmIgnore = path.resolve(paths.ROOT, '.npmignore');
+const gitIgnore = path.resolve(config.paths.ROOT, '.gitignore');
+const npmIgnore = path.resolve(config.paths.ROOT, '.npmignore');
 const mkcertCertPath = path.join(certPath, domain + '.pem');
 const mkcertKeyPath = path.join(certPath, domain + '-key.pem');
 

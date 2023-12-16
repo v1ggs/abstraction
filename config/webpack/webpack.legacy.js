@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const js = require('../javascript');
 const common = require('./webpack.common');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypes } = require('../../utils/get-filetypes');
 const { isProduction } = require('../../utils/abstraction');
@@ -35,11 +34,11 @@ const legacy = {
 
    output: {
       filename:
-         paths.DIST.javascript +
+         config.paths.DIST.javascript +
          '/[name].es5' +
          (isProduction ? '.[contenthash].js' : '.js'),
       chunkFilename:
-         paths.DIST.javascript +
+         config.paths.DIST.javascript +
          '/[name].es5' +
          (isProduction ? '.[contenthash].js' : '.js'),
 

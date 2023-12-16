@@ -1,7 +1,6 @@
 // BABEL LOADER - MODERN BUNDLE CONFIG
 
 const path = require('path');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypesArr2regex } = require('../../utils/js');
 const { filetypes } = require('../../utils/get-filetypes');
@@ -11,7 +10,7 @@ const {
    corejsVersion,
    usingBrowserslistrc,
 } = require('../../utils/abstraction');
-const babelCache = path.join(paths.BABELCACHE, 'es6');
+const babelCache = path.join(config.paths.BABELCACHE, 'es6');
 let useBuiltIns;
 
 const corejsVer = corejsVersion();

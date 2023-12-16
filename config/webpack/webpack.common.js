@@ -2,12 +2,10 @@
 
 const svg = require('../svg');
 const images = require('../images');
-const { devServer } = require('../server');
-const { paths } = require('../../utils/get-paths');
 const { config } = require('../../utils/get-config');
 const { filetypesArr2regex } = require('../../utils/js');
 const { filetypes } = require('../../utils/get-filetypes');
-const { isWP, isProduction } = require('../../utils/abstraction');
+const { isProduction } = require('../../utils/abstraction');
 const {
    AssetsPlugin,
    BannerPlugin,
@@ -15,13 +13,11 @@ const {
    HashedModuleIdsPlugin,
 } = require('../../utils/webpack');
 
-const isWordPress = isWP();
-
 const common = {
    // The base directory, an absolute path, for resolving entry points and loaders from the configuration.
    // By default, the current working directory of Node.js is used, but it's recommended to pass a value
    // in your configuration. This makes your configuration independent from CWD (current working directory).
-   context: paths.ROOT,
+   context: config.paths.ROOT,
 
    node: {
       __dirname: true,
@@ -33,36 +29,20 @@ const common = {
    entry: config.javascript.entry,
 
    output: {
-      path: paths.DIST.absolute,
+      path: config.paths.DIST.path,
 
-      // Access assets in browser on this location, no matter where they
-      // have been written on disk.
-      // E.g: <domain>/<config.output.publicPath>/bundle.js
-      // Imported script:src in html must match the publicPath.
-      // Also paths in css (images, fonts...) will be re-written to publicPath.
-      publicPath: !isWordPress
-         ? // Frontend.
-           paths.PUBLIC
-         : // WordPress.
-           isProduction
-           ? // Wordpres theme path in `production`.
-             paths.PUBLICWP
-           : // Relative paths in front end assets in `development` will
-             // be looked for on browsersync's domain, where they are not.
-             // They are being served with devServer, on another domain or port.
-             devServer.server.type +
-             '://' +
-             devServer.host +
-             ':' +
-             devServer.port +
-             paths.PUBLICWP,
+      // Access assets in a browser on this location.
+      // E.g: <domain>/<config.output.publicPath>/bundle.js.
+      // Included script.src in html must match the publicPath.
+      // Paths in CSS (images, fonts...) will be re-written to publicPath.
+      publicPath: config.paths.PUBLIC,
    },
 
    // Source maps only in `development`
    devtool: isProduction ? false : 'inline-source-map',
 
    resolve: {
-      roots: paths.RESOLVE_ROOTS,
+      roots: config.paths.RESOLVE_ROOTS,
       extensions: filetypes.javascript
          .concat(filetypes.sass)
          .map(ext => '.' + ext),
@@ -79,10 +59,10 @@ const common = {
             type: 'asset/resource',
             generator: {
                // DON'T PUT A DOT BETWEEN `[hash]` AND `[ext]`
-               filename: paths.DIST.images + '/[name].[hash][ext]',
+               filename: config.paths.DIST.images + '/[name].[hash][ext]',
                // filename: '[name].[hash][ext]',
-               // outputpath: paths.DIST.images,
-               // publicPath: paths.PUBLIC.themeRelative,
+               // outputpath: config.paths.DIST.images,
+               // publicPath: config.paths.PUBLIC.themeRelative,
             },
          },
 
@@ -90,7 +70,7 @@ const common = {
             test: filetypesArr2regex(filetypes.fonts),
             type: 'asset/resource',
             generator: {
-               filename: paths.DIST.fonts + '/[name].[hash][ext]',
+               filename: config.paths.DIST.fonts + '/[name].[hash][ext]',
             },
          },
 
@@ -98,7 +78,7 @@ const common = {
             test: filetypesArr2regex(filetypes.video),
             type: 'asset/resource',
             generator: {
-               filename: paths.DIST.video + '/[name].[hash][ext]',
+               filename: config.paths.DIST.video + '/[name].[hash][ext]',
             },
          },
 
@@ -106,7 +86,7 @@ const common = {
             test: filetypesArr2regex(filetypes.audio),
             type: 'asset/resource',
             generator: {
-               filename: paths.DIST.audio + '/[name].[hash][ext]',
+               filename: config.paths.DIST.audio + '/[name].[hash][ext]',
             },
          },
       ],
