@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { consoleMsg } = require('./abstraction');
 
-exports.rdSync = (_path) => {
+exports.rdSync = _path => {
    try {
       return fs.rmSync(_path, {
          recursive: true,
@@ -13,7 +13,7 @@ exports.rdSync = (_path) => {
    }
 };
 
-exports.mdSync = (_path) => {
+exports.mdSync = _path => {
    try {
       return fs.mkdirSync(_path, { recursive: true });
    } catch (error) {
@@ -31,14 +31,7 @@ exports.writeFileSync = function (file, content) {
    fs.mkdirSync(getFile.dir, { recursive: true });
 
    // write the file
-   return fs.writeFileSync(file, content, { encoding: 'utf8' }, function (err) {
-      if (err) {
-         console.warn(
-            'utils: writeFileSync() function error, writting file ' + file,
-         );
-         // console.log( err );
-      }
-   });
+   return fs.writeFileSync(file, content);
 };
 
 // Writes files to disk asynchronously and makes
@@ -51,12 +44,5 @@ exports.writeFileAsync = function (file, content) {
    fs.mkdirSync(getFile.dir, { recursive: true });
 
    // write the file
-   return fs.writeFileSync(file, content, { encoding: 'utf8' }, function (err) {
-      if (err) {
-         console.warn(
-            'utils: writeFileAsync() function error, writting file ' + file,
-         );
-         // console.log( err );
-      }
-   });
+   return fs.writeFileSync(file, content);
 };
