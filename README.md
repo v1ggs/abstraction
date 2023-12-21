@@ -30,7 +30,7 @@
 	- [Build polyfills for manual usage](#build-polyfills-for-manual-usage)
 - [MODES](#modes)
 	- [Build with `.browserslistrc`](#build-with-browserslistrc)
-	- [Build for differential serving](#build-for-differential-serving)
+	- [Build with differential serving](#build-with-differential-serving)
 - [CONFIG](#config)
 	- [Path](#path)
 	- [Globals](#globals)
@@ -89,7 +89,7 @@ In "differential serving" mode, you DON'T NEED two entry points for each build. 
 - Extract licenses and add those that are not being found automatically
 - Automatically restart the application on config change
 - SSL for local development, if you have [mkcert](https://github.com/FiloSottile/mkcert) installed
-- Develop with for CMS, with all webpack's features (a local backend domain required)
+- Develop for a CMS, with all webpack's features (a local backend domain required)
 
 ## USAGE
 
@@ -146,7 +146,7 @@ npx abs-run-prod
 ```
 
 ```sh
-# Build files in production mode (without serving)
+# Build files in development mode (without serving)
 npx abs-build-dev
 ```
 
@@ -168,7 +168,7 @@ Abstraction has two working modes:
 - Configure targeted browsers in `.browserslistrc` (optional)
 - [Run abstraction the way you want](#run)
 
-### Build for differential serving
+### Build with differential serving
 
 - Delete `.browserslistrc`
 - [Run abstraction the way you want](#run)
@@ -177,7 +177,7 @@ In a front-end project, the bundles will be included in HTML, so that you can te
 
 If you're using templates, this will work if your template has `<head></head>` section.\
 If you don't use templates, it's automatically configured.\
-If you're working with a CMS, include both `es5` and `es6` bundles with PHP, reading information from `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
+If you're working with a CMS, enqueue both `es5` and `es6` bundles with PHP, using the information in `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
 
 ## CONFIG
 
@@ -204,11 +204,11 @@ If you need global variables in your source code, you can define them in the `gl
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    globals: {
-		MY_GLOBAL_VAR: 'something',
-	},
+      MY_GLOBAL_VAR: 'something',
+   },
 };
 ```
 
@@ -221,7 +221,7 @@ module.exports = {
       PUBLIC_PATH: '/', // autoconfigured: '/' | 'protocol://domain:port/'
       REM_SIZE: 16, // configured in css settings
       DESIGN: 'mobile-first', // configured in css settings
-		// not available in SCSS
+      // not available in SCSS
       ENV_MAIN: true, // this is true in the modern bundle, false in the legacy
       ENV_LEGACY: true, // this is true in the legacy bundle, false in the modern
    },
@@ -279,7 +279,7 @@ Core-js version will be automatically determined an applied to the babel config,
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    javascript: {
       entry: {
@@ -298,7 +298,7 @@ module.exports = {
 
 **This section needs better documentation.**
 
-Use `css.baseFontSize` to set the default font size for the project. It will be used to convert `px` to `rem`. You can also use it in templates to set `html { font-size: $rem-size; }`. See more in [Globals section](#globals).
+Use `css.baseFontSize` to set the default font size for the project. It will be used to convert `px` to `rem`. You can also use it in `.scss` to set `html { font-size: $rem-size + px; }`. See more in [Globals section](#globals).
 
 All `px` values are converted to `rem`, based on this setting.
 
@@ -309,7 +309,7 @@ CSS is purged by default. Set `css.purge: false` to disable this. All templates 
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    css: {
       baseFontSize: 16,
@@ -354,7 +354,7 @@ If you work with nunjucks (default), [simple-nunjucks-loader](https://www.npmjs.
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    templates: {
       nunjucksOptions: {},
@@ -364,7 +364,7 @@ module.exports = {
 
 If you use another loader, you need to configure it in `templates.customLoader` object.
 
-- `templates.customLoader.fileTypes` option takes an array of file extensions processed with the loader (this is `test: <regex>` in webpack).
+- `templates.customLoader.fileTypes` option takes an **array** of file extensions processed with the loader and will be converted to `RegEx`, to be used as the webpack's [Rule.test](https://webpack.js.org/configuration/module/#ruletest) (`test: <regex>`).
 - `templates.customLoader.use` takes the loader's config (the same as [the webpack's `use` rule](https://webpack.js.org/configuration/module/#ruleuse)).
 
 Example for [handlebars loader](https://www.npmjs.com/package/handlebars-loader):
@@ -372,7 +372,7 @@ Example for [handlebars loader](https://www.npmjs.com/package/handlebars-loader)
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    templates: {
       customLoader: {
@@ -434,24 +434,24 @@ An example:
 ```js
 // .abstraction.config.js
 module.exports = {
-	// ...
+   // ...
 
    server: {
-	   backend: 'https://your-backend-domain.local/',
+      backend: 'https://your-backend-domain.local/',
 
-		// Override the default devServer config.
+      // Override the default devServer config.
       devServer: {
-			// Enable SSL and use a manually created SSL certificate.
-			https: {
-				ca: './path/to/server.pem',
-				pfx: './path/to/server.pfx',
-				key: './path/to/server.key',
-				cert: './path/to/server.crt',
-				passphrase: 'webpack-dev-server',
-				requestCert: true,
-			},
-		},
-	},
+         // Enable SSL and use a manually created SSL certificate.
+         https: {
+            ca: './path/to/server.pem',
+            pfx: './path/to/server.pfx',
+            key: './path/to/server.key',
+            cert: './path/to/server.crt',
+            passphrase: 'webpack-dev-server',
+            requestCert: true,
+         },
+      },
+   },
 };
 ```
 
@@ -461,11 +461,11 @@ If you're working with a CMS, you need a local domain with a CMS installed.
 
 In `.abstraction.config.js`, set `server.backend` to your local back-end domain. All Webpack's features will be available.
 
-In development environment, include only built JavaScript files, without CSS. Use `.assets.json` for all required info. The `assets.json` file will be served by devServer, on the local backend domain (configured in `server.backend`), on port `8080` (e.g. `https://yourdomain.local:8080/.assets.json`).
+In development environment, enqueue only built JavaScript files, without CSS. Use `.assets.json` for all required info. The `assets.json` file will be served by devServer, on the local backend domain (configured in `server.backend`), on port `8080` (e.g. `https://yourdomain.local:8080/.assets.json`).
 
-In production, include CSS as well.
+In production, enqueue CSS as well.
 
-For a differential serving, include both `es5` and `es6` bundles with PHP, reading information from `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
+For a differential serving, enqueue both `es5` and `es6` bundles with PHP, reading information from `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
 
 > IMPORTANT:
 >
@@ -505,47 +505,53 @@ If you're using editor extensions, then [Prettier](https://prettier.io/docs/en/e
 
 > - Formatting rules have been removed from linters.
 
-This is an example a config for VSCode:
+This is an example for VSCode:
 
 ```jsonc
 {
- // ...
+   // ...
 
- "prettier.enable": true,
- // JS
- "eslint.enable": true,
- "[javascript]": {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
- },
- // (S)CSS
- // Disable vscode built-in validation.
- "scss.validate": false,
- "less.validate": false,
- "css.validate": false,
- // Use stylelint.
- "stylelint.enable": true,
- "[scss]": {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
- },
- "[css]": {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
- },
- "stylelint.validate": [
-  "sass",
-  "scss",
-  "css"
- ],
- "stylelint.snippet": [
-  "sass",
-  "scss",
-  "css"
- ],
+   "prettier.enable": true,
+
+   // JS
+   "eslint.enable": true,
+   "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+   },
+
+   // (S)CSS
+   // Disable vscode built-in validation.
+   "scss.validate": false,
+   "less.validate": false,
+   "css.validate": false,
+   // Use stylelint.
+   "stylelint.enable": true,
+
+   "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+   },
+
+   "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+   },
+
+   "stylelint.validate": [
+      "sass",
+      "scss",
+      "css"
+   ],
+
+   "stylelint.snippet": [
+      "sass",
+      "scss",
+      "css"
+   ],
 }
 ```
 
