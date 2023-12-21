@@ -102,12 +102,6 @@ config.paths = {
    RESOLVE_ROOTS: arrMergeDedupe(
       SRC_ABSOLUTE,
       getFirstSubdirectories(SRC_ABSOLUTE),
-      // Resolving folders in `components` dir may cause problems
-      // with some loaders when trying to import a component with
-      // `components/some-component`. It's still required because
-      // of purgecss, to analyse templates and js files.
-      getFirstSubdirectories(SRC_ABSOLUTE + '/components'),
-      getFirstSubdirectories(SRC_ABSOLUTE + '/assets'),
    ),
 };
 
