@@ -54,21 +54,6 @@ exports.loader = {
             config.templates.nunjucksOptions,
          ),
       },
-
-      {
-         // loader that replaces relative asset paths
-         // with the '{% static %}' tag, for the nunjucks
-         // loader to copy assets and rewrite urls
-         loader: require.resolve(__dirname + '/nunjucks-preloader.js'),
-
-         options: {
-            filetypes: filetypes.images.concat(
-               filetypes.icons,
-               filetypes.video,
-               filetypes.audio,
-            ),
-         },
-      },
    ],
 };
 
