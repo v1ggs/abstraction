@@ -35,7 +35,7 @@ const dsConfig = {
 
    // To enable Hot Module Replacement without page refresh as
    // a fallback in case of build failures, use hot: 'only'.
-   hot: true,
+   hot: 'only',
 
    server: server.isSsl
       ? {
