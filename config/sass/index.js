@@ -1,4 +1,3 @@
-const path = require('path');
 const cssLoader = require('./css-loader');
 const sassLoader = require('./sass-loader');
 const postCssLoader = require('./postcss-loader');
@@ -22,11 +21,8 @@ const styleLoader = isServing
            // Specifies a custom public path for the external
            // resources like images, files, etc inside CSS.
            // Works like output.publicPath.
-           publicPath: (resourcePath, context) =>
-              // Relative publicPath:
-              // e.g. for ./css/admin/main.css the publicPath will be ../../
-              // while for ./css/main.css the publicPath will be ../
-              path.relative(path.dirname(resourcePath), context) + '/',
+           // As of v2 "auto" can be used to get relative paths in CSS.
+           publicPath: 'auto',
         },
      };
 
