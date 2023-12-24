@@ -75,6 +75,7 @@ config.paths = {
       css: 'css',
       javascript: 'js',
       images: 'img',
+      svg: 'svg',
       icons: 'ico',
       fonts: 'fonts',
       audio: 'audio',

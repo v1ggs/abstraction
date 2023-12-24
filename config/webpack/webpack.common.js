@@ -94,7 +94,7 @@ const common = {
 
    plugins: [
       AssetsPlugin(),
-      // svg.plugins.SpritePlugin(), // does not work for now
+      svg.plugins.SpritePlugin(),
       ProvidePlugin(config.javascript.providePlugin),
       images.plugin,
    ].concat(
