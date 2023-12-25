@@ -203,6 +203,8 @@ const postcssPlugins = [
             const folder = path.basename(pathInfo.dir);
 
             input.messages.forEach(message => {
+               if (!(message && message.text)) return;
+
                content +=
                   'FILE: ' +
                   file +
@@ -213,6 +215,7 @@ const postcssPlugins = [
                   'MESSAGE: ' +
                   message.text.replace(/^\s+/gm, '') +
                   '\n\n\n';
+
                writeFileAsync(
                   config.paths.LOGS +
                      '/' +
