@@ -71,6 +71,10 @@ module.exports = {
       },
    },
 
+   svg: {
+      extract: ['css'],
+   },
+
    images: {
       // Images quality 0-100.
       quality: 80,

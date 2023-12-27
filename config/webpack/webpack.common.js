@@ -1,6 +1,6 @@
 // Common webpack configuration that is used in all other configs.
 
-const svg = require('../svg');
+const { svg } = require('../svg');
 const images = require('../images');
 const { config } = require('../../utils/get-config');
 const { filetypesArr2regex } = require('../../utils/js');
@@ -50,10 +50,6 @@ const common = {
 
    module: {
       rules: [
-         // sprites are being bundled into JS,
-         // therefore this loader is in the `common` config.
-         svg.loaders.svgSpriteLoader,
-
          {
             test: filetypesArr2regex(filetypes.images),
             type: 'asset/resource',
@@ -62,7 +58,6 @@ const common = {
                filename: config.paths.DIST.images + '/[name].[hash][ext]',
                // filename: '[name].[hash][ext]',
                // outputpath: config.paths.DIST.images,
-               // publicPath: config.paths.PUBLIC.themeRelative,
             },
          },
 
@@ -89,12 +84,12 @@ const common = {
                filename: config.paths.DIST.audio + '/[name].[hash][ext]',
             },
          },
-      ],
+      ].concat(svg.loaders),
    },
 
    plugins: [
       AssetsPlugin(),
-      svg.plugins.SpritePlugin(),
+      svg.SpritePlugin(),
       ProvidePlugin(config.javascript.providePlugin),
       images.plugin,
    ].concat(

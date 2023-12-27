@@ -20,17 +20,24 @@ if (config.images.minifySvg === 'default-light') {
 // https://github.com/svg/svgo#configuration
 // https://github.com/svg/svgo#built-in-plugins
 module.exports = {
-   // test: /\.svg$/i,
-   loader: 'svgo-loader',
-   options: {
-      multipass: true,
-      plugins: [
-         {
-            name: 'preset-default',
-            params: {
-               overrides: overrides,
-            },
+   test: /\.svg$/i,
+
+   use: [
+      {
+         loader: 'svgo-loader',
+
+         options: {
+            multipass: true,
+            plugins: [
+               {
+                  // https://svgo.dev/docs/preset-default/
+                  name: 'preset-default',
+                  params: {
+                     overrides: overrides,
+                  },
+               },
+            ],
          },
-      ],
-   },
+      },
+   ],
 };
