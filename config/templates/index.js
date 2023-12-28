@@ -26,9 +26,9 @@ const extensions =
 const dir = config.paths.SRC.path;
 
 // Get template files.
-const templates = glob.sync(dir + '/*.' + extensions, {
+const templates = glob.sync(dir + '/**/*' + extensions, {
    // Ignores partials (and folders when `dir + '/**/*.' + extensions`)
-   ignore: [dir + '/_*/**', dir + '/**/_*'],
+   ignore: ['**/_*/**', '**/.*/**', '**/_*'],
 });
 
 // Using a loader, only if not working with a CMS.
