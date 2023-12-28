@@ -86,6 +86,7 @@ const dsConfig = {
             config.paths.ROOT + '/**/.*/**',
             config.paths.ROOT + '/**/node_modules/**',
             config.paths.ROOT + '/**/vendor/**',
+            config.paths.ROOT + '/**/wordpress/**',
             // Glob case-insensitive does not work.
             config.paths.ROOT + '/**/Todo*',
             config.paths.ROOT + '/**/todo*',
