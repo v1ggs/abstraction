@@ -55,9 +55,8 @@ const common = {
             type: 'asset/resource',
             generator: {
                // DON'T PUT A DOT BETWEEN `[hash]` AND `[ext]`
-               filename: config.paths.DIST.images + '/[name].[hash][ext]',
-               // filename: '[name].[hash][ext]',
-               // outputpath: config.paths.DIST.images,
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.images,
             },
          },
 
@@ -65,7 +64,8 @@ const common = {
             test: filetypesArr2regex(filetypes.fonts),
             type: 'asset/resource',
             generator: {
-               filename: config.paths.DIST.fonts + '/[name].[hash][ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.fonts,
             },
          },
 
@@ -73,7 +73,8 @@ const common = {
             test: filetypesArr2regex(filetypes.video),
             type: 'asset/resource',
             generator: {
-               filename: config.paths.DIST.video + '/[name].[hash][ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.video,
             },
          },
 
@@ -81,7 +82,8 @@ const common = {
             test: filetypesArr2regex(filetypes.audio),
             type: 'asset/resource',
             generator: {
-               filename: config.paths.DIST.audio + '/[name].[hash][ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.audio,
             },
          },
       ].concat(svg.loaders),
