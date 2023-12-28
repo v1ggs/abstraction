@@ -86,6 +86,25 @@ const common = {
                outputPath: config.paths.DIST.audio,
             },
          },
+
+         {
+            test: filetypesArr2regex(filetypes.documents),
+            type: 'asset/resource',
+            generator: {
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.documents,
+            },
+         },
+
+         {
+            // Not svg icons.
+            test: filetypesArr2regex(filetypes.icons),
+            type: 'asset/resource',
+            generator: {
+               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               outputPath: config.paths.DIST.icons,
+            },
+         },
       ].concat(svg.loaders),
    },
 

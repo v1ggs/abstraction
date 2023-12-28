@@ -76,11 +76,11 @@ config.paths = {
       javascript: 'js',
       images: 'img',
       svg: 'svg',
-      icons: 'ico',
       fonts: 'fonts',
       audio: 'audio',
       video: 'video',
-      documents: 'general',
+      icons: 'ico',
+      documents: 'documents',
    },
 
    PUBLIC: !isCMS()

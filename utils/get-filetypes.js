@@ -22,7 +22,7 @@ exports.filetypes = {
    fonts: ['woff', 'woff2', 'eot', 'ttf', 'otf'],
    video: ['mp4', 'mpeg', 'mpg', 'webm'],
    audio: ['mp3', 'wma', 'wav'],
-   documents: ['pdf', 'csv'],
+   documents: ['doc', 'docx', 'xls', 'xlsx', 'pdf', 'csv'],
    icons: ['ico'],
    svg: ['svg'],
 };
