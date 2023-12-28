@@ -93,10 +93,10 @@ const common = {
       AssetsPlugin(),
       svg.SpritePlugin(),
       ProvidePlugin(config.javascript.providePlugin),
-      images.plugin,
    ].concat(
       isProduction
          ? [
+              images.plugin,
               HashedModuleIdsPlugin(),
               BannerPlugin('Please find licenses at LICENSES.txt'), // Configure terser to keep this
            ]
