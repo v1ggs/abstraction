@@ -55,7 +55,7 @@ const common = {
             type: 'asset/resource',
             generator: {
                // DON'T PUT A DOT BETWEEN `[hash]` AND `[ext]`
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.images,
                publicPath: config.paths.DIST.images + '/',
             },
@@ -65,7 +65,7 @@ const common = {
             test: filetypesArr2regex(filetypes.fonts),
             type: 'asset/resource',
             generator: {
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.fonts,
                publicPath: config.paths.DIST.fonts + '/',
             },
@@ -75,7 +75,7 @@ const common = {
             test: filetypesArr2regex(filetypes.video),
             type: 'asset/resource',
             generator: {
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.video,
                publicPath: config.paths.DIST.video + '/',
             },
@@ -85,7 +85,7 @@ const common = {
             test: filetypesArr2regex(filetypes.audio),
             type: 'asset/resource',
             generator: {
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.audio,
                publicPath: config.paths.DIST.audio + '/',
             },
@@ -95,7 +95,7 @@ const common = {
             test: filetypesArr2regex(filetypes.documents),
             type: 'asset/resource',
             generator: {
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.documents,
                publicPath: config.paths.DIST.documents + '/',
             },
@@ -106,7 +106,7 @@ const common = {
             test: filetypesArr2regex(filetypes.icons),
             type: 'asset/resource',
             generator: {
-               filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
+               filename: isProduction ? '[name].[hash][ext]' : '[name][ext]',
                outputPath: config.paths.DIST.icons,
                publicPath: config.paths.DIST.icons + '/',
             },
