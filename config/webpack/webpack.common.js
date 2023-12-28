@@ -57,6 +57,7 @@ const common = {
                // DON'T PUT A DOT BETWEEN `[hash]` AND `[ext]`
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.images,
+               publicPath: config.paths.DIST.images + '/',
             },
          },
 
@@ -66,6 +67,7 @@ const common = {
             generator: {
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.fonts,
+               publicPath: config.paths.DIST.fonts + '/',
             },
          },
 
@@ -75,6 +77,7 @@ const common = {
             generator: {
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.video,
+               publicPath: config.paths.DIST.video + '/',
             },
          },
 
@@ -84,6 +87,7 @@ const common = {
             generator: {
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.audio,
+               publicPath: config.paths.DIST.audio + '/',
             },
          },
 
@@ -93,6 +97,7 @@ const common = {
             generator: {
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.documents,
+               publicPath: config.paths.DIST.documents + '/',
             },
          },
 
@@ -103,6 +108,7 @@ const common = {
             generator: {
                filename: isProduction ? '[name].[hash][ext]' : '[name].[ext]',
                outputPath: config.paths.DIST.icons,
+               publicPath: config.paths.DIST.icons + '/',
             },
          },
       ].concat(svg.loaders),
