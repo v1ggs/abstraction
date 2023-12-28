@@ -22,14 +22,14 @@ const spriteLoader = {
 
             // `false` fixes issues with SVG in CSS.
             // https://github.com/JetBrains/svg-sprite-loader/issues/324#issuecomment-619565347
-            esModule: !config.svg.extract.includes('css'),
+            esModule: !config.svg.extractFrom.includes('css'),
          },
       },
    ],
 };
 
 // If configured to extract SVG from JavaScript:
-if (config.svg.extract.includes('js')) {
+if (config.svg.extractFrom.includes('js')) {
    // If SVG in CSS has to be external (sprite), this has to be
    // autoconfigured (not defined in loader's config).
    // By default, autoconfigured will bundle SVG in JS, and extract from CSS.
@@ -40,7 +40,7 @@ if (config.svg.extract.includes('js')) {
 }
 
 // If not configured to extract SVG in CSS:
-if (!config.svg.extract.includes('css')) {
+if (!config.svg.extractFrom.includes('css')) {
    // Use this loader to process JavaScript only,
    // SVG in CSS will be inlined.
    spriteLoader.issuer = filetypesArr2regex(filetypes.javascript);

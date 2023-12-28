@@ -72,17 +72,21 @@ module.exports = {
    },
 
    svg: {
-      extract: ['css'],
+      extractFrom: [''],
+      optimize: {
+         removeTitle: true,
+         removeDesc: true,
+         removeComments: true,
+         removeMetadata: false,
+         cleanupIds: true,
+         removeDoctype: true,
+         removeViewBox: true,
+      },
    },
 
    images: {
       // Images quality 0-100.
       quality: 80,
-
-      // 'default' will apply 'preset-default'.
-      // 'default-light': 'preset-default', but keeps title, description and comments.
-      // 'default-light-no-comments': 'preset-default', but keeps title and description.
-      minifySvg: 'default',
    },
 
    licenses: {

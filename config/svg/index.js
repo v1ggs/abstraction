@@ -5,7 +5,7 @@ const { config } = require('../../utils/get-config');
 const inlineSvgInCss = require('./inline-in-css-loader');
 
 const loaders = [spriteLoader]
-   .concat(config.svg.extract.includes('css') ? [] : inlineSvgInCss)
+   .concat(config.svg.extractFrom.includes('css') ? [] : inlineSvgInCss)
    .concat(svgoLoader);
 
 exports.svg = {
