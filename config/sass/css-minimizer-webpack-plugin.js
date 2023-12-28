@@ -8,6 +8,12 @@ module.exports = () => {
          preset: [
             'default',
             {
+               // Turn off SVGO, because there is an SVGO loader
+               // as the first in the SVG loaders chain.
+               svgo: false,
+            },
+
+            {
                discardComments: {
                   // removeAllButFirst: true,
                   removeAll: true,

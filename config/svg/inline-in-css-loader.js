@@ -10,9 +10,15 @@ module.exports = {
 
    generator: {
       dataUrl: content =>
-         // Svgo in 'css-minimizer-webpack-plugin'
-         // will turn `%20` into spaces.
          'data:image/svg+xml;charset=utf-8,' +
-         encodeURIComponent(content.toString()),
+         encodeURIComponent(content.toString())
+            // Reapply svgo optimisation:
+            // Svgo in 'css-minimizer-webpack-plugin' is turned off,
+            // because there is SVGO as the first SVG loader.
+            .replaceAll('%20', ' ')
+            .replaceAll('%22', "'")
+            .replaceAll('%2F', '/')
+            .replaceAll('%3A', ':')
+            .replaceAll('%3D', '='),
    },
 };
