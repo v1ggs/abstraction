@@ -12,6 +12,7 @@ const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
    isCMS,
+   isServing,
    isProduction,
    differentialBuildConfig,
 } = require('../../utils/abstraction');
@@ -40,19 +41,18 @@ const modern = {
    target: isDifferentialBuild ? ['web', 'es6'] : 'browserslist',
 
    output: {
-      // Clean dist for this bundle and in production only.
+      // Clean dist for this bundle and when not serving.
       // The `legacy` bundle will wait for this bundle to finish.
       // If run in parallel, `legacy` files get deleted.
-      // This deletes the output, even in memory (in development).
-      // This makes a problem with assets plugin: `.assets.json`
-      // is not complete - this compilation gets deleted.
-      clean: isProduction ? { keep: assetsJsonFilename } : false,
+      // This deletes the output, even in memory (when serving).
+      clean: isServing ? false : { keep: assetsJsonFilename },
 
       filename:
          config.paths.DIST.javascript +
          '/[name]' +
          (isProduction ? '.[contenthash]' : '') +
          bundleExtension,
+
       chunkFilename:
          config.paths.DIST.javascript +
          '/[name]' +
