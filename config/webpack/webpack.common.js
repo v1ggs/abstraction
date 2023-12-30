@@ -13,7 +13,7 @@ const {
    HashedModuleIdsPlugin,
 } = require('../../utils/webpack');
 
-const common = {
+module.exports = {
    // The base directory, an absolute path, for resolving entry points and loaders from the configuration.
    // By default, the current working directory of Node.js is used, but it's recommended to pass a value
    // in your configuration. This makes your configuration independent from CWD (current working directory).
@@ -151,6 +151,10 @@ const common = {
       // You will probably want to set it to 'single' or use another configuration
       // that allows you to only have one runtime instance.
       runtimeChunk: config.javascript.singleRuntimeChunk ? 'single' : false,
+
+      splitChunks: {
+         chunks: 'all',
+      },
    },
 
    stats: {
@@ -158,76 +162,3 @@ const common = {
       children: config.debug,
    },
 };
-
-/**
- * ========================================================
- * Vendor packages settings
- * NOT USED NOW...
- * ========================================================
- *
- * @see https://webpack.js.org/plugins/split-chunks-plugin/
- */
-if (
-   config.javascript.vendor === true ||
-   config.javascript.vendor === 'single'
-) {
-   // All vendors together.
-   common.optimization.splitChunks = {
-      name: 'vendor',
-      chunks: 'all',
-   };
-} else if (config.javascript.vendor === 'vendor-polyfill') {
-   // Separate core-js.
-   common.optimization.splitChunks = {
-      cacheGroups: {
-         polyfills: {
-            name: 'polyfills',
-            chunks: 'all',
-            test: /[\\/]node_modules[\\/](core-js)[\\/]/,
-         },
-
-         vendor: {
-            name: 'vendor',
-            chunks: 'all',
-            test: /[\\/]node_modules[\\/](?!core-js)/,
-         },
-      },
-   };
-} else if (config.javascript.vendor === 'polyfill') {
-   // Separate core-js.
-   common.optimization.splitChunks = {
-      cacheGroups: {
-         polyfills: {
-            name: 'polyfills',
-            chunks: 'all',
-            test: /[\\/]node_modules[\\/](core-js)[\\/]/,
-         },
-      },
-   };
-} else if (config.javascript.vendor === 'split-all') {
-   // All vendors separate, including core-js.
-   // https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
-   common.optimization.splitChunks = {
-      chunks: 'all',
-      minSize: 0,
-      maxInitialRequests: Infinity,
-
-      cacheGroups: {
-         vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name(module) {
-               // get the name. E.g. node_modules/packageName/not/this/part.js
-               // or node_modules/packageName
-               const packageName = module.context.match(
-                  /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-               )[1];
-
-               // npm package names are URL-safe, but some servers don't like @ symbols
-               return `npm.${packageName.replace('@', '')}`;
-            },
-         },
-      },
-   };
-}
-
-module.exports = common;
