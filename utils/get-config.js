@@ -85,10 +85,10 @@ config.paths = {
 
    PUBLIC: !isCMS()
       ? // Frontend
-        '/'
+        'auto'
       : // CMS
         !isServing
-        ? '/'
+        ? 'auto'
         : // When serving (devserver), assets in CSS (images, fonts...),
           // will be looked for on the backend domain, where they are not.
           // They are being served with devServer, on another domain or port.
