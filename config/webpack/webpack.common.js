@@ -162,3 +162,9 @@ module.exports = {
       children: config.debug,
    },
 };
+
+if (isProduction) {
+   module.exports.performance = {
+      hints: false,
+   };
+}
