@@ -1,5 +1,61 @@
 # Changelog
 
+## [0.7.0](https://github.com/v1ggs/abstraction/compare/0.6.0...0.7.0) (2023-12-31)
+
+
+### Features
+
+* add more control to svg optimisation (breaking change: now under svg options) ([199147e](https://github.com/v1ggs/abstraction/commit/199147ef3e4e6ee69b0753d3eb47259852e721d1))
+* add project name to .assets.json metadata and reorganize it (br. change) ([fecf9cc](https://github.com/v1ggs/abstraction/commit/fecf9cccb14dc837aea35a55e7dbf179e66258eb))
+* option to extract/bundle/inline svg in css or js ([f1a7635](https://github.com/v1ggs/abstraction/commit/f1a7635a3240594928a901675dc4315c415058dd))
+* process documents, like pdf, docx etc ([f011c62](https://github.com/v1ggs/abstraction/commit/f011c6273b499c1b61e2292d95611c66af3c5aff))
+* process svg in templates ([11c9247](https://github.com/v1ggs/abstraction/commit/11c9247a3fb9af5b72fb30212d5f166c1f872b0a))
+
+
+### Bug Fixes
+
+* add dedicated publicPath for processed assets ([5198915](https://github.com/v1ggs/abstraction/commit/5198915f364a65f848ba7cf957b3602e802b7192))
+* add splitChunks plugin ([4cfa5b4](https://github.com/v1ggs/abstraction/commit/4cfa5b4f112349e4490f481493698293fc117a2d))
+* asset filenames ([de1f014](https://github.com/v1ggs/abstraction/commit/de1f01466b27fe0ba72a259390b1b84f4c4fe73d))
+* build all found templates in src and exclude _ prefixed dirs ([22e9c4b](https://github.com/v1ggs/abstraction/commit/22e9c4b07ed0f56e4ddcda1540175116f959b19f))
+* change webpack publicPath to "auto" ([cb4d29b](https://github.com/v1ggs/abstraction/commit/cb4d29bcb93c416adb30d2ee97eeb9aba27def02))
+* **devserver:** fix breaking on errors in templates ([b8f0393](https://github.com/v1ggs/abstraction/commit/b8f0393e322f55038b06ac75be5d3215300ee3e5))
+* don't clean dist when serving in production ([cb60f2b](https://github.com/v1ggs/abstraction/commit/cb60f2b6308e289a8eb68852450a1fa8ba3b2b99))
+* don't resolve src subfolders, to prevent issues with nunjucks ([a07131f](https://github.com/v1ggs/abstraction/commit/a07131f8a2c2aa7cbf7404a4bf409450327080a5))
+* postcss-reporter ([1490517](https://github.com/v1ggs/abstraction/commit/1490517a9efe2b9a38f6f234ad72b16408e8c556))
+* produce sprites for svg files referenced in CSS with url() ([35b227f](https://github.com/v1ggs/abstraction/commit/35b227fd5ab897f2f736a9e91d3c80812272da7a))
+* svg optimisation ([d45510f](https://github.com/v1ggs/abstraction/commit/d45510fb1981d597e801e8a2959c98db9ff0fe0c))
+* use devServer's default hmr setting ([29c2243](https://github.com/v1ggs/abstraction/commit/29c2243b0ccdf7d3656bd4154561f13bad8d8f90))
+
+
+### Docs
+
+* banner's text to path, for cross-platform consistency ([54bb424](https://github.com/v1ggs/abstraction/commit/54bb424f7109dad2f6e19d69cb1efd509b2a81e8))
+* fix mistakes and code indentation ([24cb75d](https://github.com/v1ggs/abstraction/commit/24cb75da325a10059e20734c9942ec4ac9b16322))
+* update docs ([16c79ec](https://github.com/v1ggs/abstraction/commit/16c79eca528f5f6ce668a3df3276d7837dd66955))
+
+
+### Refactor
+
+* mini css extract plugin publicPath ([d1a3ab1](https://github.com/v1ggs/abstraction/commit/d1a3ab1fe22925d1db952a145b2f377dc5b2f50f))
+
+
+### Performance
+
+* add wordpress to devserver watcher excludes ([2848e4f](https://github.com/v1ggs/abstraction/commit/2848e4ff4d7d62cf67cb01de5e61dcade3822d24))
+* don't hash assets in development ([e268f24](https://github.com/v1ggs/abstraction/commit/e268f24c0f020137716b9679b385ba2e7c415c37))
+* don't minify images in development ([b336f12](https://github.com/v1ggs/abstraction/commit/b336f1249526ef09b31f378d9affbcd9c02ae22e))
+
+
+### Chore
+
+* add src files for development purposes ([41de55a](https://github.com/v1ggs/abstraction/commit/41de55ae3dd826d0499591016d7aa97c579768d7))
+* exclude this package from licenses ([0a577fc](https://github.com/v1ggs/abstraction/commit/0a577fca91cb3c4c4251df73650c05332fe956b5))
+* extract css when serving in production ([bbdf641](https://github.com/v1ggs/abstraction/commit/bbdf641fc3c868fd3025353151a151c4f5de8bf4))
+* **nunjucks:** remove static tag creator as redundant ([7bb310f](https://github.com/v1ggs/abstraction/commit/7bb310fbf6aa717c68bf94caba7e95b04347e277))
+* remove asset size warnings in development ([f4413b6](https://github.com/v1ggs/abstraction/commit/f4413b65277ea8846b3617c101ca69640997052d))
+* turn of multiple entry info on run ([92052ec](https://github.com/v1ggs/abstraction/commit/92052ec06fc578f4125a05cad8da04d96127abe8))
+
 ## [0.6.0](https://github.com/v1ggs/abstraction/compare/0.5.2...0.6.0) (2023-12-16)
 
 
