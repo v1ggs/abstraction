@@ -72,7 +72,7 @@ module.exports = {
    },
 
    svg: {
-      extractFrom: [''],
+      extractFrom: ['html', 'css'],
       optimize: {
          removeTitle: true,
          removeDesc: true,

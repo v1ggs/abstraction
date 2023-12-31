@@ -39,6 +39,14 @@ if (
    config.licenses.unacceptable = userConfig.licenses.unacceptable;
 }
 
+// Overwrite merged svg config with the user's, if found.
+if (
+   userConfig?.svg?.extractFrom &&
+   Object.keys(userConfig?.svg?.extractFrom).length
+) {
+   config.svg.extractFrom = userConfig.svg.extractFrom;
+}
+
 // ====================================================
 // ============================================== PATHS
 // ====================================================

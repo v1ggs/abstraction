@@ -10,6 +10,12 @@ const filename = isProduction
 const spriteLoader = {
    test: /\.svg$/i,
 
+   issuer: filetypesArr2regex(filetypes.javascript.concat(filetypes.sass)),
+
+   // Fixes issues with SVG in CSS.
+   // https://github.com/JetBrains/svg-sprite-loader/issues/479#issuecomment-1381405976
+   type: 'javascript/auto',
+
    use: [
       {
          // https://www.npmjs.com/package/svg-sprite-loader
@@ -18,11 +24,12 @@ const spriteLoader = {
          options: {
             spriteFilename: filename,
             outputPath: config.paths.DIST.svg + '/',
-            // publicPath: config.paths.DIST.svg + '/',
+            publicPath: config.paths.DIST.svg + '/',
 
-            // `false` fixes issues with SVG in CSS.
+            // `false` fixes issues with SVG in CSS, as well as in JS,
+            // when extracted into an external sprite.
             // https://github.com/JetBrains/svg-sprite-loader/issues/324#issuecomment-619565347
-            esModule: !config.svg.extractFrom.includes('css'),
+            esModule: false,
          },
       },
    ],
@@ -39,15 +46,11 @@ if (config.svg.extractFrom.includes('js')) {
    spriteLoader.use[0].options.extract = true;
 }
 
-// If not configured to extract SVG in CSS:
+// If configured to extract SVG in CSS:
 if (!config.svg.extractFrom.includes('css')) {
    // Use this loader to process JavaScript only,
    // SVG in CSS will be inlined.
    spriteLoader.issuer = filetypesArr2regex(filetypes.javascript);
-} else {
-   // Fixes issues with SVG in CSS.
-   // https://github.com/JetBrains/svg-sprite-loader/issues/479#issuecomment-1381405976
-   spriteLoader.type = 'javascript/auto';
 }
 
 module.exports = spriteLoader;
