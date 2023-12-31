@@ -167,6 +167,8 @@ exports.WebpackLicensePlugin = filename => {
             'svg-baker-runtime',
             'svg-sprite-loader',
             'html-webpack-plugin',
+            '@v1ggs/abstraction',
+            '@v1ggs/abstraction-dsl',
          ].concat(config.licenses.exclude);
 
          return excludes.includes(packageName);
