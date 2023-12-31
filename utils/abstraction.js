@@ -111,18 +111,20 @@ exports.corejsVersion = () => {
       : corejsVersion;
 };
 
-exports.projectVersion = () => {
+exports.projectInfo = () => {
    let pkg = path.join(process.cwd(), 'package.json');
-   let pkgVersion;
+   let pkgName, pkgVersion;
 
    try {
-      pkgVersion = require(pkg).version;
+      pkg = require(pkg);
+      pkgName = pkg.name;
+      pkgVersion = pkg.version;
    } catch (err) {
       // Will not exit.
       this.consoleMsg.error('Error reading package.json!');
    }
 
-   return pkgVersion;
+   return { pkgName, pkgVersion };
 };
 
 exports.phpVer = () => {

@@ -12,12 +12,13 @@ const WebpackProgressPlugin = require('progress-webpack-plugin');
 const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    isServing,
+   projectInfo,
    differentialBuildConfig,
-   projectVersion,
 } = require('./abstraction');
 
 const timestamp = Date.now();
 const isDifferentialBuild = differentialBuildConfig();
+const projInfo = projectInfo();
 
 // const RemoveEmptyScripts = require( 'webpack-remove-empty-scripts' );
 // const WebpackShellPluginNext = require('webpack-shell-plugin-next');
@@ -254,12 +255,15 @@ exports.CopyPlugin = () => {
 exports.AssetsPlugin = () => {
    return new AssetsPlugin({
       metadata: {
-         projectVersion: projectVersion(),
+         project: {
+            name: projInfo.pkgName,
+            version: projInfo.pkgVersion,
+            dirname: config.paths.PROJECT_DIRNAME,
+         },
          timestamp: timestamp,
          mode: process.env.NODE_ENV,
          dist: config.paths.DIST.dirname,
          publicPath: config.paths.PUBLIC,
-         projectDirname: config.paths.PROJECT_DIRNAME,
          differentialServe: isDifferentialBuild,
          webpackEntries: config.javascript.entry,
          devServer: {
