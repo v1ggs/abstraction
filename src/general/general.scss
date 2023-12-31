@@ -1,0 +1,36 @@
+@use 'sass:map';
+@use './scss/mixins' as *;
+@use './scss/spacing' as s;
+@import './scss/colors';
+@import './scss/fn';
+
+html {
+   font-size: $rem-size + px;
+   overflow-x: hidden;
+}
+
+.page {
+   display: flex;
+   flex-wrap: wrap;
+   width: size(100);
+   overflow-x: hidden;
+   color: $color-black;
+   background-color: $color-secondary;
+
+   &__header {
+      display: block;
+      flex: flex(0 0 100%);
+      height: map.get(s.$spacing, small1);
+   }
+
+   &__content {
+      display: block;
+      flex: flex(0 0 100%);
+   }
+
+   &__footer {
+      display: block;
+      flex: flex(0 0 100%);
+      height: map.get(s.$spacing, small2);
+   }
+}

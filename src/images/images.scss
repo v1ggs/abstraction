@@ -1,0 +1,26 @@
+.image {
+   height: 400px;
+   width: auto;
+}
+
+.img {
+   display: block;
+   height: 100%;
+   width: auto;
+}
+
+.class {
+   display: block;
+}
+
+.sprite-bgd {
+   height: 400px;
+
+   &--1 {
+      background: url('./svg/laugh-beam.svg') no-repeat center / contain;
+   }
+
+   &--2 {
+      background: url('./svg/air-freshener.svg') no-repeat center / contain;
+   }
+}

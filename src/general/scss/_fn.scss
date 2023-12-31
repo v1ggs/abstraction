@@ -1,0 +1,7 @@
+@function size($s) {
+   @return $s * 1%;
+}
+
+@function flex($f) {
+   @return $f;
+}

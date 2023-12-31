@@ -1,0 +1,39 @@
+{# project config #}
+{% set site = {
+   title: 'v1ggs | Abstraction Test',
+   description: SITE_DESCRIPTION,
+   domain: 'https://www.igorvracar.com'
+} %}
+
+{# html attributes #}
+{% set html = {
+   lang: 'en',
+   id: 'top-of-page',
+   class: 'no-js is-loading'
+} %}
+
+{% set authors = {
+   vIGGS: {
+      name: 'vIGGS (Igor Vračar)',
+      position: 'Web design / Front-end / Wordpress',
+      url: 'https://www.igorvracar.com/'
+   }
+} %}
+
+{% set favicon = {
+   path: "{{ PUBLIC_PATH }}"
+} %}
+
+{% set opengraph = {
+   title: site.title,
+   description: siteDesc,
+   domain: site.domain,
+   img: publicPath + '/share/og.png'
+} %}
+
+{# link attributes #}
+{% set link = {
+   attr: {
+      blank: 'target="_blank" rel="nofollow noopener noreferrer"'
+   }
+} %}

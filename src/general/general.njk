@@ -1,0 +1,18 @@
+{% from "template/_config.njk" import site,
+html,
+authors,
+favicon,
+opengraph,
+link %}
+
+{% set page = {
+   classes: 'page'
+} %}
+
+{% extends 'template/_layout.njk' %}
+
+{% block body %}
+   {% include "template-parts/_header.njk" %}
+   {% include "template-parts/_main.njk" %}
+   {% include "template-parts/_footer.njk" %}
+{% endblock %}

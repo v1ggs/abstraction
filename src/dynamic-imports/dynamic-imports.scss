@@ -1,0 +1,19 @@
+body {
+   box-sizing: border-box;
+   display: block;
+   width: 100%;
+   overflow-x: hidden;
+}
+
+.section {
+   box-sizing: border-box;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   min-height: 800px;
+
+   &--card {
+      background-color: rgb(18, 99, 74);
+   }
+}

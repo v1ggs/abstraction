@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ html.lang }}" id="{{ html.id }}" class="{{ html.class }}">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <title>General</title>
+      <meta name="description" content="{{ site.description }}">
+      {# {% set path = PUBLIC_PATH | replace('"', '') %}
+      <script src="{{ path }}/js/index.js"></script> #}
+
+      <!-- AUTHOR -->
+      {# Page Authorship:
+      https://stackoverflow.com/questions/47852248/can-i-put-my-personal-website-link-in-author-meta-tag/47852351
+      Usually you have to use a name according to the W3C Standards for name='author'
+      If you need to add hidden credits for your content, the better way is to use html comments.
+      Because if you use meta tags for your credits there is problem with SEO results and clients.
+      And also if you have proper agreement with clients add your copyright as visible link to footer. #}
+      <meta name="author" content="{{ authors.vIGGS.name }}">
+
+      <!-- // FAVICON -->
+      <link rel="icon" type="image/png" href="{{ favicon.path }}/favicon.png"/>
+
+      <!-- Open Graph / Facebook -->
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ opengraph.title }}">
+      <meta property="og:description" content="{{ opengraph.description }}">
+      <meta property="og:url" content="{{ opengraph.domain }}/">
+      <meta property="og:image" content="{{ opengraph.img }}">
+
+      <!-- Twitter -->
+      <meta property="twitter:card" content="summary_large_image">
+      <meta property="twitter:title" content="{{ opengraph.title }}">
+      <meta property="twitter:description" content="{{ opengraph.description }}">
+      <meta property="twitter:url" content="{{ opengraph.domain }}/">
+      <meta property="twitter:image" content="{{ opengraph.img }}">
+   </head>
+
+   <body class="{{ page.classes }}">
+      {% block body %}{% endblock %}
+   </body>
+
+</html>

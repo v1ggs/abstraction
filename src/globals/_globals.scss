@@ -1,0 +1,33 @@
+@mixin display-block($property, $value) {
+   #{$property}: $value;
+}
+
+// SCSS
+// Declared as `REM_SIZE: 16,`, converted to `$rem-size`.
+html {
+   font-size: $rem-size + px;
+}
+
+@if $production {
+   .production-styles {
+      @include display-block($g-display, $g-block);
+   }
+}
+
+@if not $production {
+   .not-production-styles {
+      @include display-block($g-display, $g-block);
+   }
+}
+
+@if $design == 'mobile-first' {
+   .mobile-first-styles {
+      @include display-block($g-display, $g-block);
+   }
+}
+
+@if $design == 'desktop-first' {
+   .desktop-first-styles {
+      @include display-block($g-display, $g-block);
+   }
+}

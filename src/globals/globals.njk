@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Globals</title>
+   </head>
+   <body>
+      <p class="production-styles">REM_SIZE:
+         {{ REM_SIZE }}</p>
+      <p class="not-production-styles">DESIGN:
+         {{ DESIGN }}</p>
+      <p class="">PUBLIC_PATH:
+         {{ PUBLIC_PATH }}</p>
+      <p class="mobile-first-styles">DISPLAY (user):
+         {{ G_DISPLAY }}</p>
+      <p class="desktop-first-styles">BLOCK (user):
+         {{ G_BLOCK }}</p>
+
+      {% if PRODUCTION %}
+         <p class="">This is production.</p>
+      {% endif %}
+
+      {% if not PRODUCTION %}
+         <p class="">This is NOT production.</p>
+      {% endif %}
+
+   </body>
+</html>
