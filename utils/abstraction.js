@@ -41,7 +41,7 @@ exports.clearScreen = () => process.stdout.write('\x1bc'); // was: '\033c'
 // Prints console success, info, warning and error.
 class consoleMsg {
    constructor() {
-      const name = 'abstraction ';
+      const name = '[abstraction] ';
 
       // For colors reference see:
       // https://stackoverflow.com/a/41407246/14004712
