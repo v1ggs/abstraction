@@ -6,7 +6,6 @@ const server = require('./get-config-server');
 const { getUserConfig } = require('./get-config-user');
 const configDefault = require('../config/config.defaults');
 const { isProduction, isServing, isCMS } = require('./abstraction');
-const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    merge,
    fixPathForGlob,
@@ -126,7 +125,7 @@ config.globals = Object.assign(config.globals, {
    REM_SIZE: config.css.baseFontSize,
    PUBLIC_PATH: config.paths.PUBLIC,
    // for differential-scripts-loader
-   assetsJsonFile: assetsJsonFilename,
+   assetsJsonFile: config.path.assetsJson,
 });
 
 const keys = Object.keys(config.globals);

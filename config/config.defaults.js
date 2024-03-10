@@ -7,6 +7,9 @@ module.exports = {
 
       // Output path
       dist: './dist',
+
+      // Path to assets json file, relative to "dist".
+      assetsJson: '.assets.json',
    },
 
    // Defines global variables that will be available in code.

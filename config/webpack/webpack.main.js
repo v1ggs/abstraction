@@ -8,7 +8,6 @@ const js = require('../javascript');
 const { devServer } = require('../server');
 const common = require('./webpack.common');
 const { merge } = require('../../utils/js');
-const { assetsJsonFilename } = require('../config.abstraction');
 const { templatesLoader, templatesPlugin } = require('../templates');
 const {
    isCMS,
@@ -45,7 +44,9 @@ const modern = {
       // The `legacy` bundle will wait for this bundle to finish.
       // If run in parallel, `legacy` files get deleted.
       // This deletes the output, even in memory (when serving).
-      clean: isServing ? false : { keep: assetsJsonFilename },
+      clean: isServing
+         ? false
+         : { keep: JSON.parse(config.globals.assetsJsonFile) },
 
       filename:
          config.paths.DIST.javascript +

@@ -9,7 +9,6 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
-const { assetsJsonFilename } = require('../config/config.abstraction');
 const {
    isServing,
    projectInfo,
@@ -277,7 +276,7 @@ exports.AssetsPlugin = () => {
 
       // Name for the created json file.
       // Optional. webpack-assets.json by default.
-      filename: assetsJsonFilename,
+      filename: JSON.parse(config.globals.assetsJsonFile),
 
       // If false the output will not include the full path of the
       // generated file.
