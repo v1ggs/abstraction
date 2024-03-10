@@ -1,24 +1,22 @@
 .cert
-
-# Hidden directories
-.*/
+.husky
+.project
 
 # VSCode
+.vscode/
 !.vscode/*.code-snippets
 
 # Nodejs
 node_modules
 
-# Composer
-vendor
-
 # Project
 logs
+dist
 public
 .env
 Todo*
 README.html
-.abstraction.config.js
+# .abstraction.config.js
 
 # Files
 **/*.tgz
