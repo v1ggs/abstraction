@@ -19,22 +19,21 @@
    </a>
 </p>
 
-- [INFO](#info)
-	- [The Concept](#the-concept)
+- [The Concept](#the-concept)
 	- [How it works](#how-it-works)
 	- [Motivation](#motivation)
-	- [Basic Usage Info](#basic-usage-info)
-- [REQUIREMENTS](#requirements)
-- [FEATURES](#features)
-- [GETTING STARTED](#getting-started)
+- [Basic Usage Info](#basic-usage-info)
+- [Requirements](#requirements)
+- [Features](#features)
+- [Getting Started](#getting-started)
 	- [Install](#install)
 	- [Prepare linters](#prepare-linters)
 	- [Prepare SSL](#prepare-ssl)
 	- [Run](#run)
-- [MODES](#modes)
+- [Modes](#modes)
 	- [Build with `.browserslistrc`](#build-with-browserslistrc)
 	- [Build for differential serving (module/nomodule)](#build-for-differential-serving-modulenomodule)
-- [CONFIG](#config)
+- [Config](#config)
 	- [`path = {}`](#path--)
 	- [`globals = {}`](#globals--)
 	- [`javascript = {}`](#javascript--)
@@ -45,25 +44,23 @@
 		- [Usage](#usage)
 	- [`images = {}`](#images--)
 	- [`server = {}`](#server--)
-- [POLYFILLS](#polyfills)
+- [Polyfills](#polyfills)
 	- [Build polyfills for manual usage](#build-polyfills-for-manual-usage)
-- [.assets.json](#assetsjson)
+- [Assets.json](#assetsjson)
 - [CMS](#cms)
-- [CODE QUALITY](#code-quality)
+- [Code Quality](#code-quality)
 	- [Formatting](#formatting)
 	- [Linting](#linting)
 		- [JavaScript](#javascript)
 		- [SCSS](#scss)
 	- [Editor integration](#editor-integration)
-- [USEFUL DOCS](#useful-docs)
-- [CHANGELOG](#changelog)
-- [LICENSE](#license)
-
-## INFO
+- [Useful Docs](#useful-docs)
+- [Changelog](#changelog)
+- [License](#license)
 
 **Still under development. New minor version may introduce breaking changes. See [CHANGELOG](CHANGELOG.md)**.
 
-### The Concept
+## The Concept
 
 The main focus of this tool is simplicity of usage.
 
@@ -90,9 +87,9 @@ It is based on [Webpack 5](https://webpack.js.org/), and you can use its feature
 
 Finding solutions to all these issues may require a lot of time and work. This tool tries to eliminate that problem.
 
-### Basic Usage Info
+## Basic Usage Info
 
-Abstraction can work with the default configuration, just make sure your source dir is `<project root>/src` and your entry file is `<project root>/src/index.js`. You may need to [add more entries](#javascript). Working with a CMS has [some requirements](#cms) and needs a [server configuration](#server).
+Abstraction can work with the default configuration, just make sure your source dir is `<project root>/src` and your entry file is `<project root>/src/index.js`. You may need to [add more entries](#javascript). Working with a CMS has [some requirements](#cms) and needs a [server configuration](#server--).
 
 The [default browserslist config](https://github.com/browserslist/browserslist#full-list) is being used for transpilation, polyfilling and prefixing. If you need a different browser support, configure `.browserslistrc` accordingly or delete it to build for differential serving ([module/nomodule](https://philipwalton.com/articles/deploying-es2015-code-in-production-today/)).
 
@@ -108,14 +105,14 @@ In "differential serving" mode, you **don't need** two entry points for each bun
 >
 > - A basic knowledge of Webpack is requried.
 
-## REQUIREMENTS
+## Requirements
 
 - [Node.js](https://nodejs.org/)
 - NPM (comes with Node.js)
 - (Optional) Editor extensions: [ESLint](https://eslint.org/docs/latest/user-guide/integrations), [Stylelint](https://github.com/stylelint/awesome-stylelint/#editor-integrations) and [Prettier](https://prettier.io/docs/en/editors.html), for a better developer experience.
 - A local backend server, if you're working with a CMS
 
-## FEATURES
+## Features
 
 - Build and transpile JavaScript, based on `.browserslistrc` and automatically polyfill with [core-js](https://github.com/zloirock/core-js)
 - Prefix CSS, remove unused selectors (logged), convert pixels to rems, sort media-queries, fix flexbox bugs
@@ -125,7 +122,7 @@ In "differential serving" mode, you **don't need** two entry points for each bun
 - Option to make a JavaScript polyfills bundle manually and conditionally import it where required
 - Differential serving (module/nomodule) is configured automatically when you delete `.browserslistrc`
 - Code linting and formatting config (`.editorconfig`, `.prettierrc.js`, `.eslintrc`, `.stylelintrc`)
-- Info about built files, together with additional information can be found in `.assets.json`, for usage with other tools or a CMS
+- Info about built files, together with additional information can be found in `assets.json`, for usage with other tools or a CMS
 - Work with templates (nunjucks by default), another loader can be added
 - Create SVG sprites and load them automatically into HTML
 - Optimise images
@@ -134,7 +131,7 @@ In "differential serving" mode, you **don't need** two entry points for each bun
 - SSL for local development, if you have [mkcert](https://github.com/FiloSottile/mkcert) installed
 - Develop for a CMS, with all webpack's features (a local backend domain required)
 
-## GETTING STARTED
+## Getting Started
 
 ### Install
 
@@ -157,7 +154,7 @@ In order to use SSL (development only), you should have [mkcert](https://github.
 npx abs-prepare-ssl
 ```
 
-For a front-end project, a certificate will be created for `localhost`. If you're working in a combination with a CMS, first configure `server.backend`, then run the command. See [Server section](#server).
+For a front-end project, a certificate will be created for `localhost`. If you're working in a combination with a CMS, first configure `server.backend`, then run the command. See [Server section](#server--).
 
 When you [run](#run) the server, the certificate will be found and used automatically.
 
@@ -170,7 +167,7 @@ When you [run](#run) the server, the certificate will be found and used automati
 >
 > - Firefox does not recognise [mkcert](https://github.com/FiloSottile/mkcert) certificate as valid.
 > - If you don't use mkcert, you need to have an SSL certificate for `server.backend`.
-> - If you have certificate for the backend domain, it can be used for the front-end. See [Server section](#server) for an example how to use it.
+> - If you have certificate for the backend domain, it can be used for the front-end. See [Server section](#server--) for an example how to use it.
 > - You may need to redirect your local backend domain to `127.0.0.0` or `0.0.0.0` with hosts file (depends on your local server).
 
 ### Run
@@ -209,7 +206,7 @@ npx abs-build-dev
 > - Development bundles contain a lot of runtime code, for Webpack and devServer to work properly.
 > - Falsey conditionals are not removed from code in development.
 
-## MODES
+## Modes
 
 Abstraction has two working modes:
 
@@ -237,9 +234,9 @@ In a front-end project, the bundles will be enqueued in HTML, so that you can te
 >
 > - If you're using templates, this will work if your page has `<head></head>` section.
 > - If you don't use templates, it's automatically configured.
-> - If you're working with a CMS, enqueue both `es5` and `es6` bundles with PHP, using the information in `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
+> - If you're working with a CMS, enqueue both `es5` and `es6` bundles with PHP, using the information in `assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
 
-## CONFIG
+## Config
 
 Create `.abstraction.config.js` in the root of your project (you can find the default config [here](https://github.com/v1ggs/abstraction/blob/main/config/config.defaults.js)).
 
@@ -508,7 +505,7 @@ Extracts SVG from HTML, CSS and JavaScript. Files from CSS and JavaScript will b
 
 If not extracted, SVG will be bundled with JavaScript and url-encoded and inlined in CSS and HTML.
 
-- `svg.optimize: {}` (type: `object`).
+- **`svg.optimize: {}`** (type: `object`).
 
 Configures optimisation, activates or deactivates `preset-default`'s plugins.
 
@@ -672,7 +669,7 @@ module.exports = {
 };
 ```
 
-## POLYFILLS
+## Polyfills
 
 **This section needs better documentation.**
 
@@ -682,9 +679,9 @@ module.exports = {
 npx abs-build-polyfills
 ```
 
-## .assets.json
+## Assets.json
 
-This file contains information about built assets, as well as some other info. This can be used with a CMS to enqueue scripts and styles that contain dynamic hashes in their filenames. When in serving mode, it can be found in the server's root, e.g. `localhost:8080/.assets.json`.
+This file contains information about built assets, as well as some other info. This can be used with a CMS to enqueue scripts and styles that contain dynamic hashes in their filenames. When in serving mode, it can be found in the server's root, e.g. `localhost:8080/assets.json`.
 
 ## CMS
 
@@ -692,17 +689,17 @@ If you're working with a CMS, you need a local domain with a CMS installed.
 
 In `.abstraction.config.js`, set `server.backend` to your local back-end domain. All Webpack's features will be available.
 
-In development environment, enqueue built JavaScript files, for Webpack and devServer to work properly. Don't enqueuw CSS in development. Use `.assets.json` for all required info. The `assets.json` file will be served by devServer, on the local backend domain (configured in `server.backend`), on port `8080` (e.g. `https://yourdomain.local:8080/.assets.json`).
+In development environment, enqueue built JavaScript files, for Webpack and devServer to work properly. Don't enqueuw CSS in development. Use `assets.json` for all required info. The `assets.json` file will be served by devServer, on the local backend domain (configured in `server.backend`), on port `8080` (e.g. `https://yourdomain.local:8080/assets.json`).
 
 In production, enqueue CSS as well.
 
-For a differential serving, enqueue both `es5` and `es6` bundles with PHP, reading information from `.assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
+For a differential serving, enqueue both `es5` and `es6` bundles with PHP, reading information from `assets.json`. Then use `type="module"` attribute for `es6` and `nomodule defer` for `es5`.
 
 > IMPORTANT:
 >
 > - devServer will use the same domain as your backend. If you need your local backend to be on a certain port, avoid using `8080`, because it's reserved for devServer. You can also override the devServer port in `server.devServer`.
 
-## CODE QUALITY
+## Code Quality
 
 ### Formatting
 
@@ -786,7 +783,7 @@ This is an example for VSCode:
 }
 ```
 
-## USEFUL DOCS
+## Useful Docs
 
 - [Entry Points (Webpack)](https://webpack.js.org/concepts/entry-points/)
 - [Dynamic Imports (Webpack)](https://webpack.js.org/guides/code-splitting/#dynamic-imports)
@@ -794,10 +791,10 @@ This is an example for VSCode:
 - [Lazy Loading (Webpack)](https://webpack.js.org/guides/lazy-loading/)
 - [Coloring SVGs in CSS Background Images](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images)
 
-## CHANGELOG
+## Changelog
 
 [CHANGELOG](CHANGELOG.md)
 
-## LICENSE
+## License
 
 [MIT](LICENSE)
