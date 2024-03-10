@@ -295,7 +295,7 @@ exports.AssetsPlugin = () => {
       // the last CommonChunk that only contains the webpack bootstrap code.
       // This is useful for production use when you want to inline the
       // manifest in your HTML skeleton for long-term caching.
-      includeManifest: true,
+      includeManifest: false,
 
       // Orders the assets output so that manifest is the first entry.
       // This is useful for cases where script tags are generated from
@@ -312,9 +312,7 @@ exports.AssetsPlugin = () => {
       //    : path.join(process.cwd(), config.paths.DIST.dirname),
 
       // `true` will use the compiler output path from the webpack config.
-      // For some reason output.clean affects this, and we get only legacy
-      // bundle files.
-      // When developing for WordPress, the file is written into the root.
+      // When developing for a CMS, the file is written into the root.
       useCompilerPath: true,
 
       // When set false, falls back to the fileTypes option array to decide
@@ -329,7 +327,7 @@ exports.AssetsPlugin = () => {
 
       // When set, will output any files that are part of the chunk and marked
       // as preloadable or prefechtable child assets via a dynamic import.
-      includeDynamicImportedAssets: true,
+      includeDynamicImportedAssets: false,
 
       // When set, the assets file will only be generated in memory while
       // running webpack-dev-server and not written to disk.

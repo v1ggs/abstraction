@@ -4,7 +4,7 @@ const { filetypes } = require('../../utils/get-filetypes');
 module.exports = {
    test: /\.svg$/i,
 
-   issuer: filetypesArr2regex(filetypes.sass),
+   issuer: filetypesArr2regex(filetypes.styles),
 
    type: 'asset/inline',
 

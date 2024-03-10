@@ -1,12 +1,9 @@
 const path = require('path');
 const { config } = require('../../utils/get-config');
-const {
-   isCMS,
-   themeDirName,
-   differentialBuildConfig,
-} = require('../../utils/abstraction');
+const { isCMS, differentialBuildConfig } = require('../../utils/abstraction');
 
 const isDifferentialBuild = differentialBuildConfig();
+const projectDirname = config.paths.PROJECT_DIRNAME;
 
 // https://www.npmjs.com/package/html-webpack-plugin
 exports.DefaultHtmlWebpackPlugin = require('html-webpack-plugin');
@@ -18,7 +15,7 @@ exports.HtmlWebpackPlugin = (templateFile, outputFile) => {
       // The title to use for the generated HTML document
       title: templateFile
          ? path.parse(templateFile).name.toLowerCase()
-         : themeDirName,
+         : projectDirname,
 
       // true || 'head' || 'body' || false
       // Inject all assets into the given template or templateContent.

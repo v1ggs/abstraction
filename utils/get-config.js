@@ -3,7 +3,7 @@
 
 const path = require('path');
 const server = require('./get-config-server');
-const { getUserConfig } = require('./get-config-user');
+const getUserConfig = require('./get-config-user');
 const configDefault = require('../config/config.defaults');
 const { isProduction, isServing, isCMS } = require('./abstraction');
 const {

@@ -1,11 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const { getUserConfig } = require('./get-config-user');
-const { appName } = require('../config/config.abstraction');
-
-// Wordpress theme folder name
-exports.themeDirName = path.parse(process.cwd()).base;
+const getUserConfig = require('./get-config-user');
 
 // Detect if the environment is 'production'
 exports.isProduction = process.env.NODE_ENV === 'production';
@@ -45,7 +41,7 @@ exports.clearScreen = () => process.stdout.write('\x1bc'); // was: '\033c'
 // Prints console success, info, warning and error.
 class consoleMsg {
    constructor() {
-      const name = `[${appName.toLowerCase()}] `;
+      const name = 'abstraction ';
 
       // For colors reference see:
       // https://stackoverflow.com/a/41407246/14004712

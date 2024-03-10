@@ -77,7 +77,7 @@ exports.templatesPlugin = () => {
       isDifferentialBuild && !isCMS() && !isProduction
          ? [
               // Loads differential serving script.
-              // It is automatically turned of in production or with WordPress.
+              // It is automatically turned of in production or with a CMS.
               new dsl(),
            ]
          : [],

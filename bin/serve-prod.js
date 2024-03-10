@@ -37,5 +37,5 @@ nodemon(nodemonConfig)
       process.exit();
    })
    .on('restart', files => {
-      consoleMsg.info(`Restarted due to changes in files: ${files}`);
+      consoleMsg.info(`Applying config change from: ${files}`);
    });

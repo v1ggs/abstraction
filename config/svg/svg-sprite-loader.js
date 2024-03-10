@@ -10,7 +10,7 @@ const filename = isProduction
 const spriteLoader = {
    test: /\.svg$/i,
 
-   issuer: filetypesArr2regex(filetypes.javascript.concat(filetypes.sass)),
+   issuer: filetypesArr2regex(filetypes.javascript.concat(filetypes.styles)),
 
    // Fixes issues with SVG in CSS.
    // https://github.com/JetBrains/svg-sprite-loader/issues/479#issuecomment-1381405976

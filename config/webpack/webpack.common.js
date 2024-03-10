@@ -44,7 +44,7 @@ module.exports = {
    resolve: {
       roots: config.paths.RESOLVE_ROOTS,
       extensions: filetypes.javascript
-         .concat(filetypes.sass)
+         .concat(filetypes.styles)
          .map(ext => '.' + ext),
    },
 

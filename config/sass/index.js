@@ -28,7 +28,7 @@ const styleLoader =
         };
 
 exports.loaders = {
-   test: filetypesArr2regex(filetypes.sass),
+   test: filetypesArr2regex(filetypes.styles),
    use: [styleLoader, cssLoader, postCssLoader, resolveUrlLoader, sassLoader],
 };
 

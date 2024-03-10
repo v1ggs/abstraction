@@ -3,10 +3,12 @@
 const path = require('path');
 const { existsSync } = require('fs');
 const { scanDirsForFile } = require('./js');
-const { userConfigFilename } = require('../config/config.abstraction');
+
+// User config filename (nodemon watches it, don't add option to rename)
+const userConfigFilename = '.abstraction.config.js';
 
 // Get user config file
-exports.getUserConfig = () => {
+module.exports = () => {
    let config = false;
 
    try {

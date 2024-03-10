@@ -17,7 +17,7 @@ let templateFileTypes = isCMS()
 exports.filetypes = {
    templates: templateFileTypes,
    javascript: ['mjs', 'js'],
-   sass: ['scss', 'sass', 'css'],
+   styles: ['scss', 'sass', 'css'],
    images: ['jpg', 'jpeg', 'png', 'webp', 'gif'],
    fonts: ['woff', 'woff2', 'eot', 'ttf', 'otf'],
    video: ['mp4', 'mpeg', 'mpg', 'webm'],
