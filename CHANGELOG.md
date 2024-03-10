@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.8.0](https://github.com/v1ggs/abstraction/compare/0.7.0...0.8.0) (2024-03-10)
+
+
+### Features
+
+* add option to rename  assets json file ([de3da8a](https://github.com/v1ggs/abstraction/commit/de3da8a6000e60463126017b27643ace78054b18))
+
+
+### Bug Fixes
+
+* always write json to disk, for assets plugin to not break when serving ([6605efb](https://github.com/v1ggs/abstraction/commit/6605efb119714f61b3a1cda87dcc538753df8f2f))
+* console logging error introduced in a previous commit ([3b10708](https://github.com/v1ggs/abstraction/commit/3b1070850a853f3de5480a1a81640d864fda6712))
+* don't overwrite config files when copying ([5f8237c](https://github.com/v1ggs/abstraction/commit/5f8237cea22c7330533534f802777765cc4f117b))
+* prevent deleting built legacy files in development (in differential serving mode) ([33c819b](https://github.com/v1ggs/abstraction/commit/33c819b2653c85b951812ec0ee1deecfacd81751))
+* reported http protocol in assets json ([b754240](https://github.com/v1ggs/abstraction/commit/b7542405cf3a754d7bd02c08fab5592bf74e7143))
+
+
+### Docs
+
+* minor update and fixes ([f1afc43](https://github.com/v1ggs/abstraction/commit/f1afc43ece4e5d8f05cc607878136174caed2e30))
+
+
+### Refactor
+
+* minor changes ([ceeb997](https://github.com/v1ggs/abstraction/commit/ceeb997bc1e2caa1d2dc320de72e8acc327923b5))
+* rename assets json file (breaking change) ([c4ad1c3](https://github.com/v1ggs/abstraction/commit/c4ad1c3f0e2c8dc1c1eecfc88ee5204f6b8ccf8b))
+* replace abstraction-dsl with ajax ([3d195e3](https://github.com/v1ggs/abstraction/commit/3d195e34f3a4f98fed8ac071a9e5ddc866ef169a))
+
+
+### Chore
+
+* add npm ignore ([69b8b73](https://github.com/v1ggs/abstraction/commit/69b8b7361bbc1346170cb4d38e3c6c686f97b889))
+* update config files ([b2a9fa3](https://github.com/v1ggs/abstraction/commit/b2a9fa3ceffc14ac90a68cc4bdc1d0a3e25f5dfd))
+* update dependencies (breaking change: support >= node 18.12) ([04a3dbd](https://github.com/v1ggs/abstraction/commit/04a3dbd3d8638196a65ce511a66947ed20c12d46))
+
 ## [0.7.0](https://github.com/v1ggs/abstraction/compare/0.6.0...0.7.0) (2023-12-31)
 
 
