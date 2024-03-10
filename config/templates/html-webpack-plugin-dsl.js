@@ -1,18 +1,19 @@
 // This is a differential serving plugin.
 // It is being used only if we're working module/nomodule way,
-// and NOT in production and NOT working with WordPress.
+// NOT in production and NOT when working with a CMS.
 
+// Why:
 // Plugins that work with `html-webpack-plugin` can be applied only to
 // one transpilation (`main` or `legacy`).
 // The same stands for the manipulation with `htmlWebpackPlugin.files.js`.
-// Therefore this is the only solution for now.
-// JavaScripts have to be added manually to html in production.
+// Therefore this seems to be the only solution.
+// In production or with a CMS, JavaScripts have to be enqueued manually.
 
 // https://www.npmjs.com/package/html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
-const { existsSync, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { config } = require('../../utils/get-config');
 const {
    isCMS,
@@ -34,20 +35,15 @@ class AbstractionDSL {
             (data, cb) => {
                if (isDifferentialBuild && !isCMS() && !isProduction) {
                   // Differential serving javascripts loader
-                  const abstractionDsl = path.resolve(
-                     config.paths.ROOT,
-                     'node_modules',
-                     '@v1ggs',
-                     'abstraction-dsl',
-                     'test',
-                     'abstraction.dsl.js',
+                  const content = readFileSync(
+                     path.resolve(__dirname, 'dsl-es5.min.js'),
+                     'utf8',
+                  ).replace(
+                     `"assets-json-filename"`,
+                     `${config.globals.assetsJsonFile}`,
                   );
 
-                  const content = existsSync(abstractionDsl)
-                     ? readFileSync(abstractionDsl, 'utf8')
-                     : '';
-
-                  // Manipulate the content
+                  // Add the script before the `</head>`.
                   data.html = data.html.replace(
                      /(<\/head>)/g,
                      `\t<script id="abstraction-differential-serving-script">` +
