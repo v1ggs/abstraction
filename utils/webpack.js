@@ -10,7 +10,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackLicensePlugin = require('webpack-license-plugin');
 const WebpackProgressPlugin = require('progress-webpack-plugin');
 const {
-   isServing,
+   // isServing,
    projectInfo,
    differentialBuildConfig,
 } = require('./abstraction');
@@ -329,10 +329,11 @@ exports.AssetsPlugin = () => {
       // as preloadable or prefechtable child assets via a dynamic import.
       includeDynamicImportedAssets: false,
 
+      // For some reason it breaks when true.
       // When set, the assets file will only be generated in memory while
       // running webpack-dev-server and not written to disk.
       // Optional. false by default.
-      keepInMemory: isServing,
+      // keepInMemory: isServing,
 
       // When set the output from webpack-subresource-integrity is included
       // in the assets file.
