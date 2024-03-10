@@ -4,8 +4,8 @@ const js = require('../javascript');
 const common = require('./webpack.common');
 const { config } = require('../../utils/get-config');
 const { filetypes } = require('../../utils/get-filetypes');
-const { isProduction } = require('../../utils/abstraction');
 const { filetypesArr2regex, merge } = require('../../utils/js');
+const { isProduction, isServing } = require('../../utils/abstraction');
 const { DefinePlugin, ProgressPlugin } = require('../../utils/webpack');
 
 // Global variables for doing things in code for this bundle only.
@@ -75,6 +75,6 @@ const legacy = {
    },
 };
 
-if (isProduction) legacy.dependencies = ['MAIN'];
+if (!isServing) legacy.dependencies = ['MAIN'];
 
 module.exports = merge(common, legacy);
