@@ -1,0 +1,23 @@
+.cert
+.husky
+.project
+
+# VSCode
+.vscode/
+!.vscode/*.code-snippets
+
+# Nodejs
+node_modules
+
+# Project
+logs
+dist
+public
+.env
+Todo*
+README.html
+# .abstraction.config.js
+
+# Files
+**/*.tgz
+**/*.zip
