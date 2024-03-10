@@ -26,8 +26,6 @@ const parseUrl = href => {
 // If we're on SSL, what domain and certificate to use.
 const sslConfig = href => {
    const server = parseUrl(href);
-   // Add it here, instead of `get-paths.js`,
-   // to avoid circular dependency with it.
    const certDir = path.resolve(process.cwd(), '.cert');
    let mkcertCert = path.join(certDir, server.domain + '.pem');
    let mkcertKey = path.join(certDir, server.domain + '-key.pem');
@@ -44,12 +42,16 @@ const sslConfig = href => {
    };
 };
 
-const domain = config?.server?.backend
+let domain = config?.server?.backend
    ? // With backend, use the same domain, different port.
      config.server.backend
    : 'localhost';
 
 const sslCfg = sslConfig(domain);
+
+if (domain === 'localhost' && sslCfg.cert && sslCfg.key) {
+   domain = 'https://localhost';
+}
 
 module.exports = {
    isSsl: sslCfg.cert && sslCfg.key,
