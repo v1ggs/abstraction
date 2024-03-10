@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-const { cp } = require('fs');
+const { cp, existsSync } = require('fs');
 const path = require('path');
 
 const configFiles = [
-   '.abstraction.config.js',
    '.browserslistrc',
    '.dcignore',
    '.editorconfig',
@@ -16,22 +15,23 @@ const configFiles = [
 ];
 
 // Copy config files
-configFiles.forEach(file =>
-   cp(
-      path.join(__dirname, '..', file),
-      path.join(process.cwd(), file),
-      error => {
-         if (error) console.log(error);
-      },
-   ),
-);
+configFiles.forEach(file => {
+   const srcFile = path.join(__dirname, '..', file);
+   const destFile = path.join(process.cwd(), file);
 
-// Copy VSCode snippets
-cp(
-   path.join(__dirname, '..', '.vscode') + '/',
-   path.join(process.cwd(), '.vscode') + '/',
-   { recursive: true },
-   error => {
-      if (error) console.log(error);
-   },
-);
+   // Don't overwrite!
+   if (!existsSync(destFile)) {
+      // eslint-disable-next-line
+      cp(srcFile, destFile, error => {
+         // if (error) console.log(error);
+      });
+   }
+});
+
+// // Copy VSCode snippets
+// const srcVsc = path.join(__dirname, '..', '.vscode');
+// const destVsc = path.join(process.cwd(), '.vscode');
+// // eslint-disable-next-line
+// cp(srcVsc + '/', destVsc + '/', { recursive: true }, error => {
+//    // if (error) console.log(error);
+// });
