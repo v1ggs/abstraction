@@ -62,7 +62,7 @@
       "image-minimizer-webpack-plugin": "^4.0.0",
       "mini-css-extract-plugin": "^2.8.1",
       "nodemon": "^3.1.0",
-      "postcss": "^8.4.35",
+      "postcss": "^8.4.38",
       "postcss-flexbugs-fixes": "^5.0.2",
       "postcss-loader": "^8.1.1",
       "postcss-preset-env": "^9.5.0",
