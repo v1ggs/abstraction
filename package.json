@@ -72,7 +72,7 @@
       "prettier": "^3.2.5",
       "progress-webpack-plugin": "^1.0.16",
       "resolve-url-loader": "^5.0.0",
-      "sass": "^1.71.1",
+      "sass": "^1.79.0",
       "sass-loader": "^14.1.1",
       "sharp": "^0.33.2",
       "simple-nunjucks-loader": "^3.2.0",
