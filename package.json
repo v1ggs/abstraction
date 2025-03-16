@@ -46,7 +46,7 @@
       "release-it": "^17.1.1"
    },
    "dependencies": {
-      "@babel/core": "^7.24.0",
+      "@babel/core": "^7.26.10",
       "@babel/preset-env": "^7.24.0",
       "@fullhuman/postcss-purgecss": "^5.0.0",
       "assets-webpack-plugin": "^7.1.1",
